@@ -1,0 +1,46 @@
+---
+name: contact-and-email
+description: Use for the contact form, enquiry handling, newsletter / gated resource sign-ups, and any transactional email on the Ocran site.
+---
+
+# Contact form + email playbook
+
+## Contact form (`/contact` and the reusable `<ContactForm/>`)
+Fields (from client brief): **Name, Email, Message** (all required). Optional: Organisation, Service of interest
+(select from Sanity services). Hidden: honeypot `website` field, Turnstile token, source page.
+
+Below the form, render emails, phone and WhatsApp from `siteSettings` (never hardcoded), plus "Based in Tema,
+Greater Accra, Ghana".
+
+## `/api/contact` (POST)
+1. Parse with the shared zod schema (`lib/validation/contact.ts`) — same schema used client-side.
+2. Honeypot filled → return 200 silently (don't tell bots).
+3. Verify Turnstile token server-side (`https://challenges.cloudflare.com/turnstile/v0/siteverify`).
+4. Rate limit: max 5 submissions / IP / hour.
+5. Send notification to `CONTACT_TO_EMAIL` via Resend (`reply_to` = enquirer's email). Subject:
+   `New enquiry — {service or "General"}`.
+6. Send the enquirer a short auto-reply (warm, clear, sets expectation: "reply within 2 working days").
+7. Save an `enquiry` document to Sanity with the write token so Jonathan can see it in Studio.
+8. Return `{ ok: true }`. UI shows an inline success state (no page reload, focus moves to the message).
+
+Errors: show a friendly inline message + fallback "or email us directly" link. Never expose stack traces.
+
+## Email templates
+- Use React Email components in `emails/` for consistent branded templates (ivory bg, monogram, Jost-like system font stack).
+- Plain-text alternative always included.
+- No tracking pixels.
+
+## Newsletter / gated resources
+- `/api/subscribe` adds the contact to the Brevo list (double opt-in enabled in Brevo).
+- Gated resource: after subscribe, email the download link (signed, like books) rather than showing it on-page.
+
+## Privacy
+- Don't log names, emails, messages. Log only an event id + outcome.
+- Privacy policy must list Resend, Brevo, Sanity, Vercel, Cloudflare as processors.
+
+## Done when
+- [ ] Works with JS disabled? (Progressive enhancement via server action is a bonus, not required)
+- [ ] Turnstile + honeypot + rate limit all active
+- [ ] Notification and auto-reply arrive and pass SPF/DKIM
+- [ ] Enquiry appears in Studio
+- [ ] Accessible: labels, error messages tied with `aria-describedby`, success announced via `aria-live`
