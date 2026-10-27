@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+import { SEED } from "@/sanity/seed/content";
 
 vi.mock("@/lib/sanity/site-settings", () => ({ getSiteSettings: async () => null }));
 
@@ -15,8 +16,17 @@ describe("robots.txt", () => {
 });
 
 describe("sitemap.xml", () => {
-  it("lists only routes that exist, on the www host", () => {
-    expect(sitemap()).toEqual([{ url: "https://www.ocranstrategicconsulting.com" }]);
+  it("lists only routes that exist, on the www host", async () => {
+    const urls = (await sitemap()).map((entry) => entry.url);
+    expect(urls).toEqual([
+      "https://www.ocranstrategicconsulting.com",
+      "https://www.ocranstrategicconsulting.com/services",
+      ...SEED.services.map((s) => `https://www.ocranstrategicconsulting.com/services/${s.slug}`),
+    ]);
+  });
+
+  it("omits lastModified for seed content (no real edit date)", async () => {
+    expect((await sitemap()).some((entry) => "lastModified" in entry)).toBe(false);
   });
 });
 
@@ -27,7 +37,9 @@ describe("llms.txt", () => {
     expect(res.headers.get("Content-Type")).toContain("text/plain");
     expect(text).toMatch(/^# Ocran Strategic Consulting\n/);
     expect(text).toContain("> From insights to strategy.");
-    expect(text).toContain("- Training & Capacity Building");
+    expect(text).toContain(
+      "- [Training and Capacity Building](https://www.ocranstrategicconsulting.com/services/training)",
+    );
     expect(text).toContain("(https://www.ocranstrategicconsulting.com)");
   });
 });

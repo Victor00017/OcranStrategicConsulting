@@ -28,6 +28,16 @@ All server components. Each returns nothing for missing data; the parent hides a
 | `ArticleCard`      | `article-card.tsx`      | Category, stretched title link, 3-line excerpt, date (en-GH). Used by insights lists.                       |
 | `CtaBand`          | `cta-band.tsx`          | Ink band, gold-light eyebrow, ivory Bodoni heading, `inverse` button. One per page.                         |
 
+## Inner-page building blocks
+
+| Component     | File                        | Notes                                                                                                         |
+| ------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `PageHeader`  | `sections/page-header.tsx`  | Breadcrumbs slot, eyebrow, the page's single H1, gold rule, intro. Use at the top of every inner page.        |
+| `Breadcrumbs` | `seo/breadcrumbs.tsx`       | Visible trail (last crumb `aria-current`) + matching `BreadcrumbList` JSON-LD. Required on nested pages.      |
+| `Prose`       | `sections/prose.tsx`        | Renders Sanity `blockContent`: Bodoni H2, Jost H3, 68ch, internal links via next/link, images via Sanity CDN. |
+| `FaqList`     | `sections/faq-list.tsx`     | Native `<details>` accordion (no JS) + `FAQPage` JSON-LD for the same questions (D-021).                      |
+| `ServiceView` | `sections/service-view.tsx` | `/services/[slug]`: 8/4 split, sticky consultation aside, related industries, other services, CTA band.       |
+
 ## UI primitives (`components/ui/`)
 
 | Component        | Props                                                                                                    | Notes                                                                                                                                                                                                                |

@@ -16,7 +16,7 @@ export const WEBSITE_ID = `${SITE_URL}/#website`;
  * Public routes that exist today. sitemap.ts and llms.txt read this list, so add a route here
  * when its page ships (Sanity-driven routes are added to sitemap.ts from build step 5 on).
  */
-export const STATIC_ROUTES = ["/"] as const;
+export const STATIC_ROUTES = ["/", "/services"] as const;
 
 // Matches how Next renders canonicals: the home page is the bare host, no trailing slash.
 export const absoluteUrl = (path: string) => (path === "/" ? SITE_URL : `${SITE_URL}${path}`);
@@ -115,5 +115,63 @@ export function organizationJsonLd(settings: SiteSettings | null) {
         publisher: { "@id": ORGANIZATION_ID },
       },
     ],
+  };
+}
+
+/** True while text still holds a `{{TODO: …}}` marker — such text is kept out of structured data. */
+export const hasTodo = (text: string | null | undefined) => !!text && text.includes("{{TODO");
+
+export type Crumb = { name: string; path: string };
+
+/** BreadcrumbList for nested pages (docs/SEO.md §1). Pass the same crumbs the visible trail shows. */
+export function breadcrumbJsonLd(crumbs: Crumb[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((crumb, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: crumb.name,
+      item: absoluteUrl(crumb.path),
+    })),
+  };
+}
+
+/** Service page JSON-LD (docs/SEO.md §2): Service linked to the site-wide Organization. */
+export function serviceJsonLd({
+  title,
+  slug,
+  summary,
+}: {
+  title: string;
+  slug: string;
+  summary: string | null;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${absoluteUrl(`/services/${slug}`)}#service`,
+    name: title,
+    serviceType: title,
+    url: absoluteUrl(`/services/${slug}`),
+    ...(summary && !hasTodo(summary) ? { description: summary } : {}),
+    provider: { "@id": ORGANIZATION_ID },
+    areaServed: [
+      { "@type": "Country", name: "Ghana" },
+      { "@type": "Place", name: "Sub-Saharan Africa" },
+    ],
+  };
+}
+
+/** FAQPage JSON-LD — only for FAQs that are visible on the page. */
+export function faqJsonLd(faqs: { question: string; answer: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
   };
 }

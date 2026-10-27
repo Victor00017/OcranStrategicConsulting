@@ -50,3 +50,28 @@ export const HOME_QUERY = defineQuery(`{
     publishedAt
   }
 }`);
+
+// Services index and sitemap. Order matches the home page.
+export const SERVICES_QUERY =
+  defineQuery(`*[_type == "service" && defined(slug.current)] | order(order asc, title asc){
+  _id,
+  _updatedAt,
+  title,
+  "slug": slug.current,
+  summary,
+  subServices
+}`);
+
+export const SERVICE_QUERY = defineQuery(`*[_type == "service" && slug.current == $slug][0]{
+  _id,
+  _updatedAt,
+  title,
+  "slug": slug.current,
+  summary,
+  subServices,
+  body,
+  outcomes,
+  faqs[]{_key, question, answer},
+  "relatedIndustries": relatedIndustries[]->{_id, title, "slug": slug.current},
+  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}
+}`);

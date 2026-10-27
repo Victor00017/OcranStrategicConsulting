@@ -2,15 +2,15 @@
 
 ## Current state
 
-Steps 0–4 done. Home page live in brief §3 order (hero with founder portrait, proof strip, 6 services, 7 industries,
-founder spotlight, insights when articles exist, CTA band), rendered from Sanity or — until the project exists — from
-`sanity/seed/content.ts` (D-020). Tagline "From insights to strategy.", "we" voice, 7 industries (D-019). Studio at
-`/studio` still waits for a Sanity project (SETUP.md §5, now with `pnpm seed`). All checks green, 31 tests.
+Steps 0–5 done. Home plus `/services` and six pre-rendered `/services/[slug]` pages (breadcrumbs, Service +
+BreadcrumbList JSON-LD, FAQ accordion and related industries when the CMS has them, other-services links,
+`?service=` contact prefill — D-021). Content from Sanity or the seed until the project exists (D-020). Sitemap and
+llms.txt list the service pages. All checks green, 37 tests.
 
 ## Next up
 
-Build plan item 5 — Services index + `/services/[slug]` (seo-page skill: metadata, `Service` + `FAQPage` JSON-LD,
-breadcrumbs, add routes to sitemap). Service summaries are `{{TODO}}` until the client supplies them.
+Build plan item 6 — Industries index + `/industries/[slug]`, reusing `PageHeader`, `Breadcrumbs`, `Prose`. Industry
+summaries are `{{TODO}}` like services. Add the routes to `STATIC_ROUTES`/sitemap.
 
 ## Build plan
 
@@ -19,7 +19,7 @@ breadcrumbs, add routes to sitemap). Service summaries are `{{TODO}}` until the 
 - [x] 2. Sanity: embedded Studio at /studio, all schemas (sanity-content skill), singletons, typegen, /api/revalidate
 - [x] 3. SEO foundation: lib/seo.ts, <JsonLd/>, sitemap, robots, llms.txt, OG image template
 - [x] 4. Home page sections (design reviewed by Claude before replicating patterns)
-- [ ] 5. Services index + /services/[slug]
+- [x] 5. Services index + /services/[slug]
 - [ ] 6. Industries index + /industries/[slug]
 - [ ] 7. About (founder, credentials, countries) + Publications
 - [ ] 8. Insights list + article page (portable text, TOC, related, author box)
@@ -62,6 +62,10 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
 - Approve or replace: home section headings ("What we do", "Sectors we serve", "Start a conversation"), hero eyebrow
   ("Strategic consulting · Tema"), home meta description (built from brief facts, 157 chars) — D-020.
 - Uncropped founder portrait for the rectangular hero frame (D-019).
+- `/services` introduction (1–2 sentences) — `{{TODO}}` on the page. Index meta description built from brief facts
+  (158 chars) — approve. Three service titles push the page title past 60 characters ("… | Ocran Strategic
+  Consulting"); set a shorter **Search title** in Studio for those, or accept the truncation.
+- Per service, when available: page content, client outcomes, FAQs, related industries.
 - Vector monogram/logo (brief §7 q1) — then add it to the OG image template and favicon. The Canva PNG supplied is
   identical to `public/brand/logo-reference.png`; ask for Canva's **SVG** download.
 - **Confirm "30 countries"**: the Detailed Profile's list reaches 30 only by counting Zanzibar (part of Tanzania).
@@ -87,3 +91,4 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
 - 2026-10-27 · Build step 3 — SEO foundation · done — `lib/seo.ts` (buildMetadata, organizationJsonLd, STATIC_ROUTES), `<JsonLd/>`, title template + metadataBase, robots/sitemap/llms.txt, brand OG image with committed OFL fonts; fixed home losing og:image (D-018). 27 tests. Rich Results validation waits for launch (needs public URL).
 - 2026-10-27 · Build step 4 — Home page · done — client answers recorded (D-019: tagline, we-voice, 7 industries, circular portrait); 8 server-only section components; seed-or-Sanity content (D-020) + `pnpm seed`; `proofPoints` and `order` fields; Button `inverse` variant, focus colour per variant, primary label centred; footer hairline. Screenshots at 375/768/1280 reviewed and fixed (stat alignment, eyebrow wrap). 31 tests; home JS 181 KB gz (+5 KB next/image).
 - 2026-10-27 · Client source documents reviewed + plan A · done — seed now uses Detailed Profile (title "Senior Consultant", opening sentence as short bio, five credentials with institutions/years) and the client's verbatim value proposition (we-voice); brief gains a Sources section and corrected credentials (MSc is not Animal Science); client flags (30 countries/Zanzibar, "refereed", missing attachments) added to Content TODOs. Strategy-session image confirmed AI-generated — not for publication.
+- 2026-10-27 · Build step 5 — Services · done — `/services` index + `/services/[slug]` (all 6 pre-rendered, unknown → 404); new `PageHeader`, `Breadcrumbs` (+ BreadcrumbList), `Prose` (portable text via next-sanity, no new dep), `FaqList` (native details + FAQPage), `ServiceView`; Service JSON-LD skips TODO text (D-021); sitemap async with service URLs; llms.txt links each service. Screenshots 375/1280 checked. 37 tests.

@@ -1,4 +1,8 @@
-import type { HOME_QUERY_RESULT } from "@/sanity.types";
+import type {
+  HOME_QUERY_RESULT,
+  SERVICE_QUERY_RESULT,
+  SERVICES_QUERY_RESULT,
+} from "@/sanity.types";
 
 /**
  * Starter content from the client's source documents (Detailed Profile, Website Structure,
@@ -129,5 +133,34 @@ export function seedHomeContent(): HOME_QUERY_RESULT {
     services: services.map((s) => ({ _id: `service-${s.slug}`, ...s })),
     industries: industries.map((i) => ({ _id: `industry-${i.slug}`, ...i })),
     articles: [],
+  };
+}
+
+// Seed documents have no edit history; the sitemap omits lastModified for an empty _updatedAt.
+const SEED_UPDATED_AT = "";
+
+/** The seed in SERVICES_QUERY shape. */
+export function seedServices(): SERVICES_QUERY_RESULT {
+  return SEED.services.map((service) => ({
+    _id: `service-${service.slug}`,
+    _updatedAt: SEED_UPDATED_AT,
+    title: service.title,
+    slug: service.slug,
+    summary: summaryTodo(service.title),
+    subServices: service.subServices,
+  }));
+}
+
+/** One seed service in SERVICE_QUERY shape, or null. Fields the brief doesn't cover stay empty. */
+export function seedService(slug: string): SERVICE_QUERY_RESULT {
+  const service = seedServices().find((s) => s.slug === slug);
+  if (!service) return null;
+  return {
+    ...service,
+    body: null,
+    outcomes: null,
+    faqs: null,
+    relatedIndustries: null,
+    seo: null,
   };
 }
