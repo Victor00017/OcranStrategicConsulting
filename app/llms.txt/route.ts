@@ -9,6 +9,7 @@ const PAGE_NAMES: Record<(typeof STATIC_ROUTES)[number], string> = {
   "/": "Home",
   "/services": "Services",
   "/industries": "Industries",
+  "/about": "About",
 };
 
 /**

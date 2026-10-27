@@ -24,7 +24,7 @@ All server components. Each returns nothing for missing data; the parent hides a
 | `AudienceCards`    | `audience-cards.tsx`    | "Who we work with": 4 cards from `homePage.audiences`, each CTA → `/contact?service=` (D-021).             |
 | `ProcessSteps`     | `process-steps.tsx`     | "How we work": numbered steps joined by a gold hairline.                                                   |
 | `TrackRecord`      | `track-record.tsx`      | Field-green band: proof numbers + attributed founder results. Small text ivory (contrast, D-024).          |
-| `FounderStrip`     | `founder-strip.tsx`     | Compact home founder intro → /about. `FounderSpotlight` (full credentials) is kept for the About page.     |
+| `FounderStrip`     | `founder-strip.tsx`     | Compact home founder intro → /about. The About page has its own fuller layout (`AboutView`).               |
 | `ServiceCard`      | `service-card.tsx`      | Numbered card, stretched title link, sub-services list; gold border + sliding underline on hover.          |
 | `IndustryChip`     | `industry-chip.tsx`     | Field-green outlined link — the page's only use of the agriculture accent.                                 |
 | `FounderSpotlight` | `founder-spotlight.tsx` | Name/title left, short bio + credentials (gold rules) right, link to /about.                               |
@@ -41,6 +41,7 @@ All server components. Each returns nothing for missing data; the parent hides a
 | `FaqList`      | `sections/faq-list.tsx`      | Native `<details>` accordion (no JS) + `FAQPage` JSON-LD for the same questions (D-021).                                                                                   |
 | `ServiceView`  | `sections/service-view.tsx`  | `/services/[slug]`: 8/4 split, sticky consultation aside, related industries, other services, CTA band.                                                                    |
 | `IndustryView` | `sections/industry-view.tsx` | `/industries/[slug]`: same frame as ServiceView; lists services linked from either side (`servicesForIndustry`, D-022); drops the empty main column until there's content. |
+| `AboutView`    | `sections/about-view.tsx`    | `/about`: firm intro, mission/vision/values, founder (portrait, long bio via `Prose`), credentials + expertise, countries, `Person` JSON-LD (D-026).                       |
 
 ## UI primitives (`components/ui/`)
 
@@ -69,8 +70,9 @@ from Sanity and keep the shape (`NavLink = { href, label }`).
 
 ## Pages
 
-| Route                               | File                      | Notes                                                                                                             |
-| ----------------------------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `/`                                 | `app/(site)/page.tsx`     | `getHomeContent()` (Sanity, or seed until connected — D-020) → `HomeView`.                                        |
-| `/industries`, `/industries/[slug]` | `app/(site)/industries/…` | `getIndustries` / `getIndustry` (`lib/content/industries.ts`); numbered index; all 7 pre-rendered, unknown → 404. |
-| 404                                 | `app/not-found.tsx`       | Wrapped in `SiteShell`; links to every service (docs/SEO.md §1). Next adds `noindex`.                             |
+| Route                               | File                                              | Notes                                                                                                                  |
+| ----------------------------------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `/`                                 | `app/(site)/page.tsx`                             | `getHomeContent()` (Sanity, or seed until connected — D-020) → `HomeView`.                                             |
+| `/industries`, `/industries/[slug]` | `app/(site)/industries/…`                         | `getIndustries` / `getIndustry` (`lib/content/industries.ts`); numbered index; all 7 pre-rendered, unknown → 404.      |
+| `/about`, `/publications`           | `app/(site)/about/…`, `app/(site)/publications/…` | `getAbout` / `getPublications` (`lib/content/about.ts`). Publications: `noindex` + out of sitemap while empty (D-026). |
+| 404                                 | `app/not-found.tsx`                               | Wrapped in `SiteShell`; links to every service (docs/SEO.md §1). Next adds `noindex`.                                  |

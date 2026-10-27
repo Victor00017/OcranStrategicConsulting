@@ -16,7 +16,7 @@ export const WEBSITE_ID = `${SITE_URL}/#website`;
  * Public routes that exist today. sitemap.ts and llms.txt read this list, so add a route here
  * when its page ships (Sanity-driven routes are added to sitemap.ts from build step 5 on).
  */
-export const STATIC_ROUTES = ["/", "/services", "/industries"] as const;
+export const STATIC_ROUTES = ["/", "/services", "/industries", "/about"] as const;
 
 // Matches how Next renders canonicals: the home page is the bare host, no trailing slash.
 export const absoluteUrl = (path: string) => (path === "/" ? SITE_URL : `${SITE_URL}${path}`);
@@ -173,5 +173,43 @@ export function faqJsonLd(faqs: { question: string; answer: string }[]) {
       name: faq.question,
       acceptedAnswer: { "@type": "Answer", text: faq.answer },
     })),
+  };
+}
+
+export const FOUNDER_ID = `${SITE_URL}/about#founder`;
+
+/** About page Person JSON-LD (docs/SEO.md §2), linked to the Organization it works for. */
+export function personJsonLd(founder: {
+  name: string;
+  title: string | null;
+  shortBio: string | null;
+  credentials: string[] | null;
+  alumniOf: string[] | null;
+  expertise: string[] | null;
+  portrait: { url: string | null } | null;
+}) {
+  const image = founder.portrait?.url;
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": FOUNDER_ID,
+    name: founder.name,
+    url: absoluteUrl("/about"),
+    worksFor: { "@id": ORGANIZATION_ID },
+    ...(founder.title ? { jobTitle: founder.title } : {}),
+    ...(founder.shortBio ? { description: founder.shortBio } : {}),
+    ...(image ? { image: image.startsWith("/") ? absoluteUrl(image) : image } : {}),
+    ...(founder.alumniOf?.length
+      ? { alumniOf: founder.alumniOf.map((name) => ({ "@type": "CollegeOrUniversity", name })) }
+      : {}),
+    ...(founder.credentials?.length
+      ? {
+          hasCredential: founder.credentials.map((name) => ({
+            "@type": "EducationalOccupationalCredential",
+            name,
+          })),
+        }
+      : {}),
+    ...(founder.expertise?.length ? { knowsAbout: founder.expertise } : {}),
   };
 }

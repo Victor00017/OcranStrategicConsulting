@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { getPublications } from "@/lib/content/about";
 import { getIndustries } from "@/lib/content/industries";
 import { getServices } from "@/lib/content/services";
 import { STATIC_ROUTES, absoluteUrl } from "@/lib/seo";
@@ -8,11 +9,17 @@ import { STATIC_ROUTES, absoluteUrl } from "@/lib/seo";
  * Content routes join as their pages ship: services and industries now; articles, case studies next.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [services, industries] = await Promise.all([getServices(), getIndustries()]);
+  const [services, industries, publications] = await Promise.all([
+    getServices(),
+    getIndustries(),
+    getPublications(),
+  ]);
   return [
     ...STATIC_ROUTES.map((path) => ({ url: absoluteUrl(path) })),
     ...services.map((doc) => contentEntry(`/services/${doc.slug}`, doc._updatedAt)),
     ...industries.map((doc) => contentEntry(`/industries/${doc.slug}`, doc._updatedAt)),
+    // Listed only once it has entries; until then the page is noindex.
+    ...(publications.length ? [{ url: absoluteUrl("/publications") }] : []),
   ];
 }
 

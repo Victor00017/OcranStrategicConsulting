@@ -31,6 +31,13 @@ export const founder = defineType({
       of: [defineArrayMember({ type: "string" })],
     }),
     defineField({
+      name: "alumniOf",
+      title: "Universities attended",
+      description: "Used by search engines (Person profile). One institution per line.",
+      type: "array",
+      of: [defineArrayMember({ type: "string" })],
+    }),
+    defineField({
       name: "expertise",
       title: "Areas of expertise",
       type: "array",

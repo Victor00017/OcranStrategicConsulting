@@ -173,3 +173,9 @@ Revisit if: the firm has its own case studies — they lead the track record; th
 Decision: `sanityFetch` caches with tags **and** `revalidate: 3600`.
 Why: with tag-only caching, a fetch cached before content changed stays stale until the webhook fires — seen locally when the services/industries indexes kept serving `{{TODO}}` summaries after `pnpm seed`, and the webhook is not set up on Vercel yet. One hour bounds the damage of a missing or failed webhook; the webhook still makes edits near-instant.
 Revisit if: build or Sanity API usage becomes a cost concern (raise the interval), or edits must never wait (keep the webhook healthy).
+
+## D-026 · 2026-10-27 · About from the client's documents; Publications hidden from search until filled
+
+Decision: /about is built only from the client's documents — company story, mission, vision, values (Website Structure doc, new `aboutPage` singleton) and the founder's full career text, education, 20 expertise areas and 30 named countries (Detailed Profile, `sanity/seed/profile.ts`) — with `Person` JSON-LD (`@id …/about#founder`, alumniOf, hasCredential, knowsAbout, worksFor). /publications renders the CMS list (with `ItemList` JSON-LD, journal articles as `ScholarlyArticle`), but while it has no entries it shows a short note, is `noindex, follow`, and is left out of the sitemap. `FounderSpotlight` was removed (replaced by `FounderStrip` on home and the About layout).
+Why: the 43 publications haven't been supplied; the footer already links to /publications, so a 404 was worse than an honest empty state, and an empty page in Google's index would be worse still.
+Revisit if: the publication list arrives — add entries in the Studio; the page indexes itself and joins the sitemap on the next refresh.

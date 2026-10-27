@@ -2,16 +2,15 @@
 
 ## Current state
 
-Steps 0–6 done and live at www.ocranstrategicconsulting.com (Sanity `po34na24`). Home rebuilt around the offer
-(D-024): deliverables panel, audiences, services with summaries, how we work, track record, sectors, compact founder.
-All former `{{TODO}}` copy is drafted (D-023) and loaded into Sanity — awaiting client sign-off (see Content TODOs).
-Sanity fetches refresh hourly as a webhook backstop (D-025). All checks green, 47 tests.
+Steps 0–7 done and live at www.ocranstrategicconsulting.com (Sanity `po34na24`). Home is built around the offer
+(D-024); services, industries and About are complete, with drafted copy awaiting sign-off (D-023). /about is built
+from the client's documents with `Person` JSON-LD; /publications waits for the 43 entries (noindex until then, D-026).
+Fetches refresh hourly (D-025). All checks green, 54 tests.
 
 ## Next up
 
-Build plan item 7 — About (founder, credentials, countries) + Publications. Needs Sanity fields for company story,
-mission, vision, values (not in the schema yet); full career bio, expertise and 30 countries come from the client's
-Detailed Profile (seed). `Person` JSON-LD (docs/SEO.md §2). Publications list needs the client's 43 entries.
+Build plan item 8 — Insights list + article page (portable text, TOC, related, author box). Blocked on content: the
+client's 5 articles haven't been supplied. The page can be built against an empty list (like Publications) or wait.
 
 ## Build plan
 
@@ -22,7 +21,7 @@ Detailed Profile (seed). `Person` JSON-LD (docs/SEO.md §2). Publications list n
 - [x] 4. Home page sections (design reviewed by Claude before replicating patterns)
 - [x] 5. Services index + /services/[slug]
 - [x] 6. Industries index + /industries/[slug]
-- [ ] 7. About (founder, credentials, countries) + Publications
+- [x] 7. About (founder, credentials, countries) + Publications
 - [ ] 8. Insights list + article page (portable text, TOC, related, author box)
 - [ ] 9. Contact form + /api/contact + emails (contact-and-email skill)
 - [ ] ~~10. Resources + Brevo gated downloads~~ — on hold (D-016)
@@ -85,13 +84,13 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
   identical to `public/brand/logo-reference.png`; ask for Canva's **SVG** download.
 - **Confirm "30 countries"**: the Detailed Profile's list reaches 30 only by counting Zanzibar (part of Tanzania).
   Either confirm, or use "30 countries and territories" before launch.
-- Typo in the Detailed Profile: "referred journal papers" → "refereed" (fix when it goes on the About page).
+- Detailed Profile typo "referred journal papers" was corrected to "refereed" on /about — tell the client.
+- Countries list shows "the UAE" exactly as in the profile; client may prefer "United Arab Emirates" (edit in Studio → Founder).
+- **The 43 publications** (title, type, year, publisher/journal, link or DOI) — /publications stays hidden from search until they're added.
 - Missing attachments referenced by the Website Structure doc: the 5 articles (step 8), "Consulting Profile —
   Jonathan Nyarko Ocran", proposal template / toolkits / diagnostic tools (on hold, D-016), work samples (step 12).
 - Books section lists "Feasibility Study Reports and Business Plans" and "Thought Leadership" — should these appear
   on /publications while books are on hold?
-- About page (step 7): Detailed Profile has the career bio, 21 expertise areas and the 30 named countries; the
-  Website doc has company story, mission, vision, values — Sanity has no fields for the last four yet.
 
 ## Session log
 
@@ -110,3 +109,4 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
 - 2026-10-27 · Build step 6 — Industries · done — `/industries` numbered index + 7 pre-rendered `/industries/[slug]` pages (unknown → 404) via `IndustryView`; services listed from both link directions (D-022); empty main column dropped until content exists; sitemap 16 URLs, llms.txt industries section. Screenshots 375/1280 checked. 42 tests. (Docs landed in a follow-up commit.)
 - 2026-10-27 · Go-live fixes · done — live site was rendering an empty Sanity dataset (Vercel had the project ID, nothing seeded); seeded `po34na24` (15 docs), verified local build against Sanity, redeployed (`26585b7`). Live home, services, industries, studio all 200. Found www cert missing (backlog). Replaced a stale 25-Oct local server on :3123.
 - 2026-10-27 · IA review + copy · done — home restructured around the offer (D-024: deliverables panel, audiences, how we work, attributed track record, compact founder; new `homePage` singleton); all TODO copy drafted for approval (D-023, `sanity/seed/copy.ts`) incl. service deliverables; `pnpm seed` now fills empty/TODO fields only (filled 14 docs, created homePage, founder untouched); 1h revalidate backstop after stale fetch cache seen (D-025). Contrast check moved small text on field band to ivory. 47 tests.
+- 2026-10-27 · Build step 7 — About + Publications · done — /about from client documents (aboutPage singleton; founder longBio, alumniOf, 20 expertise areas, 30 countries; Person JSON-LD); /publications with ItemList JSON-LD, noindex + out of sitemap while empty (D-026); FounderSpotlight removed; `pnpm seed` created aboutPage and filled 4 empty founder fields. Screenshots 375/1280 checked. 54 tests.

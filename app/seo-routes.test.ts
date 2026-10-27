@@ -22,6 +22,7 @@ describe("sitemap.xml", () => {
       "https://www.ocranstrategicconsulting.com",
       "https://www.ocranstrategicconsulting.com/services",
       "https://www.ocranstrategicconsulting.com/industries",
+      "https://www.ocranstrategicconsulting.com/about",
       ...SEED.services.map((s) => `https://www.ocranstrategicconsulting.com/services/${s.slug}`),
       ...SEED.industries.map(
         (i) => `https://www.ocranstrategicconsulting.com/industries/${i.slug}`,

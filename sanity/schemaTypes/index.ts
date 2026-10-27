@@ -1,3 +1,4 @@
+import { aboutPage } from "./about-page";
 import { article } from "./article";
 import { blockContent } from "./block-content";
 import { caseStudy } from "./case-study";
@@ -16,6 +17,7 @@ export const schemaTypes = [
   // Singletons
   siteSettings,
   homePage,
+  aboutPage,
   founder,
   // Documents
   service,
@@ -31,4 +33,4 @@ export const schemaTypes = [
 ];
 
 /** One document each, edited in place; hidden from "Create new" (see sanity/structure.ts). */
-export const SINGLETON_TYPES = new Set(["siteSettings", "homePage", "founder"]);
+export const SINGLETON_TYPES = new Set(["siteSettings", "homePage", "aboutPage", "founder"]);

@@ -116,3 +116,31 @@ export const INDUSTRY_QUERY = defineQuery(`*[_type == "industry" && slug.current
 export const PAGE_INTROS_QUERY = defineQuery(
   `*[_type == "siteSettings"][0]{servicesIntro, industriesIntro}`,
 );
+
+// /about: the firm (aboutPage) and the founder's full profile.
+export const ABOUT_QUERY = defineQuery(`{
+  "about": *[_type == "aboutPage"][0]{companyStory, mission, vision, values},
+  "founder": *[_type == "founder"][0]{
+    name,
+    title,
+    shortBio,
+    longBio,
+    credentials,
+    alumniOf,
+    expertise,
+    countries,
+    "portrait": portrait{alt, "url": asset->url}
+  }
+}`);
+
+// /publications, newest first.
+export const PUBLICATIONS_QUERY =
+  defineQuery(`*[_type == "publication"] | order(year desc, title asc){
+  _id,
+  title,
+  type,
+  year,
+  publisher,
+  url,
+  doi
+}`);

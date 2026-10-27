@@ -218,8 +218,21 @@ export type Founder = {
   shortBio?: string;
   longBio?: BlockContent;
   credentials?: Array<string>;
+  alumniOf?: Array<string>;
   expertise?: Array<string>;
   countries?: Array<string>;
+};
+
+export type AboutPage = {
+  _id: string;
+  _type: "aboutPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  companyStory?: string;
+  mission?: string;
+  vision?: string;
+  values?: Array<string>;
 };
 
 export type HomePage = {
@@ -438,6 +451,7 @@ export type AllSanitySchemaTypes =
   | ServiceReference
   | Industry
   | Founder
+  | AboutPage
   | HomePage
   | IndustryReference
   | Service
@@ -635,6 +649,45 @@ export type PAGE_INTROS_QUERY_RESULT = {
   industriesIntro: string | null;
 } | null;
 
+// Source: lib/sanity/queries.ts
+// Variable: ABOUT_QUERY
+// Query: {  "about": *[_type == "aboutPage"][0]{companyStory, mission, vision, values},  "founder": *[_type == "founder"][0]{    name,    title,    shortBio,    longBio,    credentials,    alumniOf,    expertise,    countries,    "portrait": portrait{alt, "url": asset->url}  }}
+export type ABOUT_QUERY_RESULT = {
+  about: {
+    companyStory: string | null;
+    mission: string | null;
+    vision: string | null;
+    values: Array<string> | null;
+  } | null;
+  founder: {
+    name: string;
+    title: string | null;
+    shortBio: string | null;
+    longBio: BlockContent | null;
+    credentials: Array<string> | null;
+    alumniOf: Array<string> | null;
+    expertise: Array<string> | null;
+    countries: Array<string> | null;
+    portrait: {
+      alt: string;
+      url: string | null;
+    } | null;
+  } | null;
+};
+
+// Source: lib/sanity/queries.ts
+// Variable: PUBLICATIONS_QUERY
+// Query: *[_type == "publication"] | order(year desc, title asc){  _id,  title,  type,  year,  publisher,  url,  doi}
+export type PUBLICATIONS_QUERY_RESULT = Array<{
+  _id: string;
+  title: string;
+  type: "book" | "brief" | "chapter" | "journal" | "other" | "report" | "thesis";
+  year: number;
+  publisher: string | null;
+  url: string | null;
+  doi: string | null;
+}>;
+
 // Query TypeMap
 declare global {
   interface SanityQueries {
@@ -645,6 +698,8 @@ declare global {
     '*[_type == "industry" && defined(slug.current)] | order(order asc, title asc){\n  _id,\n  _updatedAt,\n  title,\n  "slug": slug.current,\n  summary\n}': INDUSTRIES_QUERY_RESULT;
     '*[_type == "industry" && slug.current == $slug][0]{\n  _id,\n  _updatedAt,\n  title,\n  "slug": slug.current,\n  summary,\n  body,\n  challenges,\n  "relatedServices": relatedServices[]->{_id, title, "slug": slug.current},\n  "servedBy": *[_type == "service" && defined(slug.current) && references(^._id)] | order(order asc){\n    _id,\n    title,\n    "slug": slug.current\n  },\n  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}\n}': INDUSTRY_QUERY_RESULT;
     '*[_type == "siteSettings"][0]{servicesIntro, industriesIntro}': PAGE_INTROS_QUERY_RESULT;
+    '{\n  "about": *[_type == "aboutPage"][0]{companyStory, mission, vision, values},\n  "founder": *[_type == "founder"][0]{\n    name,\n    title,\n    shortBio,\n    longBio,\n    credentials,\n    alumniOf,\n    expertise,\n    countries,\n    "portrait": portrait{alt, "url": asset->url}\n  }\n}': ABOUT_QUERY_RESULT;
+    '*[_type == "publication"] | order(year desc, title asc){\n  _id,\n  title,\n  type,\n  year,\n  publisher,\n  url,\n  doi\n}': PUBLICATIONS_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

@@ -1,12 +1,15 @@
 import type {
+  ABOUT_QUERY_RESULT,
   HOME_QUERY_RESULT,
   INDUSTRIES_QUERY_RESULT,
   INDUSTRY_QUERY_RESULT,
   PAGE_INTROS_QUERY_RESULT,
+  PUBLICATIONS_QUERY_RESULT,
   SERVICE_QUERY_RESULT,
   SERVICES_QUERY_RESULT,
 } from "@/sanity.types";
 import { HOME_COPY, INDUSTRY_COPY, PAGE_INTROS, SERVICE_COPY } from "./copy";
+import { ABOUT, FOUNDER_PROFILE } from "./profile";
 
 /**
  * Starter content. This file holds the client's facts — source documents (Detailed Profile, Website
@@ -225,4 +228,18 @@ export function seedIndustry(slug: string): INDUSTRY_QUERY_RESULT {
 /** The seed in PAGE_INTROS_QUERY shape. */
 export function seedPageIntros(): PAGE_INTROS_QUERY_RESULT {
   return PAGE_INTROS;
+}
+
+/** The seed in ABOUT_QUERY shape (./profile.ts facts + founder basics). */
+export function seedAbout(): ABOUT_QUERY_RESULT {
+  const { name, title, shortBio, credentials, portrait } = SEED.founder;
+  return {
+    about: ABOUT,
+    founder: { name, title, shortBio, credentials, portrait, ...FOUNDER_PROFILE },
+  };
+}
+
+/** The client's 43 publications haven't been supplied yet (PROGRESS), so the seed has none. */
+export function seedPublications(): PUBLICATIONS_QUERY_RESULT {
+  return [];
 }

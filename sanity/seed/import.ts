@@ -1,5 +1,5 @@
 /**
- * `pnpm seed` — load the seed (./content.ts facts + ./copy.ts drafts) into Sanity (docs/SETUP.md §5, step 7).
+ * `pnpm seed` — load the seed (./content.ts + ./profile.ts facts, ./copy.ts drafts) into Sanity (docs/SETUP.md §5, step 7).
  * Runs through `sanity exec --with-user-token`, so it uses your Sanity login, not a stored token.
  * Safe to re-run: creates missing documents, and on existing ones fills only fields that are empty or
  * still hold a {{TODO}} marker. Anything the client has written is never overwritten.
@@ -8,6 +8,7 @@ import { createReadStream } from "node:fs";
 import { getCliClient } from "sanity/cli";
 import { PORTRAIT_FILE, SEED } from "./content";
 import { HOME_COPY, INDUSTRY_COPY, PAGE_INTROS, SERVICE_COPY } from "./copy";
+import { ABOUT, FOUNDER_PROFILE } from "./profile";
 
 const client = getCliClient({ apiVersion: "2026-10-01" });
 const tx = client.transaction();
@@ -62,6 +63,8 @@ async function run() {
     trackRecord: HOME_COPY.trackRecord.map((item) => ({ _type: "trackRecordItem", ...item })),
   });
 
+  await upsert({ _id: "aboutPage", _type: "aboutPage", ...ABOUT });
+
   const existingFounder = await client.getDocument("founder");
   const portraitAsset = existingFounder?.portrait
     ? null
@@ -75,6 +78,7 @@ async function run() {
     title: founder.title,
     shortBio: founder.shortBio,
     credentials: founder.credentials,
+    ...FOUNDER_PROFILE,
     ...(portraitAsset
       ? {
           portrait: {
