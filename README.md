@@ -23,4 +23,4 @@ that stack without a `docs/DECISIONS.md` entry.
 
 ## Getting started
 
-Requires Node 20+ and pnpm (via `corepack` is fine).
+Requires Node 22.12+ (Sanity 6 needs it; see `.nvmrc`) and pnpm (via `corepack` is fine).

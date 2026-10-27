@@ -9,6 +9,7 @@ The content model is defined in `docs/PROJECT-BRIEF.md` §5. Jonathan (non-techn
 so the Studio experience matters as much as the code.
 
 ## Schema rules
+
 - Use `defineType` / `defineField` / `defineArrayMember`. One file per type in `sanity/schemaTypes/`.
 - Every field gets a `title` and, where helpful, a `description` written for a non-technical editor
   ("Shown under the title on the service page. 1–2 sentences.").
@@ -17,17 +18,19 @@ so the Studio experience matters as much as the code.
 - Images: `options: { hotspot: true }` + a required `alt` string field.
 - Singletons (`siteSettings`, `founder`): enforce via Structure Builder, hide "create new".
 - `caseStudy` and `testimonial`: `permissionConfirmed` must be `true` to publish (custom validation).
-- `book.file`: never expose the file URL in public GROQ projections.
+- No `book` or `resource` types in Phase 1 (D-016). Books appear only as `publication` entries.
 - Add `preview` config so lists in Studio show title + image + subtitle.
 - Contact details (emails, phone, WhatsApp) live ONLY in `siteSettings` — never hardcode them in components.
 
 ## Query rules
+
 - All GROQ in `lib/sanity/queries.ts` using `defineQuery`; run `sanity typegen generate` after schema changes.
 - Project only the fields the page needs. Resolve references in the query (`"industries": relatedIndustries[]->{title, "slug": slug.current}`).
 - Fetch with `next: { tags: ['<type>', '<type>:<slug>'] }`; `/api/revalidate` maps Sanity webhook payloads to tags.
 - Images through `lib/sanity/image.ts` (`@sanity/image-url`) with explicit width and `auto('format')`.
 
 ## Done when
+
 - [ ] Schema deploys without errors; Studio shows friendly titles/descriptions
 - [ ] Typegen regenerated; no `any`
 - [ ] Page renders with empty optional fields (no crashes on missing data)

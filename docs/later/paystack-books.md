@@ -6,6 +6,7 @@ description: Use for anything involving the book store — book pages, Buy butto
 # Book store + Paystack playbook
 
 ## Flow
+
 1. `/books/[slug]` shows the book (from Sanity) with a **Buy** button (client component).
 2. Button POSTs `{ bookSlug, email, name, (shipping address if physical) }` to `/api/checkout`.
 3. `/api/checkout` (server):
@@ -28,18 +29,21 @@ description: Use for anything involving the book store — book pages, Buy butto
    Files are not publicly addressable (store in private storage; never put the asset URL in page HTML).
 
 ## Data (Drizzle)
+
 `orders`: id, reference (unique), book_slug, amount_minor, currency, email, status (pending|paid|failed|refunded),
 fulfilment (digital|physical), shipping (jsonb, nullable), created_at, paid_at.
 `downloads`: token_hash, order_id, expires_at, uses, max_uses.
 Delete or anonymise shipping details 12 months after fulfilment (privacy policy states this).
 
 ## Rules
+
 - Test mode keys until launch; use Paystack test cards / test mobile money.
 - Never log card data (we never see it anyway — Paystack hosts payment entry).
 - Show prices with currency (`GH₵ 150.00`) using `Intl.NumberFormat('en-GH', { style: 'currency', currency: 'GHS' })`.
 - Book pages emit `Book` + `Product`/`Offer` JSON-LD (see seo-page skill).
 
 ## Done when
+
 - [ ] Tampered amount in request has no effect
 - [ ] Invalid webhook signature → 401
 - [ ] Webhook replay doesn't double-send emails

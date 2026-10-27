@@ -1,6 +1,6 @@
 # Cline rules — Ocran Strategic Consulting
 - Before every task, read AGENTS.md in full, then the SKILL.md listed for the task type in AGENTS.md §8.
 - Always present a short plan + file list and wait for approval before editing more than one file.
-- Never read, print or modify .env* files. Never run deploy, DNS, or git push commands.
+- Never read, print or modify .env* files — except .env.example, which holds variable names only (no values) and must be kept current. Never run deploy, DNS, or git push commands.
 - Finish every task by running: pnpm lint && pnpm typecheck && pnpm build — and report results.
 - Never invent client copy, numbers, testimonials or case studies. Use {{TODO: copy needed — ...}}.

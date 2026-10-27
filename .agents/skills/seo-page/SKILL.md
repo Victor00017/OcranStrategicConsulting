@@ -6,6 +6,7 @@ description: Use when creating or editing any public page or route on the Ocran 
 # SEO page playbook
 
 ## Steps
+
 1. Decide the page's **one primary search intent** (check `docs/SEO.md` §3). Put it in the H1 naturally and in the
    meta title. Don't keyword-stuff.
 2. Metadata via the helper — never hand-roll:
@@ -35,6 +36,7 @@ description: Use when creating or editing any public page or route on the Ocran 
 8. Images: `next/image`, descriptive alt, `priority` only on the LCP image.
 
 ## Done when
+
 - [ ] Unique title ≤ 60 chars, description 140–160 chars
 - [ ] Canonical correct (www, no trailing slash)
 - [ ] JSON-LD valid (paste output into validator.schema.org)

@@ -17,6 +17,7 @@
 - **Values**: Excellence, Integrity, Professional Service.
 
 ### Proof points to surface (use exactly; don't embellish)
+
 - 35+ years experience · 30 countries · 43 publications · 55 AU member states policy reach
 - Helped administer a $1M World Bank-funded National Research Grant Scheme (100+ programmes)
 - $200,000+ grant funding secured through written proposals
@@ -25,13 +26,13 @@
 
 ## 2. Audiences & what they need
 
-| Audience | Looking for | Primary CTA |
-|---|---|---|
+| Audience                                       | Looking for                                                    | Primary CTA            |
+| ---------------------------------------------- | -------------------------------------------------------------- | ---------------------- |
 | Agribusiness / livestock companies & investors | Feasibility studies, investment advisory, value chain analysis | Request a consultation |
-| Development partners, NGOs, donors | Programme design, proposals, policy & sector studies | Discuss a partnership |
-| Government / public sector | Policy analysis, strategic plans, training | Request a proposal |
-| SMEs (agri, light manufacturing, retail) | Business plans, growth strategy, investor readiness | Book a discovery call |
-| Students, officers, farmers | Books, training guides, templates | Buy / download |
+| Development partners, NGOs, donors             | Programme design, proposals, policy & sector studies           | Discuss a partnership  |
+| Government / public sector                     | Policy analysis, strategic plans, training                     | Request a proposal     |
+| SMEs (agri, light manufacturing, retail)       | Business plans, growth strategy, investor readiness            | Book a discovery call  |
+| Students, officers, farmers                    | Books, training guides, templates — **on hold (D-016)**        | —                      |
 
 ## 3. Sitemap
 
@@ -45,29 +46,29 @@
                           Light Manufacturing · Public Sector
 /insights                 Articles (thought leadership) — list + category filter
 /insights/[slug]
-/books                    Books showcase
-/books/[slug]             Book detail + "Enquire to order" (online sales = Phase 2)
 /publications             The 43 publications (filterable list, outbound links where available)
-/resources                Templates · Toolkits · Diagnostic tools (email-gated downloads)
 /case-studies             Projects & work samples
 /case-studies/[slug]
 /contact                  Form (name, email, message) + emails, phone, WhatsApp, map/location
-/privacy  /terms  /refunds
+/privacy  /terms
 ```
 
-Header nav: Services · Industries · Insights · Books · About · **Contact** (button).
-Footer: services list, industries list, resources, contact block, social links, legal links.
+On hold for Phase 1 (D-016): `/books`, `/books/[slug]`, `/resources`, `/refunds` — see `docs/later/held-features.md`.
+
+Header nav: Services · Industries · Insights · About · **Contact** (button).
+Footer: services list, industries list, explore links, contact block, social links, legal links.
 
 ### Home page sections (in order)
+
 1. Hero — tagline as H1 support, value proposition, 2 CTAs (Request a consultation / Explore services), founder portrait
 2. Proof strip — the four headline numbers
 3. Services — 6 cards linking to service pages
 4. Industries served — compact grid
 5. Founder spotlight — short bio + credentials + link to About
 6. Featured insights — latest 3 articles
-7. Books — featured book(s)
-8. Resource lead magnet — "Free agribusiness diagnostic toolkit" email capture
-9. Contact CTA band
+7. Contact CTA band
+
+(Books and the resource lead-magnet sections are on hold — D-016.)
 
 ## 4. Service lines (from positioning doc — 6, not 5)
 
@@ -80,20 +81,18 @@ Footer: services list, industries list, resources, contact block, social links, 
 
 ## 5. Sanity content model
 
-| Type | Key fields |
-|---|---|
-| `siteSettings` (singleton) | name, tagline, valueProp, contactEmails[], phone, whatsapp, address, geo, socialLinks[], defaultOgImage |
-| `founder` (singleton) | name, title, portrait, shortBio, longBio (portable text), credentials[], expertise[], countries[] |
-| `service` | title, slug, summary, subServices[], body, outcomes[], faqs[], relatedIndustries[], seo |
-| `industry` | title, slug, summary, body, challenges[], relatedServices[], seo |
-| `article` | title, slug, excerpt, coverImage, body, category, tags[], publishedAt, updatedAt, seo |
-| `book` | title, slug, subtitle, cover, description, format (digital/physical/both), priceGHS (display only), isbn?, pages, publishedYear, seo — Phase 2 adds the private file + checkout fields |
-| `publication` | title, type (book/journal/brief/report/chapter/thesis…), year, publisher/journal, url?, doi? |
-| `resource` | title, slug, type (template/toolkit/diagnostic), description, file, gated (bool) |
-| `caseStudy` | title, slug, client (or "Confidential client"), sector, challenge, approach, results[], year, permissionConfirmed (bool, required true to publish) |
-| `testimonial` | quote, name, role, org, permissionConfirmed (bool) |
-| `enquiry` (read-only in Studio) | name, email, message, source page, createdAt, status |
-| `seo` (object) | metaTitle, metaDescription, ogImage, noindex |
+| Type                            | Key fields                                                                                                                                              |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `siteSettings` (singleton)      | name, tagline, valueProp, contactEmails[], phone, whatsapp, address, geo, socialLinks[], defaultOgImage                                                 |
+| `founder` (singleton)           | name, title, portrait, shortBio, longBio (portable text), credentials[], expertise[], countries[]                                                       |
+| `service`                       | title, slug, summary, subServices[], body, outcomes[], faqs[], relatedIndustries[], seo                                                                 |
+| `industry`                      | title, slug, summary, body, challenges[], relatedServices[], seo                                                                                        |
+| `article`                       | title, slug, excerpt, coverImage, body, category, tags[], publishedAt, updatedAt, seo                                                                   |
+| `publication`                   | title, type (book/journal/brief/report/chapter/thesis…), year, publisher/journal, url?, doi?                                                            |
+| `caseStudy`                     | title, slug, client (or "Confidential client"), sector, challenge, approach, results[], year, permissionConfirmed (bool, required true to publish), seo |
+| `testimonial`                   | quote, name, role, org, permissionConfirmed (bool)                                                                                                      |
+| `enquiry` (read-only in Studio) | name, email, message, source page, createdAt, status                                                                                                    |
+| `seo` (object)                  | metaTitle, metaDescription, ogImage, noindex                                                                                                            |
 
 ## 6. Copy direction
 
@@ -111,11 +110,11 @@ Footer: services list, industries list, resources, contact block, social links, 
 4. **Mission** mentions only SMEs, but target clients include governments, NGOs and development partners. Broaden?
 5. **Service count**: website structure lists 5 services; positioning doc lists 6 (adds Research & Policy Advisory). Assume 6.
 6. **Industries**: Home lists 5 (incl. Retail & Consumer Goods); Industries page lists 7 (no Retail). Reconcile.
-7. **Books**: titles, covers, prices, digital (PDF) or physical or both? Who ships physical copies? Delivery areas?
-8. **Paystack**: is the practice a registered business (needed for a full Paystack account)? Bank/MoMo for settlement?
+7. _(On hold — D-016)_ **Books**: titles, covers, prices, digital (PDF) or physical or both? Who ships physical copies? Delivery areas?
+8. _(On hold — D-016)_ **Paystack**: is the practice a registered business (needed for a full Paystack account)? Bank/MoMo for settlement?
 9. **Case studies & testimonials**: which can be published, with written permission? Anonymised OK?
 10. **Photography**: real professional photos of Jonathan (portrait + working shots). The meeting image provided is
     AI-generated with fake signage — fine as a mood reference, not for publishing.
-11. **Resources**: gate downloads behind email (builds a mailing list) or free?
+11. _(On hold — D-016)_ **Resources**: gate downloads behind email (builds a mailing list) or free?
 12. **French** version later for francophone West Africa (Côte d'Ivoire, Senegal, Benin, Togo…)?
 13. The 5 articles, the proposal template, toolkits and diagnostic tools referenced as "attached" — not yet received.

@@ -1,11 +1,11 @@
 # SETUP.md — accounts, DNS, email, launch checklist
 
-Rule: every account (domain, Vercel, Sanity, Paystack, Resend, Google) should end up **owned by the client**,
+Rule: every account (domain, Vercel, Sanity, Resend, Google; Paystack in Phase 2) should end up **owned by the client**,
 with the studio added as admin/collaborator. Keep a handover sheet (outside the repo) of where each account lives.
 
 ## 1. Hosting — Vercel
 
-- ⚠️ Vercel **Hobby is non-commercial only** (fair-use guidelines). A business site selling books needs
+- ⚠️ Vercel **Hobby is non-commercial only** (fair-use guidelines). A business site needs
   **Pro ($20/mo)** — either the client's own Pro team or your studio's Pro team. Free commercial-OK alternatives:
   Cloudflare Workers/Pages or Netlify, if budget is a hard zero.
 - Import the GitHub repo → framework auto-detects Next.js. Add env vars from `.env.example` for Production + Preview.
@@ -16,10 +16,10 @@ with the studio added as admin/collaborator. Keep a handover sheet (outside the 
 Keeping Namecheap DNS lets you use Namecheap's free email forwarding as a fallback (see §3).
 Add exactly the records Vercel shows in the Domains screen; typically:
 
-| Type | Host | Value |
-|---|---|---|
-| A | @ | `76.76.21.21` (confirm in Vercel) |
-| CNAME | www | `cname.vercel-dns.com` (or the project-specific value Vercel gives) |
+| Type  | Host | Value                                                               |
+| ----- | ---- | ------------------------------------------------------------------- |
+| A     | @    | `76.76.21.21` (confirm in Vercel)                                   |
+| CNAME | www  | `cname.vercel-dns.com` (or the project-specific value Vercel gives) |
 
 Delete Namecheap's default parking records (URL redirect / CNAME to parkingpage) first.
 
@@ -31,6 +31,7 @@ no IMAP/POP (so no Outlook/Gmail app sync). Availability varies by region — at
 DNS: Zoho's MX records (mx/mx2/mx3.zoho.com — use what Zoho shows), TXT verification, SPF `include:zoho.com`, DKIM.
 
 **Option B — Forwarding + Gmail "Send mail as" (always free).**
+
 1. Namecheap → Domain → Redirect Email: forward `info@` and `jnocran@` → Jonathan's Gmail.
 2. In Gmail: Settings → Accounts → "Send mail as" → add `jnocran@ocranstrategicconsulting.com`,
    SMTP server `smtp.resend.com`, port 465, user `resend`, password = a Resend API key (domain must be verified
@@ -45,14 +46,26 @@ after 4 weeks of clean reports. Only ONE SPF record at the root — merge includ
 ## 4. Transactional email — Resend
 
 Verify the domain in Resend (it uses a `send.` subdomain for SPF/MX + DKIM TXT, so no conflict with Zoho/forwarding).
-Free tier covers contact-form notifications, auto-replies and book download emails at this scale.
+Free tier covers contact-form notifications, and auto-replies at this scale.
 From address: `website@ocranstrategicconsulting.com`; reply-to: the enquirer.
 
 ## 5. Sanity
 
-`pnpm create sanity@latest` inside the repo (embedded Studio). Free plan. Add CORS origins for localhost and the
-production domain. Create a read token (server only) and a write token (for saving enquiries). Invite Jonathan as Editor.
-Add a webhook → `https://www.ocranstrategicconsulting.com/api/revalidate` with a secret.
+The Studio code is already in the repo (`sanity.config.ts`, `sanity/`, `/studio`) — only the project needs creating.
+Do **not** run `pnpm create sanity`; it would scaffold a second Studio.
+
+1. sanity.io/manage → **Create project** (Free plan, owned by the client's account). Dataset: `production`, visibility
+   **public** (the site reads published content without a token; drafts stay private).
+2. `.env.local` (and Vercel → Environment Variables): `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET=production`.
+   Restart `pnpm dev`; `/studio` now asks you to log in.
+3. API → **CORS origins**: add `http://localhost:3000` and `https://www.ocranstrategicconsulting.com`, both with
+   **Allow credentials** ticked (the embedded Studio needs it).
+4. API → **Tokens**: create an **Editor** token named "website enquiries" → `SANITY_API_WRITE_TOKEN` (server only; used by
+   build step 9). A read token (`SANITY_API_READ_TOKEN`) is only needed if the dataset is made private or for draft previews.
+5. API → **Webhooks** → create: URL `https://www.ocranstrategicconsulting.com/api/revalidate`, dataset `production`,
+   trigger on create/update/delete, filter empty, **projection** `{_type, "slug": slug.current}`, HTTP POST, and a
+   random secret (32+ chars) → `SANITY_REVALIDATE_SECRET` in Vercel.
+6. Members → invite Jonathan as **Editor**. Open `/studio` and fill in Site settings and Founder first.
 
 ## 6. Payments — Paystack (Phase 2 — parked)
 
@@ -77,7 +90,7 @@ Cloudflare Turnstile (free) site key + secret. Honeypot field. Rate limit by IP 
 
 ## 9. Legal (Ghana)
 
-- Privacy policy covering contact form, newsletter, orders and processors (Vercel, Sanity, Resend, Brevo, Paystack).
+- Privacy policy covering the contact form and processors (Vercel, Sanity, Resend, Cloudflare). Add Brevo/Paystack only if D-016 features return.
 - Ghana's Data Protection Act, 2012 (Act 843) applies to processing personal data — check whether the business
   must register with the Data Protection Commission (I'm not a lawyer; confirm locally).
 - Cookie banner not needed if you stick to cookie-free analytics and no ad pixels.
@@ -85,10 +98,9 @@ Cloudflare Turnstile (free) site key + secret. Honeypot field. Rate limit by IP 
 ## 10. Launch checklist
 
 - [ ] All `{{TODO}}` copy resolved; client signed off content
-- [ ] Lighthouse mobile ≥ 90 on Home, a service page, an article, a book page
-- [ ] Rich Results Test passes (Organization, Person, Article, Book/Product, FAQ, Breadcrumbs)
+- [ ] Lighthouse mobile ≥ 90 on Home, a service page, an article
+- [ ] Rich Results Test passes (Organization, Person, Article, FAQ, Breadcrumbs)
 - [ ] Contact form → email received; auto-reply received; enquiry visible in Studio
-- [ ] Book "Enquire to order" prefills the contact form correctly
 - [ ] 404 and error pages styled; redirects apex → www work
 - [ ] OG previews checked (WhatsApp, LinkedIn, X)
 - [ ] Sitemap submitted to Google + Bing; GBP live

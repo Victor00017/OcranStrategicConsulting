@@ -8,7 +8,7 @@ livestock, agribusiness, feasibility studies, business plans, grant proposals, a
 - `generateMetadata`: unique `title` (≤ 60 chars, pattern `"{Page} | Ocran Strategic Consulting"`), unique
   `description` (140–160 chars), `alternates.canonical`, OpenGraph + Twitter card, `metadataBase` = `https://www.ocranstrategicconsulting.com`.
 - Canonical host: `www.` — redirect apex → www (308) in Vercel domain settings.
-- `app/sitemap.ts` generated from Sanity (all services, industries, articles, books, case studies) with `lastModified`.
+- `app/sitemap.ts` generated from Sanity (all services, industries, articles, case studies) with `lastModified`.
 - `app/robots.ts`: allow all, disallow `/studio`, `/api`, point to sitemap.
 - `/llms.txt`: short plain-text summary of the firm, services, and key URLs for AI search engines.
 - Dynamic OG images via `opengraph-image.tsx` (brand template: ivory bg, monogram, title in Bodoni).
@@ -18,30 +18,29 @@ livestock, agribusiness, feasibility studies, business plans, grant proposals, a
 
 ## 2. Structured data (JSON-LD)
 
-| Page | Schema |
-|---|---|
+| Page               | Schema                                                                                                                                     |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | Site-wide (layout) | `Organization` + `ProfessionalService` (name, logo, url, address Tema GH, geo, areaServed: GH + Africa, sameAs: LinkedIn etc.) + `WebSite` |
-| About | `Person` (Jonathan Nyarko Ocran: jobTitle, alumniOf, hasCredential, knowsAbout, worksFor) |
-| Service pages | `Service` (provider → Organization, areaServed, serviceType) + `FAQPage` if FAQs |
-| Articles | `Article` (author → Person, datePublished, dateModified, image) |
-| Books | `Book` + `Product` with `Offer` (price, priceCurrency GHS, availability) |
-| Publications | `ItemList` of `CreativeWork` / `ScholarlyArticle` |
-| Case studies | `Article` (about the project) |
+| About              | `Person` (Jonathan Nyarko Ocran: jobTitle, alumniOf, hasCredential, knowsAbout, worksFor)                                                  |
+| Service pages      | `Service` (provider → Organization, areaServed, serviceType) + `FAQPage` if FAQs                                                           |
+| Articles           | `Article` (author → Person, datePublished, dateModified, image)                                                                            |
+| Publications       | `ItemList` of `CreativeWork` / `ScholarlyArticle`                                                                                          |
+| Case studies       | `Article` (about the project)                                                                                                              |
 
 Validate with Google Rich Results Test before launch.
 
 ## 3. Keyword map (starting set — refine with Search Console data after 6–8 weeks)
 
-| Page | Primary intent |
-|---|---|
-| /services/agribusiness-advisory | agribusiness consultant Ghana · agribusiness advisory Africa |
+| Page                                                                       | Primary intent                                                          |
+| -------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| /services/agribusiness-advisory                                            | agribusiness consultant Ghana · agribusiness advisory Africa            |
 | /services/agribusiness-advisory (feasibility section) or dedicated article | feasibility study consultant Ghana · poultry/pig farm feasibility study |
-| /industries/livestock | livestock consultant Ghana · livestock development consultant Africa |
-| /services/sme-development | business plan writer Ghana · business plan for agribusiness |
-| /services/project-development | grant proposal writer Ghana · donor proposal writing consultant |
-| /services/strategy-management | strategic planning consultant Ghana · management consultant Tema/Accra |
-| /services/research-policy | agricultural policy consultant · sector study Ghana |
-| /services/training | agribusiness training Ghana · AI in agriculture training |
+| /industries/livestock                                                      | livestock consultant Ghana · livestock development consultant Africa    |
+| /services/sme-development                                                  | business plan writer Ghana · business plan for agribusiness             |
+| /services/project-development                                              | grant proposal writer Ghana · donor proposal writing consultant         |
+| /services/strategy-management                                              | strategic planning consultant Ghana · management consultant Tema/Accra  |
+| /services/research-policy                                                  | agricultural policy consultant · sector study Ghana                     |
+| /services/training                                                         | agribusiness training Ghana · AI in agriculture training                |
 
 ## 4. Content engine (where most rankings will come from)
 

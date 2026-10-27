@@ -1,4 +1,4 @@
-I # DECISIONS.md — decision log (append-only; newest at the bottom)
+# DECISIONS.md — decision log (append-only; newest at the bottom)
 
 Format: `## D-NNN · YYYY-MM-DD · Title` → Decision · Why · Alternatives considered · Revisit if
 
@@ -93,3 +93,39 @@ Decision: add `vitest`, `@vitejs/plugin-react`, `jsdom`, `@testing-library/{reac
 Why: build step 0's DoD requires `pnpm test` to run Vitest with a passing smoke test, and AGENTS.md §3 lists `pnpm test` as a first-class command. This is the standard, minimal set for React unit testing — not a deviation from the AGENTS.md §2 stack.
 Alternatives: no tests at scaffold (fails the DoD); Jest (heavier config, and AGENTS.md already names Vitest).
 Revisit if: we move to a different test runner.
+
+## D-014 · 2026-10-27 · `typecheck` regenerates route types first
+
+Decision: `package.json` `typecheck` is `next typegen && tsc --noEmit`, not bare `tsc --noEmit`.
+Why: `tsconfig.json` includes `.next/types/**`, which Next only refreshes on build/dev. After moving `app/page.tsx` into `app/(site)/`, stale generated types made typecheck fail on code that was correct. `next typegen` (Next 15.5+) rebuilds them in about a second, so typecheck no longer depends on having built first.
+Alternatives: delete `.next` before typecheck (slower dev loop); drop `.next/types` from `include` (loses typed routes/props checks).
+Revisit if: Next changes how route types are generated.
+
+## D-015 · 2026-10-27 · Mobile menu is a native `<dialog>`; desktop nav from `lg`
+
+Decision: the SiteHeader mobile sheet uses the native `<dialog>` element (`showModal()`), not shadcn's Sheet. The desktop nav and header Contact button appear from `lg` (1024px); below that the menu button shows.
+Why: `<dialog>` gives focus trapping, Escape-to-close, inert background and a backdrop with zero JS dependencies, keeping the shared bundle at 101 kB. D-006 _permits_ shadcn for a sheet but doesn't require it. At `md` (768px) the five nav links plus the Contact button forced the wordmark onto two lines.
+Alternatives: shadcn Sheet (adds Radix dialog to every page's JS); keep `md` and shrink the wordmark (fights DESIGN.md typography).
+Revisit if: the menu needs nested sections or animation that `<dialog>` handles badly.
+
+## D-016 · 2026-10-27 · Books and gated downloads on hold for Phase 1
+
+Decision: hold all book features (no `/books` pages, no `book` schema, Books out of the nav; online sales were already deferred by D-002), email-gated resource downloads (no `/resources`, `resource` schema, `/api/subscribe`, Brevo or signed download links) and `/refunds`. Books can still appear as `publication` entries. Everything removed is listed in `docs/later/held-features.md` so it can be restored.
+Why: client decision (2026-10-27) to launch as a lead-generation consultancy site first. With no payments there is nothing to refund, and the resource content (brief §7 q12) does not exist yet.
+Alternatives: keep a books showcase with "Enquire to order" (the previous plan); keep resources as plain free downloads.
+Revisit if: the client confirms book details (brief §7 q7) or has resources ready to publish — follow `docs/later/held-features.md`.
+
+## D-017 · 2026-10-27 · Next 16 + current Sanity; Studio builds before the project exists
+
+Decision: upgrade Next 15.5.4 → 16.4.3 and React 19.1.1 → 19.3.1, then add `sanity` 6.20, `next-sanity` 13.4, `@sanity/vision`, `@sanity/image-url`, `@sanity/client` 8 and `styled-components` (all pinned). Node ≥ 22.12 (`engines`, `.nvmrc`). Sanity env is optional at build time: `sanity/env.ts` exposes `isSanityConfigured`, `/studio` shows setup instructions until a project ID is set, and `sanityFetch` throws a clear error only when a page actually fetches.
+Why: current `next-sanity` requires Next 16 / React ≥ 19.2.3; staying on Next 15 meant starting on Sanity a major version behind. Next 15.5.4 / React 19.1.1 also carried the December 2025 React Server Components RCE (CVE-2025-55182). AGENTS.md §2 already asks for the latest stable Next. Sanity 6's CLI requires Node 22.12. The Sanity project didn't exist yet and the client chose to connect it later.
+Side effects: ESLint moved to `eslint-config-next`'s native flat config (`@eslint/eslintrc`/FlatCompat removed). React 19's `react-hooks/set-state-in-effect` rule flagged the header's "close menu on route change" effect; it now adjusts state during render. `revalidateTag` takes a second argument in Next 16; the webhook passes `{ expire: 0 }` so the next visit gets fresh content. `@sanity/workflow-blueprint` (transitive) wants TypeScript ≥ 6 — harmless peer warning; revisit when upgrading TS.
+Alternatives: Next 15.5.28 + `next-sanity` 11 / `sanity` 5 (less change now, same upgrade later); fail the build without Sanity env (blocks CI and work before the client creates the project).
+Revisit if: a Sanity major drops Node 22 or the JS budget work (Backlog) needs a different framework setting.
+
+## D-018 · 2026-10-27 · SEO foundation choices
+
+Decision: (1) `sitemap.xml` and `llms.txt` list only routes that exist (`STATIC_ROUTES` in `lib/seo.ts`); Sanity-driven routes join the sitemap as their pages ship. (2) `buildMetadata` always sets an OG/Twitter image, defaulting to `/opengraph-image`. (3) The OG template uses WOFF copies of Bodoni Moda 500 and Jost 500 committed in `assets/fonts/` (Fontsource 5.3.0, OFL licences alongside). (4) The home page is the bare host (`https://www.ocranstrategicconsulting.com`, no trailing slash) everywhere, matching Next's canonical output.
+Why: (1) a sitemap of 404s wastes crawl budget and signals a broken site — the nav already links to pages that don't exist yet. (2) A page's `openGraph` replaces the parent's wholesale in Next, which silently dropped the share image on the home page. (3) Next's OG renderer can't use next/font's WOFF2, and fetching Google Fonts during every build is fragile. (4) One spelling per URL.
+Alternatives: list every planned route now; fetch fonts at build time; per-page OG images for every route now (no page content yet).
+Revisit if: the client supplies a vector monogram — add it to `renderOgImage` (DESIGN.md §5).

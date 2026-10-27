@@ -11,19 +11,19 @@ templates, more than one accent colour per section.
 
 Logo gold sampled from the supplied mark: `#996C28`.
 
-| Token | Hex | Use |
-|---|---|---|
-| `--color-ivory` | `#FAF7F0` | Page background |
-| `--color-paper` | `#FFFFFF` | Cards, form fields |
-| `--color-sand` | `#F1EADC` | Alternate section background |
-| `--color-ink` | `#1C1A17` | Primary text, dark sections |
-| `--color-ink-muted` | `#5C564C` | Secondary text (6.8:1 on ivory) |
-| `--color-gold` | `#996C28` | Brand gold — large headings ≥24px, rules, icons, monogram. **Not for small text** (4.3:1 on ivory) |
-| `--color-gold-text` | `#7D5719` | Gold links / small gold text on light bg (6.0:1) |
-| `--color-gold-light` | `#C9A45C` | Gold on dark/ink backgrounds (7.4:1 on ink) |
-| `--color-field` | `#2F4A35` | Agriculture accent: tags, industry chips, one dark band max per page (9.1:1 on ivory) |
-| `--color-line` | `#E4DCCB` | Borders, dividers |
-| `--color-success` | `#2F6B3F` · `--color-error` `#A23B2A` | Form states |
+| Token                | Hex                                   | Use                                                                                                |
+| -------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `--color-ivory`      | `#FAF7F0`                             | Page background                                                                                    |
+| `--color-paper`      | `#FFFFFF`                             | Cards, form fields                                                                                 |
+| `--color-sand`       | `#F1EADC`                             | Alternate section background                                                                       |
+| `--color-ink`        | `#1C1A17`                             | Primary text, dark sections                                                                        |
+| `--color-ink-muted`  | `#5C564C`                             | Secondary text (6.8:1 on ivory)                                                                    |
+| `--color-gold`       | `#996C28`                             | Brand gold — large headings ≥24px, rules, icons, monogram. **Not for small text** (4.3:1 on ivory) |
+| `--color-gold-text`  | `#7D5719`                             | Gold links / small gold text on light bg (6.0:1)                                                   |
+| `--color-gold-light` | `#C9A45C`                             | Gold on dark/ink backgrounds (7.4:1 on ink)                                                        |
+| `--color-field`      | `#2F4A35`                             | Agriculture accent: tags, industry chips, one dark band max per page (9.1:1 on ivory)              |
+| `--color-line`       | `#E4DCCB`                             | Borders, dividers                                                                                  |
+| `--color-success`    | `#2F6B3F` · `--color-error` `#A23B2A` | Form states                                                                                        |
 
 Primary button: ink background, ivory text, gold underline/hover rule. Secondary: transparent, ink border.
 Gold is an accent, not a fill for large areas.
@@ -32,11 +32,18 @@ Gold is an accent, not a fill for large areas.
 /* app/globals.css */
 @import "tailwindcss";
 @theme {
-  --color-ivory: #FAF7F0; --color-paper: #FFFFFF; --color-sand: #F1EADC;
-  --color-ink: #1C1A17; --color-ink-muted: #5C564C;
-  --color-gold: #996C28; --color-gold-text: #7D5719; --color-gold-light: #C9A45C;
-  --color-field: #2F4A35; --color-line: #E4DCCB;
-  --color-success: #2F6B3F; --color-error: #A23B2A;
+  --color-ivory: #faf7f0;
+  --color-paper: #ffffff;
+  --color-sand: #f1eadc;
+  --color-ink: #1c1a17;
+  --color-ink-muted: #5c564c;
+  --color-gold: #996c28;
+  --color-gold-text: #7d5719;
+  --color-gold-light: #c9a45c;
+  --color-field: #2f4a35;
+  --color-line: #e4dccb;
+  --color-success: #2f6b3f;
+  --color-error: #a23b2a;
   --font-display: var(--font-bodoni), "Times New Roman", serif;
   --font-sans: var(--font-jost), system-ui, sans-serif;
 }
@@ -64,7 +71,7 @@ Scale (fluid, `clamp`): H1 40→64px · H2 30→44px · H3 22→26px · body 17�
 ## 4. Components (build these first)
 
 SiteHeader (sticky, condensed on scroll, mobile sheet menu) · SiteFooter · Button (primary/secondary/link) ·
-Eyebrow · SectionHeading · ServiceCard · IndustryChip · StatStrip · FounderSpotlight · ArticleCard · BookCard ·
+Eyebrow · SectionHeading · ServiceCard · IndustryChip · StatStrip · FounderSpotlight · ArticleCard ·
 CTA band · ContactForm · Breadcrumbs · Prose (portable text renderer) · FAQ accordion · WhatsApp floating button.
 
 ## 5. Imagery

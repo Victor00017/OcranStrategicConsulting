@@ -4,10 +4,10 @@
 
 The old `deepseek-coder`, `deepseek-chat` and `deepseek-reasoner` names are retired. Current API models:
 
-| Model | Use it for | Approx. price / 1M tokens (off-peak in → out) |
-|---|---|---|
-| `deepseek-flash` (V4.1 Flash, thinking on, effort low/high/max) | Default for ~80% of work: components, pages, schemas, refactors, tests | $0.15 → $0.60 (cache hits ~$0.003) |
-| `deepseek-v4-pro` | Harder work: checkout + webhook logic, debugging, multi-file refactors | $0.66 → $1.98 |
+| Model                                                           | Use it for                                                             | Approx. price / 1M tokens (off-peak in → out) |
+| --------------------------------------------------------------- | ---------------------------------------------------------------------- | --------------------------------------------- |
+| `deepseek-flash` (V4.1 Flash, thinking on, effort low/high/max) | Default for ~80% of work: components, pages, schemas, refactors, tests | $0.15 → $0.60 (cache hits ~$0.003)            |
+| `deepseek-v4-pro`                                               | Harder work: checkout + webhook logic, debugging, multi-file refactors | $0.66 → $1.98                                 |
 
 Both: 1M-token context. **Peak hours cost double: 01:00–04:00 and 06:00–10:00 UTC, Mon–Fri.** Ghana is UTC, so
 working from 10:00 onwards is the cheap window. Expect the whole build to cost a few dollars of API credit.
@@ -17,6 +17,7 @@ Endpoints: OpenAI-compatible `https://api.deepseek.com` · Anthropic-compatible 
 ## 2. Tool setup (pick one)
 
 **A. Cline in VS Code (recommended — GUI, diff review, approve each step)**
+
 1. Install the Cline extension → Settings → API Provider: **DeepSeek** (or "OpenAI Compatible" with the base URL above).
 2. Paste API key, model `deepseek-flash`. Create a second profile for `deepseek-v4-pro`.
 3. Use **Plan mode** for anything multi-file, then **Act mode** to execute. Keep auto-approve OFF for terminal commands.
@@ -24,23 +25,25 @@ Endpoints: OpenAI-compatible `https://api.deepseek.com` · Anthropic-compatible 
    `.env*` out of context.
 
 **B. Claude Code CLI pointed at DeepSeek** (if you prefer that agent loop)
+
 ```bash
 export ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic
 export ANTHROPIC_AUTH_TOKEN=<deepseek key>
 export ANTHROPIC_MODEL=deepseek-flash
 claude
 ```
+
 Claude Code reads `CLAUDE.md` — add one containing `@AGENTS.md` (or symlink `CLAUDE.md → AGENTS.md`).
 
 **C. OpenCode / Aider / Kilo** — all support DeepSeek and read `AGENTS.md` (Aider: `--read AGENTS.md`).
 
 ## 3. Division of labour
 
-| Task | Who |
-|---|---|
-| Architecture, design system, homepage design, final review of payments & security, SEO audit | Claude |
-| Scaffolding, schemas, page builds from established patterns, content entry scripts, tests, copy formatting | DeepSeek Flash |
-| Tricky bugs, multi-file refactors | DeepSeek Pro → reviewed by Claude |
+| Task                                                                                                       | Who                               |
+| ---------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| Architecture, design system, homepage design, final review of payments & security, SEO audit               | Claude                            |
+| Scaffolding, schemas, page builds from established patterns, content entry scripts, tests, copy formatting | DeepSeek Flash                    |
+| Tricky bugs, multi-file refactors                                                                          | DeepSeek Pro → reviewed by Claude |
 
 ## 4. Prompt template (paste and fill)
 
@@ -75,8 +78,8 @@ changes, files, TODOs, anything I must do manually.
 6. About (founder, credentials, countries map/list), Publications.
 7. Insights list + article page (portable text, TOC, related, author box).
 8. Contact form + API + emails (contact-and-email skill).
-9. Resources + Brevo gated downloads.
-10. Books showcase: list + detail pages, "Enquire to order" → prefilled contact form. (Online sales: Phase 2.)
+9. ~~Resources + Brevo gated downloads~~ — on hold (D-016).
+10. ~~Books showcase~~ — on hold (D-016).
 11. Legal pages, revalidation webhook, analytics.
 12. Audit pass: run `web-design-guidelines` + `webapp-testing` screenshots at 375/768/1280, Lighthouse,
     Rich Results, security headers → fix list.

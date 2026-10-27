@@ -10,10 +10,12 @@ It overrides general design skills (e.g. Anthropic's `frontend-design`) wherever
 fonts, colours or style direction on a general skill's suggestion.
 
 ## Before writing code
+
 Answer in 3 lines: What is this section's single job? What should the visitor feel? What's the one action?
 If you can't answer, ask.
 
 ## Principles
+
 1. **Editorial, not SaaS.** Think annual report / quality journal. Asymmetric grids (7/5, 8/4), strong typographic
    hierarchy, hairline gold rules, lots of ivory space. Avoid rows of identical icon cards unless content truly is a grid.
 2. **Type does the heavy lifting.** Bodoni Moda only for H1/H2/pull quotes ≥ 32px. Jost for everything else.
@@ -27,6 +29,7 @@ If you can't answer, ask.
 7. **Tokens only.** Tailwind classes mapped to `@theme` tokens. No raw hex, no arbitrary colours.
 
 ## Patterns to reuse
+
 - Section: `<section class="py-16 md:py-28"><div class="container">` → Eyebrow → SectionHeading → content → optional CTA.
 - Hero: left 7 cols (eyebrow, Bodoni H1, value prop in Jost 20px, two buttons), right 5 cols portrait with a thin gold
   frame offset by 12px. Large faint monogram watermark behind.
@@ -35,13 +38,15 @@ If you can't answer, ask.
 - CTA band: ink background, ivory Bodoni heading, gold-light eyebrow, primary button inverted (ivory bg, ink text).
 
 ## Anti-patterns (reject in review)
+
 Gradient backgrounds · drop shadows larger than `shadow-sm` · emoji icons · centred long paragraphs ·
 auto-playing carousels · stock "handshake" photos · fake testimonials/logos · more than 2 font families ·
 `"use client"` on a whole page for one interactive widget.
 
 ## Self-review before finishing
+
 - [ ] Screenshot at 375 / 768 / 1280 — no overflow, nothing cramped
 - [ ] Contrast meets AA (check gold usage)
 - [ ] Keyboard: tab through, focus visible, menu operable, Esc closes
 - [ ] `prefers-reduced-motion` respected
-- [ ] Looks like *this* brand, not a template — if you swapped the logo would it still feel specific?
+- [ ] Looks like _this_ brand, not a template — if you swapped the logo would it still feel specific?

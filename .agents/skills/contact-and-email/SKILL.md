@@ -1,11 +1,12 @@
 ---
 name: contact-and-email
-description: Use for the contact form, enquiry handling, newsletter / gated resource sign-ups, and any transactional email on the Ocran site.
+description: Use for the contact form, enquiry handling, and any transactional email on the Ocran site.
 ---
 
 # Contact form + email playbook
 
 ## Contact form (`/contact` and the reusable `<ContactForm/>`)
+
 Fields (from client brief): **Name, Email, Message** (all required). Optional: Organisation, Service of interest
 (select from Sanity services). Hidden: honeypot `website` field, Turnstile token, source page.
 
@@ -13,6 +14,7 @@ Below the form, render emails, phone and WhatsApp from `siteSettings` (never har
 Greater Accra, Ghana".
 
 ## `/api/contact` (POST)
+
 1. Parse with the shared zod schema (`lib/validation/contact.ts`) — same schema used client-side.
 2. Honeypot filled → return 200 silently (don't tell bots).
 3. Verify Turnstile token server-side (`https://challenges.cloudflare.com/turnstile/v0/siteverify`).
@@ -26,19 +28,23 @@ Greater Accra, Ghana".
 Errors: show a friendly inline message + fallback "or email us directly" link. Never expose stack traces.
 
 ## Email templates
+
 - Use React Email components in `emails/` for consistent branded templates (ivory bg, monogram, Jost-like system font stack).
 - Plain-text alternative always included.
 - No tracking pixels.
 
-## Newsletter / gated resources
-- `/api/subscribe` adds the contact to the Brevo list (double opt-in enabled in Brevo).
-- Gated resource: after subscribe, email the download link (signed, like books) rather than showing it on-page.
+## Newsletter / gated resources — on hold (D-016)
+
+Do not build `/api/subscribe`, Brevo sign-up or signed download links. The previous plan is kept in
+`docs/later/held-features.md`.
 
 ## Privacy
+
 - Don't log names, emails, messages. Log only an event id + outcome.
-- Privacy policy must list Resend, Brevo, Sanity, Vercel, Cloudflare as processors.
+- Privacy policy must list Resend, Sanity, Vercel, Cloudflare as processors.
 
 ## Done when
+
 - [ ] Works with JS disabled? (Progressive enhancement via server action is a bonus, not required)
 - [ ] Turnstile + honeypot + rate limit all active
 - [ ] Notification and auto-reply arrive and pass SPF/DKIM
