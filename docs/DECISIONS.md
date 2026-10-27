@@ -71,7 +71,7 @@ Revisit if: Zoho free tier disappears and Gmail "send mail as" proves too fiddly
 ## Standing constraint · client open questions are unanswered by design
 
 Not a decision to build on — a rule about what _not_ to decide. `docs/PROJECT-BRIEF.md` §7 lists q1–q13 (logo variant/SVG, tagline wording, "I" vs "We" voice, mission scope, industry count, book details, Paystack registration, case-study permissions, photography, gated-vs-free resources, French version, the actual articles/toolkits). Do not record a guess here to unblock a build. Use `{{TODO}}` and, if a question blocks a design choice, stop and ask.
-Only q5 (service count) is resolved — see D-005.
+Resolved so far: q5 (D-005); q2, q3, q6 and q10 in part (D-019).
 
 ## D-011 · 2026-10-25 · pnpm build-script approvals live in `pnpm-workspace.yaml`
 
@@ -129,3 +129,16 @@ Decision: (1) `sitemap.xml` and `llms.txt` list only routes that exist (`STATIC_
 Why: (1) a sitemap of 404s wastes crawl budget and signals a broken site — the nav already links to pages that don't exist yet. (2) A page's `openGraph` replaces the parent's wholesale in Next, which silently dropped the share image on the home page. (3) Next's OG renderer can't use next/font's WOFF2, and fetching Google Fonts during every build is fragile. (4) One spelling per URL.
 Alternatives: list every planned route now; fetch fonts at build time; per-page OG images for every route now (no page content yet).
 Revisit if: the client supplies a vector monogram — add it to `renderOgImage` (DESIGN.md §5).
+
+## D-019 · 2026-10-27 · Client answers: tagline, voice, industries, portrait
+
+Decision: tagline is **"From insights to strategy."** (replaces "Transforming Businesses. Advancing Agriculture and Livestock. Delivering Sustainable Growth." everywhere); site voice is **"we"**; industries are the **7-item list** (Agriculture · Livestock · Agribusiness · Development Organisations · SMEs · Light Manufacturing · Public Sector — no Retail); the supplied founder portrait is used as a **circle with an offset gold ring** until an uncropped original arrives.
+Why: answered by the client via Victor on 2026-10-27 (brief §7 q2, q3, q6, q10). The portrait arrived pre-cropped to a circle on black, so the rectangular gold-frame hero in the frontend skill isn't possible yet; corners were filled ivory in `public/images/founder/founder-portrait.jpg`.
+Revisit if: the uncropped photo arrives — switch the hero to the rectangular offset frame.
+
+## D-020 · 2026-10-27 · Home content: seed file doubles as fallback; proof points in Sanity
+
+Decision: `sanity/seed/content.ts` holds the brief's starter content in the exact `HOME_QUERY_RESULT` shape. The home page renders from Sanity when configured, from the seed otherwise; `pnpm seed` imports the same file (createIfNotExists, fixed IDs, never overwrites). Proof points are a new `siteSettings.proofPoints` list (value + label, max 4); services and industries gained an `order` field so the brief's order survives. Section headings on the home page are neutral labels ("What we do", "Sectors we serve", "Start a conversation") and the home meta description is built only from brief facts — both listed in Content TODOs for client approval.
+Why: the client chose to connect Sanity later but wanted the design reviewable now; one file avoids the seed and the fallback drifting. Proof points must be client-editable (publication count changes). A test keeps the header/footer slugs equal to the seed slugs.
+Alternatives: hard-code home content in components (drifts from the CMS); show an empty page until Sanity is connected.
+Revisit if: Sanity is connected in production — the fallback then only matters for local work without env vars.

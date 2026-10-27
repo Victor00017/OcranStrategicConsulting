@@ -1,18 +1,17 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { EXPLORE, INDUSTRIES, LEGAL, SERVICES, type NavLink } from "@/lib/nav";
+import { TAGLINE } from "@/lib/seo";
 
 export function SiteFooter() {
+  // Top hairline keeps an ink CTA band above from merging into the footer.
   return (
-    <footer className="bg-ink text-ivory">
+    <footer className="bg-ink text-ivory border-gold-light/20 border-t">
       <Container className="py-16 md:py-20">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-4">
             <p className="font-display text-2xl font-semibold">Ocran Strategic Consulting</p>
-            <p className="text-ivory/70 mt-4 max-w-xs text-sm leading-relaxed">
-              Transforming Businesses. Advancing Agriculture and Livestock. Delivering Sustainable
-              Growth.
-            </p>
+            <p className="text-ivory/70 mt-4 max-w-xs text-sm leading-relaxed">{TAGLINE}</p>
             <p className="text-gold-light mt-6 text-xs tracking-[0.2em] uppercase">
               Tema · Greater Accra · Ghana
             </p>

@@ -26,7 +26,7 @@ describe("llms.txt", () => {
     const text = await res.text();
     expect(res.headers.get("Content-Type")).toContain("text/plain");
     expect(text).toMatch(/^# Ocran Strategic Consulting\n/);
-    expect(text).toContain("> Transforming Businesses.");
+    expect(text).toContain("> From insights to strategy.");
     expect(text).toContain("- Training & Capacity Building");
     expect(text).toContain("(https://www.ocranstrategicconsulting.com)");
   });

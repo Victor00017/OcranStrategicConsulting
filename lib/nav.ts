@@ -27,6 +27,7 @@ export const INDUSTRIES: readonly NavLink[] = [
   { href: "/industries/agribusiness", label: "Agribusiness" },
   { href: "/industries/development-organisations", label: "Development Organisations" },
   { href: "/industries/smes", label: "SMEs" },
+  { href: "/industries/light-manufacturing", label: "Light Manufacturing" },
   { href: "/industries/public-sector", label: "Public Sector" },
 ];
 

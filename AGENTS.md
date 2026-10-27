@@ -8,7 +8,7 @@ Read this file fully before every task. It is the single source of truth for any
 A fast, SEO-first marketing site for **Ocran Strategic Consulting** (Tema, Greater Accra, Ghana) —
 a senior independent consultancy in agriculture, livestock, agribusiness, and strategy/management consulting.
 
-Tagline: **Transforming Businesses. Advancing Agriculture and Livestock. Delivering Sustainable Growth.**
+Tagline: **From insights to strategy.** (client-confirmed, D-019). Voice: **"we"** (firm voice).
 
 Business goals, in priority order:
 
@@ -45,6 +45,7 @@ pnpm build        # must pass before any PR
 pnpm lint
 pnpm typecheck    # next typegen && tsc --noEmit
 pnpm typegen      # Sanity: schema → sanity/schema.json → query types in sanity.types.ts (Node ≥ 22.12)
+pnpm seed         # one-off: load sanity/seed/content.ts into Sanity (needs `sanity login`; never overwrites)
 pnpm test         # vitest (unit) — add tests for lib/ and API routes
 ```
 

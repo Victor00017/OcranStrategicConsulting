@@ -1,15 +1,25 @@
 # Project brief — Ocran Strategic Consulting
 
+**Sources.** This brief summarises the client's documents, kept **outside the repo** in `OSC/` because they contain
+contact details (D-004): _Detailed Profile.docx_ (founder bio, credentials, expertise, countries),
+_Website of Ocran Strategic Consulting.docx_ (site structure, value proposition, about content, contact details),
+_Ocran Strategic Consulting - Positioning and Services Offered.docx_ (service lines). Where the brief and a source
+disagree, the source wins — check it before writing copy.
+
 ## 1. Positioning
 
-- **Who**: Jonathan Nyarko Ocran, Chartered Management Consultant (ChMC), Certified Manager (CM), Executive MBA,
-  MSc/BSc Agriculture (Animal Science). 35+ years across farm management, CSIR research administration,
+- **Who**: Jonathan Nyarko Ocran, Senior Consultant. Chartered Management Consultant (ChMC, IMC Ghana); Certified
+  Manager (CM, ICPM / James Madison University, 2016); Executive MBA in Public Administration (Girne American
+  University, 2023); MSc Agriculture (Sokoine University of Agriculture, 1994); BSc (Hons) Agriculture, Animal
+  Science (University of Ghana, 1987). _(Corrected 2026-10-27 from the Detailed Profile — the MSc is not in Animal
+  Science.)_ 35+ years across farm management, CSIR research administration,
   independent consulting, and 10 years as Policy Officer at the African Union Commission (Dept. of Rural Economy
   and Agriculture). Missions across 30 countries. 43 publications.
 - **Where**: Tema, Greater Accra, Ghana — serving Sub-Saharan Africa.
-- **Tagline**: Transforming Businesses. Advancing Agriculture and Livestock. Delivering Sustainable Growth.
-- **Value proposition (source copy)**: helps agriculture, agribusiness and livestock companies, development
-  organisations and NGOs, and manufacturing and retail SMEs fix early-stage problems, build and grow.
+- **Tagline**: From insights to strategy. _(Client answer 2026-10-27, D-019 — replaces "Transforming Businesses. Advancing Agriculture and Livestock. Delivering Sustainable Growth.")_
+- **Value proposition (source copy, verbatim)**: "I help agriculture, agribusiness and livestock companies,
+  development sector organizations and NGOs as well as manufacturing and retail SMEs to address teething problems,
+  build and grow their businesses and organizations." On the site: "we" voice, British spelling (D-019).
 - **Mission**: To provide high-impact strategic advisory services that help SMEs achieve sustainable growth and
   operational excellence.
 - **Vision**: To become a leading strategic advisory firm supporting African enterprises to grow into globally
@@ -105,15 +115,15 @@ Footer: services list, industries list, explore links, contact block, social lin
 
 1. **Logo/brand**: the gold "SO/OS" monogram vs. the green leaf "OCRAN" mark in the meeting photo — which is
    official? (Recommendation: gold monogram; green as a supporting agriculture accent only.) Need SVG/vector logo.
-2. **Tagline**: "…Advancing Agriculture and Livestock…" (positioning doc) vs "…Advancing Agriculture…" (photo). Confirm.
-3. **Voice**: "I" or "We"? The site says "About Us" while the value prop says "I help".
+2. _(Resolved — D-019: "From insights to strategy.")_ **Tagline**: "…Advancing Agriculture and Livestock…" (positioning doc) vs "…Advancing Agriculture…" (photo). Confirm.
+3. _(Resolved — D-019: "we", firm voice.)_ **Voice**: "I" or "We"? The site says "About Us" while the value prop says "I help".
 4. **Mission** mentions only SMEs, but target clients include governments, NGOs and development partners. Broaden?
 5. **Service count**: website structure lists 5 services; positioning doc lists 6 (adds Research & Policy Advisory). Assume 6.
-6. **Industries**: Home lists 5 (incl. Retail & Consumer Goods); Industries page lists 7 (no Retail). Reconcile.
+6. _(Resolved — D-019: the 7-industry list, no Retail.)_ **Industries**: Home lists 5 (incl. Retail & Consumer Goods); Industries page lists 7 (no Retail). Reconcile.
 7. _(On hold — D-016)_ **Books**: titles, covers, prices, digital (PDF) or physical or both? Who ships physical copies? Delivery areas?
 8. _(On hold — D-016)_ **Paystack**: is the practice a registered business (needed for a full Paystack account)? Bank/MoMo for settlement?
 9. **Case studies & testimonials**: which can be published, with written permission? Anonymised OK?
-10. **Photography**: real professional photos of Jonathan (portrait + working shots). The meeting image provided is
+10. _(Partly resolved — D-019: a real portrait supplied, circular crop; uncropped original still wanted.)_ **Photography**: real professional photos of Jonathan (portrait + working shots). The meeting image provided is
     AI-generated with fake signage — fine as a mood reference, not for publishing.
 11. _(On hold — D-016)_ **Resources**: gate downloads behind email (builds a mailing list) or free?
 12. **French** version later for francophone West Africa (Côte d'Ivoire, Senegal, Benin, Togo…)?

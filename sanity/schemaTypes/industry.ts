@@ -1,5 +1,5 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
-import { seoField, slugField } from "../lib/fields";
+import { orderField, seoField, slugField } from "../lib/fields";
 
 export const industry = defineType({
   name: "industry",
@@ -13,6 +13,7 @@ export const industry = defineType({
       validation: (rule) => rule.required(),
     }),
     slugField(),
+    orderField(),
     defineField({
       name: "summary",
       title: "Summary",
@@ -36,5 +37,6 @@ export const industry = defineType({
     }),
     seoField(),
   ],
+  orderings: [{ title: "Position", name: "orderAsc", by: [{ field: "order", direction: "asc" }] }],
   preview: { select: { title: "title", subtitle: "summary" } },
 });

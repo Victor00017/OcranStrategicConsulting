@@ -6,8 +6,8 @@ export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL || "https://www.ocranstrategicconsulting.com"
 ).replace(/\/$/, "");
 export const SITE_NAME = "Ocran Strategic Consulting";
-export const TAGLINE =
-  "Transforming Businesses. Advancing Agriculture and Livestock. Delivering Sustainable Growth.";
+// Client-confirmed tagline (D-019). Sanity siteSettings.tagline overrides it where content is fetched.
+export const TAGLINE = "From insights to strategy.";
 
 export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;

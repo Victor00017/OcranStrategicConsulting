@@ -32,6 +32,17 @@ export function slugField() {
   });
 }
 
+/** Position in lists (services, industries). Lower numbers come first. */
+export function orderField() {
+  return defineField({
+    name: "order",
+    title: "Position",
+    description: "Where this appears in lists. 1 = first.",
+    type: "number",
+    validation: (rule) => rule.integer().min(1),
+  });
+}
+
 export function seoField() {
   return defineField({
     name: "seo",

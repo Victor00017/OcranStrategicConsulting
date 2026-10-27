@@ -65,7 +65,12 @@ Do **not** run `pnpm create sanity`; it would scaffold a second Studio.
 5. API → **Webhooks** → create: URL `https://www.ocranstrategicconsulting.com/api/revalidate`, dataset `production`,
    trigger on create/update/delete, filter empty, **projection** `{_type, "slug": slug.current}`, HTTP POST, and a
    random secret (32+ chars) → `SANITY_REVALIDATE_SECRET` in Vercel.
-6. Members → invite Jonathan as **Editor**. Open `/studio` and fill in Site settings and Founder first.
+6. Members → invite Jonathan as **Editor**.
+7. Run `pnpm exec sanity login`, then `pnpm seed`. It loads the brief's starter content (site settings, founder +
+   portrait, 6 services, 7 industries) and skips anything that already exists. Then open `/studio` and replace every
+   `{{TODO}}` (service and industry summaries) with the client's copy.
+8. In Site settings, type the contact emails, phone and WhatsApp number from the client's _Website of Ocran Strategic
+   Consulting.docx_. They live only in Sanity — never paste them into code, docs or seed files (D-004).
 
 ## 6. Payments — Paystack (Phase 2 — parked)
 

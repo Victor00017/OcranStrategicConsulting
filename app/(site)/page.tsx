@@ -1,23 +1,16 @@
-import { Container } from "@/components/ui/container";
-import { Eyebrow } from "@/components/ui/eyebrow";
-import { buildMetadata, TAGLINE } from "@/lib/seo";
+import { HomeView } from "@/components/sections/home-view";
+import { getHomeContent } from "@/lib/content/home";
+import { buildMetadata } from "@/lib/seo";
 
-// Home uses the plain site name as its title (root layout default). The description is the
-// client's tagline until real home copy arrives in build step 4 (see PROGRESS "Content TODOs").
-export const metadata = buildMetadata({ description: TAGLINE, path: "/" });
+// Home keeps the plain site name as its title (root layout default). Description built only from
+// brief facts (location + service lines); the client should approve it (PROGRESS "Content TODOs").
+export const metadata = buildMetadata({
+  description:
+    "Strategy, agribusiness and livestock advisory, SME growth, fundraising, policy research and training from Tema, Ghana, for clients across Sub-Saharan Africa.",
+  path: "/",
+});
 
-export default function Home() {
-  return (
-    <Container>
-      <div className="flex min-h-[60vh] flex-col justify-center py-16 md:py-28">
-        <Eyebrow>Ocran Strategic Consulting</Eyebrow>
-        <h1 className="font-display text-ink mt-4 max-w-[18ch] text-[clamp(2.5rem,6vw,4rem)] leading-[1.1] font-medium text-balance">
-          Transforming Businesses. Advancing Agriculture.
-        </h1>
-        <p className="text-ink-muted mt-6 max-w-[68ch] text-[clamp(1.0625rem,2vw,1.125rem)]">
-          Placeholder home page — base layout is in place. Real sections arrive in build step 4.
-        </p>
-      </div>
-    </Container>
-  );
+export default async function Home() {
+  const content = await getHomeContent();
+  return <HomeView content={content} />;
 }

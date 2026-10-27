@@ -2,15 +2,15 @@
 
 ## Current state
 
-Steps 0–3 done. Next 16.4 / React 19.3 on Node 22 (D-017). Sanity Studio at `/studio` (no project yet — setup in
-docs/SETUP.md §5). SEO foundation live: `buildMetadata` + title template, site-wide Organization/WebSite JSON-LD,
-`robots.txt`, `sitemap.xml` and `llms.txt` (existing routes only), brand OG image (D-018). lint, typecheck, test
-(27 passing), format and build all green. Pushed to GitHub (`Victor00017/OcranStrategicConsulting`, branch `main`).
+Steps 0–4 done. Home page live in brief §3 order (hero with founder portrait, proof strip, 6 services, 7 industries,
+founder spotlight, insights when articles exist, CTA band), rendered from Sanity or — until the project exists — from
+`sanity/seed/content.ts` (D-020). Tagline "From insights to strategy.", "we" voice, 7 industries (D-019). Studio at
+`/studio` still waits for a Sanity project (SETUP.md §5, now with `pnpm seed`). All checks green, 31 tests.
 
 ## Next up
 
-Build plan item 4 — Home page sections. DeepSeek playbook says Claude designs this one; read
-`.agents/skills/ocran-frontend-design/SKILL.md` + DESIGN.md. Needs real copy or `{{TODO}}` markers (brief §3, §7).
+Build plan item 5 — Services index + `/services/[slug]` (seo-page skill: metadata, `Service` + `FAQPage` JSON-LD,
+breadcrumbs, add routes to sitemap). Service summaries are `{{TODO}}` until the client supplies them.
 
 ## Build plan
 
@@ -18,7 +18,7 @@ Build plan item 4 — Home page sections. DeepSeek playbook says Claude designs 
 - [x] 1. Base layout: SiteHeader (mobile sheet menu), SiteFooter, Container, Button, Eyebrow, SectionHeading, skip link, 404; start docs/COMPONENTS.md
 - [x] 2. Sanity: embedded Studio at /studio, all schemas (sanity-content skill), singletons, typegen, /api/revalidate
 - [x] 3. SEO foundation: lib/seo.ts, <JsonLd/>, sitemap, robots, llms.txt, OG image template
-- [ ] 4. Home page sections (design reviewed by Claude before replicating patterns)
+- [x] 4. Home page sections (design reviewed by Claude before replicating patterns)
 - [ ] 5. Services index + /services/[slug]
 - [ ] 6. Industries index + /industries/[slug]
 - [ ] 7. About (founder, credentials, countries) + Publications
@@ -58,8 +58,21 @@ Findings from doc review — operational, will recur if forgotten:
 
 See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here as you create them.
 
-- Home page meta description (140–160 chars). Currently the tagline (89 chars) as a stand-in — replace in build step 4.
-- Vector monogram/logo (brief §7 q1) — then add it to the OG image template and favicon.
+- Summaries for the 6 services and 7 industries — seeded as `{{TODO}}` markers (required fields; shown from steps 5–6).
+- Approve or replace: home section headings ("What we do", "Sectors we serve", "Start a conversation"), hero eyebrow
+  ("Strategic consulting · Tema"), home meta description (built from brief facts, 157 chars) — D-020.
+- Uncropped founder portrait for the rectangular hero frame (D-019).
+- Vector monogram/logo (brief §7 q1) — then add it to the OG image template and favicon. The Canva PNG supplied is
+  identical to `public/brand/logo-reference.png`; ask for Canva's **SVG** download.
+- **Confirm "30 countries"**: the Detailed Profile's list reaches 30 only by counting Zanzibar (part of Tanzania).
+  Either confirm, or use "30 countries and territories" before launch.
+- Typo in the Detailed Profile: "referred journal papers" → "refereed" (fix when it goes on the About page).
+- Missing attachments referenced by the Website Structure doc: the 5 articles (step 8), "Consulting Profile —
+  Jonathan Nyarko Ocran", proposal template / toolkits / diagnostic tools (on hold, D-016), work samples (step 12).
+- Books section lists "Feasibility Study Reports and Business Plans" and "Thought Leadership" — should these appear
+  on /publications while books are on hold?
+- About page (step 7): Detailed Profile has the career bio, 21 expertise areas and the 30 named countries; the
+  Website doc has company story, mission, vision, values — Sanity has no fields for the last four yet.
 
 ## Session log
 
@@ -72,3 +85,5 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
 - 2026-10-27 · Hold books + gated downloads, fix problem files · done — D-016: Books, Resources, Refunds out of nav and active plan across AGENTS, brief, SEO, SETUP, DESIGN, DEEPSEEK, skills, `.env.example`; build steps 10–11 struck; restore guide `docs/later/held-features.md`. `.clinerules` now allows `.env.example`; AGENTS §8 no longer claims third-party skills are installed; Node pinned (`engines` + `.nvmrc`). Duplicate `OSC/SKILLS.md` + `OSC/SESSION-PROMPT.md` still to delete (human).
 - 2026-10-27 · Build step 2 — Sanity · done — upgraded to Next 16.4 / React 19.3 (D-017, also fixes CVE-2025-55182); sanity 6 + next-sanity 13; 9 document types + `seo` + `blockContent`; singleton structure; `/studio` (setup notice until project exists); `/api/revalidate` (signed, tag-based, `{ expire: 0 }`); `pnpm typegen` → `sanity.types.ts`; tests for webhook, tags, permission rule (16 passing). JS budget finding logged. Human: create Sanity project (SETUP.md §5), switch local Node to 22.
 - 2026-10-27 · Build step 3 — SEO foundation · done — `lib/seo.ts` (buildMetadata, organizationJsonLd, STATIC_ROUTES), `<JsonLd/>`, title template + metadataBase, robots/sitemap/llms.txt, brand OG image with committed OFL fonts; fixed home losing og:image (D-018). 27 tests. Rich Results validation waits for launch (needs public URL).
+- 2026-10-27 · Build step 4 — Home page · done — client answers recorded (D-019: tagline, we-voice, 7 industries, circular portrait); 8 server-only section components; seed-or-Sanity content (D-020) + `pnpm seed`; `proofPoints` and `order` fields; Button `inverse` variant, focus colour per variant, primary label centred; footer hairline. Screenshots at 375/768/1280 reviewed and fixed (stat alignment, eyebrow wrap). 31 tests; home JS 181 KB gz (+5 KB next/image).
+- 2026-10-27 · Client source documents reviewed + plan A · done — seed now uses Detailed Profile (title "Senior Consultant", opening sentence as short bio, five credentials with institutions/years) and the client's verbatim value proposition (we-voice); brief gains a Sources section and corrected credentials (MSc is not Animal Science); client flags (30 countries/Zanzibar, "refereed", missing attachments) added to Content TODOs. Strategy-session image confirmed AI-generated — not for publication.

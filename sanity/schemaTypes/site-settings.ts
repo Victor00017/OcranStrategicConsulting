@@ -21,6 +21,37 @@ export const siteSettings = defineType({
       rows: 3,
     }),
     defineField({
+      name: "proofPoints",
+      title: "Proof points",
+      description:
+        'The headline numbers on the home page, e.g. "43" + "publications". Use exact, verifiable figures. Up to 4.',
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          name: "proofPoint",
+          fields: [
+            defineField({
+              name: "value",
+              title: "Number",
+              description: 'Shown large, e.g. "35+".',
+              type: "string",
+              validation: (rule) => rule.required().max(8),
+            }),
+            defineField({
+              name: "label",
+              title: "Label",
+              description: 'e.g. "years of experience".',
+              type: "string",
+              validation: (rule) => rule.required().max(40),
+            }),
+          ],
+          preview: { select: { title: "value", subtitle: "label" } },
+        }),
+      ],
+      validation: (rule) => rule.max(4),
+    }),
+    defineField({
       name: "contactEmails",
       title: "Contact email addresses",
       type: "array",

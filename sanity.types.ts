@@ -187,6 +187,7 @@ export type Industry = {
   _rev: string;
   title: string;
   slug: Slug;
+  order?: number;
   summary: string;
   body?: BlockContent;
   challenges?: Array<string>;
@@ -213,6 +214,7 @@ export type Service = {
   _rev: string;
   title: string;
   slug: Slug;
+  order?: number;
   summary: string;
   subServices?: Array<string>;
   body?: BlockContent;
@@ -263,6 +265,12 @@ export type SiteSettings = {
   name: string;
   tagline?: string;
   valueProp?: string;
+  proofPoints?: Array<{
+    value: string;
+    label: string;
+    _type: "proofPoint";
+    _key: string;
+  }>;
   contactEmails?: Array<string>;
   phone?: string;
   whatsapp?: string;
@@ -438,10 +446,55 @@ export type SITE_SETTINGS_QUERY_RESULT = {
   } | null;
 } | null;
 
+// Source: lib/sanity/queries.ts
+// Variable: HOME_QUERY
+// Query: {  "settings": *[_type == "siteSettings"][0]{    tagline,    valueProp,    proofPoints[]{_key, value, label}  },  "founder": *[_type == "founder"][0]{    name,    title,    shortBio,    credentials,    "portrait": portrait{alt, "url": asset->url}  },  "services": *[_type == "service" && defined(slug.current)] | order(order asc, title asc){    _id,    title,    "slug": slug.current,    subServices  },  "industries": *[_type == "industry" && defined(slug.current)] | order(order asc, title asc){    _id,    title,    "slug": slug.current  },  "articles": *[_type == "article" && defined(slug.current)] | order(publishedAt desc)[0...3]{    _id,    title,    "slug": slug.current,    excerpt,    category,    publishedAt  }}
+export type HOME_QUERY_RESULT = {
+  settings: {
+    tagline: string | null;
+    valueProp: string | null;
+    proofPoints: Array<{
+      _key: string;
+      value: string;
+      label: string;
+    }> | null;
+  } | null;
+  founder: {
+    name: string;
+    title: string | null;
+    shortBio: string | null;
+    credentials: Array<string> | null;
+    portrait: {
+      alt: string;
+      url: string | null;
+    } | null;
+  } | null;
+  services: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+    subServices: Array<string> | null;
+  }>;
+  industries: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+  }>;
+  articles: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+    excerpt: string;
+    category: string | null;
+    publishedAt: string;
+  }>;
+};
+
 // Query TypeMap
 declare global {
   interface SanityQueries {
     '*[_type == "siteSettings"][0]{\n  name,\n  tagline,\n  valueProp,\n  contactEmails,\n  phone,\n  whatsapp,\n  address,\n  geo,\n  socialLinks[]{platform, url},\n  defaultOgImage\n}': SITE_SETTINGS_QUERY_RESULT;
+    '{\n  "settings": *[_type == "siteSettings"][0]{\n    tagline,\n    valueProp,\n    proofPoints[]{_key, value, label}\n  },\n  "founder": *[_type == "founder"][0]{\n    name,\n    title,\n    shortBio,\n    credentials,\n    "portrait": portrait{alt, "url": asset->url}\n  },\n  "services": *[_type == "service" && defined(slug.current)] | order(order asc, title asc){\n    _id,\n    title,\n    "slug": slug.current,\n    subServices\n  },\n  "industries": *[_type == "industry" && defined(slug.current)] | order(order asc, title asc){\n    _id,\n    title,\n    "slug": slug.current\n  },\n  "articles": *[_type == "article" && defined(slug.current)] | order(publishedAt desc)[0...3]{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    category,\n    publishedAt\n  }\n}': HOME_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too
