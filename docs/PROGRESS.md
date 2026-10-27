@@ -2,8 +2,10 @@
 
 ## Current state
 
-Steps 0–6 done. Home, `/services` (+6 pages) and `/industries` (+7 pages), all pre-rendered with breadcrumbs and
-JSON-LD; service↔industry links resolve from either side (D-022). Live on Vercel at ocranstrategicconsulting.com, reading Sanity project `po34na24` (seeded 2026-10-27). Sitemap 16 URLs; llms.txt lists services and industries. All checks green, 42 tests. On GitHub.
+Steps 0–6 done and live at www.ocranstrategicconsulting.com (Sanity `po34na24`). Home rebuilt around the offer
+(D-024): deliverables panel, audiences, services with summaries, how we work, track record, sectors, compact founder.
+All former `{{TODO}}` copy is drafted (D-023) and loaded into Sanity — awaiting client sign-off (see Content TODOs).
+Sanity fetches refresh hourly as a webhook backstop (D-025). All checks green, 47 tests.
 
 ## Next up
 
@@ -63,16 +65,22 @@ Findings from doc review — operational, will recur if forgotten:
 
 See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here as you create them.
 
-- Summaries for the 6 services and 7 industries — seeded as `{{TODO}}` markers (required fields; shown from steps 5–6).
+**Drafted copy for client sign-off (D-023)** — all editable in the Studio; source file `sanity/seed/copy.ts`:
+
+- Home: "What we deliver" list, "Who we work with" headline and four audience cards, "How we work" steps,
+  "Experience behind the advice" intro line.
+- Services: six summaries, "What you receive" lists, outcomes, FAQs, related industries. Services and industries
+  page introductions.
+- Industries: seven summaries and challenge lists.
+
 - Approve or replace: home section headings ("What we do", "Sectors we serve", "Start a conversation"), hero eyebrow
   ("Strategic consulting · Tema"), home meta description (built from brief facts, 157 chars) — D-020.
 - Uncropped founder portrait for the rectangular hero frame (D-019).
-- `/services` introduction (1–2 sentences) — `{{TODO}}` on the page. Index meta description built from brief facts
-  (158 chars) — approve. Three service titles push the page title past 60 characters ("… | Ocran Strategic
+- `/services` meta description built from brief facts (158 chars) — approve. Three service titles push the page title past 60 characters ("… | Ocran Strategic
   Consulting"); set a shorter **Search title** in Studio for those, or accept the truncation.
-- Per service, when available: page content, client outcomes, FAQs, related industries.
-- `/industries` introduction (1–2 sentences) — `{{TODO}}` on the page; index meta description (148 chars) — approve.
-- Per industry, when available: page content, challenges, and links to services (either side works, D-022).
+- Per service, when available: longer page content (the drafts cover summary, deliverables, outcomes, FAQs).
+- Industries index meta description (148 chars) — approve.
+- Per industry, when available: longer page content (drafts cover summary and challenges; services link from either side, D-022).
 - Vector monogram/logo (brief §7 q1) — then add it to the OG image template and favicon. The Canva PNG supplied is
   identical to `public/brand/logo-reference.png`; ask for Canva's **SVG** download.
 - **Confirm "30 countries"**: the Detailed Profile's list reaches 30 only by counting Zanzibar (part of Tanzania).
@@ -101,3 +109,4 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
 - 2026-10-27 · Build step 5 — Services · done — `/services` index + `/services/[slug]` (all 6 pre-rendered, unknown → 404); new `PageHeader`, `Breadcrumbs` (+ BreadcrumbList), `Prose` (portable text via next-sanity, no new dep), `FaqList` (native details + FAQPage), `ServiceView`; Service JSON-LD skips TODO text (D-021); sitemap async with service URLs; llms.txt links each service. Screenshots 375/1280 checked. 37 tests.
 - 2026-10-27 · Build step 6 — Industries · done — `/industries` numbered index + 7 pre-rendered `/industries/[slug]` pages (unknown → 404) via `IndustryView`; services listed from both link directions (D-022); empty main column dropped until content exists; sitemap 16 URLs, llms.txt industries section. Screenshots 375/1280 checked. 42 tests. (Docs landed in a follow-up commit.)
 - 2026-10-27 · Go-live fixes · done — live site was rendering an empty Sanity dataset (Vercel had the project ID, nothing seeded); seeded `po34na24` (15 docs), verified local build against Sanity, redeployed (`26585b7`). Live home, services, industries, studio all 200. Found www cert missing (backlog). Replaced a stale 25-Oct local server on :3123.
+- 2026-10-27 · IA review + copy · done — home restructured around the offer (D-024: deliverables panel, audiences, how we work, attributed track record, compact founder; new `homePage` singleton); all TODO copy drafted for approval (D-023, `sanity/seed/copy.ts`) incl. service deliverables; `pnpm seed` now fills empty/TODO fields only (filled 14 docs, created homePage, founder untouched); 1h revalidate backstop after stale fetch cache seen (D-025). Contrast check moved small text on field band to ivory. 47 tests.

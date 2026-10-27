@@ -25,7 +25,17 @@ export function ServiceView({
   service: ServiceDetail;
   otherServices: ServiceSummary[];
 }) {
-  const { title, slug, summary, subServices, body, outcomes, faqs, relatedIndustries } = service;
+  const {
+    title,
+    slug,
+    summary,
+    subServices,
+    deliverables,
+    body,
+    outcomes,
+    faqs,
+    relatedIndustries,
+  } = service;
 
   return (
     <>
@@ -59,6 +69,27 @@ export function ServiceView({
                   </li>
                 ))}
               </ul>
+            </section>
+          ) : null}
+
+          {deliverables?.length ? (
+            <section aria-labelledby="deliverables-heading">
+              <h2 id="deliverables-heading" className={h2}>
+                What you receive
+              </h2>
+              <ol className="border-line mt-8 border-t">
+                {deliverables.map((item, index) => (
+                  <li key={item} className="border-line text-ink flex gap-5 border-b py-4">
+                    <span
+                      aria-hidden="true"
+                      className="font-display text-gold w-8 shrink-0 text-xl"
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ol>
             </section>
           ) : null}
 

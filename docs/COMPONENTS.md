@@ -17,16 +17,19 @@ The root `<body>` is a flex column and `<main>` is `flex-1`, so the footer sits 
 
 All server components. Each returns nothing for missing data; the parent hides a section whose list is empty.
 
-| Component          | File                    | Notes                                                                                                       |
-| ------------------ | ----------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `HomeView`         | `home-view.tsx`         | Assembles the home page in brief §3 order from `HomeContent` (`lib/content/home.ts`).                       |
-| `HomeHero`         | `home-hero.tsx`         | 7/5 split: eyebrow, Bodoni H1 (tagline), gold rule, value prop, two CTAs; circular portrait with gold ring. |
-| `StatStrip`        | `stat-strip.tsx`        | `<dl>` of proof points: gold Bodoni numbers, hairline dividers, 2×2 on mobile.                              |
-| `ServiceCard`      | `service-card.tsx`      | Numbered card, stretched title link, sub-services list; gold border + sliding underline on hover.           |
-| `IndustryChip`     | `industry-chip.tsx`     | Field-green outlined link — the page's only use of the agriculture accent.                                  |
-| `FounderSpotlight` | `founder-spotlight.tsx` | Name/title left, short bio + credentials (gold rules) right, link to /about.                                |
-| `ArticleCard`      | `article-card.tsx`      | Category, stretched title link, 3-line excerpt, date (en-GH). Used by insights lists.                       |
-| `CtaBand`          | `cta-band.tsx`          | Ink band, gold-light eyebrow, ivory Bodoni heading, `inverse` button. One per page.                         |
+| Component          | File                    | Notes                                                                                                      |
+| ------------------ | ----------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `HomeView`         | `home-view.tsx`         | Assembles the home page in brief §3 order from `HomeContent` (`lib/content/home.ts`).                      |
+| `HomeHero`         | `home-hero.tsx`         | 7/5 split: eyebrow, Bodoni H1 (tagline), gold rule, value prop, two CTAs; "What we deliver" panel (D-024). |
+| `AudienceCards`    | `audience-cards.tsx`    | "Who we work with": 4 cards from `homePage.audiences`, each CTA → `/contact?service=` (D-021).             |
+| `ProcessSteps`     | `process-steps.tsx`     | "How we work": numbered steps joined by a gold hairline.                                                   |
+| `TrackRecord`      | `track-record.tsx`      | Field-green band: proof numbers + attributed founder results. Small text ivory (contrast, D-024).          |
+| `FounderStrip`     | `founder-strip.tsx`     | Compact home founder intro → /about. `FounderSpotlight` (full credentials) is kept for the About page.     |
+| `ServiceCard`      | `service-card.tsx`      | Numbered card, stretched title link, sub-services list; gold border + sliding underline on hover.          |
+| `IndustryChip`     | `industry-chip.tsx`     | Field-green outlined link — the page's only use of the agriculture accent.                                 |
+| `FounderSpotlight` | `founder-spotlight.tsx` | Name/title left, short bio + credentials (gold rules) right, link to /about.                               |
+| `ArticleCard`      | `article-card.tsx`      | Category, stretched title link, 3-line excerpt, date (en-GH). Used by insights lists.                      |
+| `CtaBand`          | `cta-band.tsx`          | Ink band, gold-light eyebrow, ivory Bodoni heading, `inverse` button. One per page.                        |
 
 ## Inner-page building blocks
 

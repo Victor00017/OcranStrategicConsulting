@@ -8,11 +8,13 @@ export function ServiceCard({
   index,
   title,
   slug,
+  summary,
   subServices,
 }: {
   index: number;
   title: string;
   slug: string;
+  summary?: string | null;
   subServices: string[] | null;
 }) {
   return (
@@ -28,8 +30,9 @@ export function ServiceCard({
           {title}
         </Link>
       </h3>
+      {summary ? <p className="text-ink mt-3 leading-relaxed">{summary}</p> : null}
       {subServices?.length ? (
-        <ul className="text-ink-muted mt-4 flex flex-col gap-1.5 text-[0.95rem]">
+        <ul className="border-line text-ink-muted mt-5 flex flex-col gap-1.5 border-t pt-4 text-[0.95rem]">
           {subServices.map((item) => (
             <li key={item}>{item}</li>
           ))}

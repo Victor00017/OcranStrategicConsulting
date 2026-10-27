@@ -2,17 +2,19 @@ import type {
   HOME_QUERY_RESULT,
   INDUSTRIES_QUERY_RESULT,
   INDUSTRY_QUERY_RESULT,
+  PAGE_INTROS_QUERY_RESULT,
   SERVICE_QUERY_RESULT,
   SERVICES_QUERY_RESULT,
 } from "@/sanity.types";
+import { HOME_COPY, INDUSTRY_COPY, PAGE_INTROS, SERVICE_COPY } from "./copy";
 
 /**
- * Starter content from the client's source documents (Detailed Profile, Website Structure,
- * Positioning — see PROJECT-BRIEF.md "Sources"), docs/PROJECT-BRIEF.md and the client's answers (D-019).
- * Client wording is kept verbatim apart from "I" → "we" and British spelling (brief §6). Two jobs (D-020):
- *   1. `pnpm seed` imports it into Sanity once the project exists (create-if-missing, never overwrites).
- *   2. Until then, the home page renders from it (`seedHomeContent`).
- * Anything the brief doesn't supply is a {{TODO}} — never invent copy here.
+ * Starter content. This file holds the client's facts — source documents (Detailed Profile, Website
+ * Structure, Positioning — see PROJECT-BRIEF.md "Sources"), the brief and the client's answers (D-019),
+ * verbatim apart from "I" → "we" and British spelling. Drafted copy awaiting approval lives in ./copy.ts (D-023).
+ * Two jobs (D-020):
+ *   1. `pnpm seed` loads it into Sanity: creates missing documents and fills only empty or {{TODO}} fields.
+ *   2. Until Sanity is configured, pages render from it (the seed* functions below, in each query's shape).
  */
 
 export const PORTRAIT_FILE = "public/images/founder/founder-portrait.jpg";
@@ -119,27 +121,43 @@ export const SEED = {
   ],
 };
 
-/** Required in the Studio; filled with a marker so the client writes the real summary. */
-export const summaryTodo = (title: string) => `{{TODO: copy needed — summary for ${title}}}`;
+// Seed documents have no edit history; the sitemap omits lastModified for an empty _updatedAt.
+const SEED_UPDATED_AT = "";
 
-/** The seed in the exact shape HOME_QUERY returns, for rendering before Sanity is connected. */
+/** Summaries are required in the Studio, so every seeded service and industry must have drafted copy. */
+function required<T>(value: T | undefined, what: string): T {
+  if (value === undefined) throw new Error(`Seed: missing ${what} in ./copy.ts`);
+  return value;
+}
+
+const industryRef = (slug: string) => {
+  const industry = SEED.industries.find((i) => i.slug === slug);
+  if (!industry) throw new Error(`Seed: unknown industry "${slug}"`);
+  return { _id: `industry-${slug}`, title: industry.title, slug };
+};
+
+/** The seed in the exact shape HOME_QUERY returns. */
 export function seedHomeContent(): HOME_QUERY_RESULT {
-  const { siteSettings, founder, services, industries } = SEED;
+  const { siteSettings, founder, industries } = SEED;
   return {
     settings: {
       tagline: siteSettings.tagline,
       valueProp: siteSettings.valueProp,
       proofPoints: siteSettings.proofPoints,
     },
+    home: HOME_COPY,
     founder,
-    services: services.map((s) => ({ _id: `service-${s.slug}`, ...s })),
+    services: seedServices().map(({ _id, title, slug, summary, subServices }) => ({
+      _id,
+      title,
+      slug,
+      summary,
+      subServices,
+    })),
     industries: industries.map((i) => ({ _id: `industry-${i.slug}`, ...i })),
     articles: [],
   };
 }
-
-// Seed documents have no edit history; the sitemap omits lastModified for an empty _updatedAt.
-const SEED_UPDATED_AT = "";
 
 /** The seed in SERVICES_QUERY shape. */
 export function seedServices(): SERVICES_QUERY_RESULT {
@@ -148,21 +166,23 @@ export function seedServices(): SERVICES_QUERY_RESULT {
     _updatedAt: SEED_UPDATED_AT,
     title: service.title,
     slug: service.slug,
-    summary: summaryTodo(service.title),
+    summary: required(SERVICE_COPY[service.slug], `copy for service ${service.slug}`).summary,
     subServices: service.subServices,
   }));
 }
 
-/** One seed service in SERVICE_QUERY shape, or null. Fields the brief doesn't cover stay empty. */
+/** One seed service in SERVICE_QUERY shape, or null. */
 export function seedService(slug: string): SERVICE_QUERY_RESULT {
   const service = seedServices().find((s) => s.slug === slug);
+  const copy = SERVICE_COPY[slug];
   if (!service) return null;
   return {
     ...service,
+    deliverables: copy?.deliverables ?? null,
     body: null,
-    outcomes: null,
-    faqs: null,
-    relatedIndustries: null,
+    outcomes: copy?.outcomes ?? null,
+    faqs: copy?.faqs ?? null,
+    relatedIndustries: copy?.industries.map(industryRef) ?? null,
     seo: null,
   };
 }
@@ -174,20 +194,35 @@ export function seedIndustries(): INDUSTRIES_QUERY_RESULT {
     _updatedAt: SEED_UPDATED_AT,
     title: industry.title,
     slug: industry.slug,
-    summary: summaryTodo(industry.title),
+    summary: required(INDUSTRY_COPY[industry.slug], `copy for industry ${industry.slug}`).summary,
   }));
 }
 
-/** One seed industry in INDUSTRY_QUERY shape, or null. The brief doesn't map services to industries. */
+/**
+ * One seed industry in INDUSTRY_QUERY shape, or null. `servedBy` mirrors Sanity's reverse lookup:
+ * services whose related industries include this one (D-022).
+ */
 export function seedIndustry(slug: string): INDUSTRY_QUERY_RESULT {
   const industry = seedIndustries().find((i) => i.slug === slug);
   if (!industry) return null;
+  const servedBy = SEED.services
+    .filter((service) => SERVICE_COPY[service.slug]?.industries.includes(slug))
+    .map((service) => ({
+      _id: `service-${service.slug}`,
+      title: service.title,
+      slug: service.slug,
+    }));
   return {
     ...industry,
     body: null,
-    challenges: null,
+    challenges: INDUSTRY_COPY[slug]?.challenges ?? null,
     relatedServices: null,
-    servedBy: [],
+    servedBy,
     seo: null,
   };
+}
+
+/** The seed in PAGE_INTROS_QUERY shape. */
+export function seedPageIntros(): PAGE_INTROS_QUERY_RESULT {
+  return PAGE_INTROS;
 }

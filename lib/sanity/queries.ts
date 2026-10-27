@@ -23,6 +23,12 @@ export const HOME_QUERY = defineQuery(`{
     valueProp,
     proofPoints[]{_key, value, label}
   },
+  "home": *[_type == "homePage"][0]{
+    deliverables,
+    audiences[]{_key, title, needs, ctaLabel, "serviceSlug": service->slug.current},
+    process[]{_key, title, description},
+    trackRecord[]{_key, context, result}
+  },
   "founder": *[_type == "founder"][0]{
     name,
     title,
@@ -34,6 +40,7 @@ export const HOME_QUERY = defineQuery(`{
     _id,
     title,
     "slug": slug.current,
+    summary,
     subServices
   },
   "industries": *[_type == "industry" && defined(slug.current)] | order(order asc, title asc){
@@ -69,6 +76,7 @@ export const SERVICE_QUERY = defineQuery(`*[_type == "service" && slug.current =
   "slug": slug.current,
   summary,
   subServices,
+  deliverables,
   body,
   outcomes,
   faqs[]{_key, question, answer},
@@ -103,3 +111,8 @@ export const INDUSTRY_QUERY = defineQuery(`*[_type == "industry" && slug.current
   },
   seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}
 }`);
+
+// Introductions for the /services and /industries index pages.
+export const PAGE_INTROS_QUERY = defineQuery(
+  `*[_type == "siteSettings"][0]{servicesIntro, industriesIntro}`,
+);

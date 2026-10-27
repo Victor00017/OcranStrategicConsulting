@@ -4,30 +4,34 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import type { HomeContent } from "@/lib/content/home";
 import { TAGLINE } from "@/lib/seo";
 import { ArticleCard } from "./article-card";
+import { AudienceCards } from "./audience-cards";
 import { CtaBand } from "./cta-band";
-import { FounderSpotlight } from "./founder-spotlight";
+import { FounderStrip } from "./founder-strip";
 import { HomeHero } from "./home-hero";
 import { IndustryChip } from "./industry-chip";
+import { ProcessSteps } from "./process-steps";
 import { ServiceCard } from "./service-card";
-import { StatStrip } from "./stat-strip";
+import { TrackRecord } from "./track-record";
 
 /**
- * Home page, brief §3 order: hero · proof strip · services · industries · founder · insights · CTA band.
- * A section with no content renders nothing, so an empty CMS never shows a broken layout.
+ * Home page (D-024). Job: turn a first-time visitor into someone who opens a service or requests a
+ * consultation. Order: offer (hero + deliverables) · who we work with · services · how we work ·
+ * track record · sectors · who leads the work · insights · CTA. Empty sections render nothing.
  */
 export function HomeView({ content }: { content: HomeContent }) {
-  const { settings, founder, services, industries, articles } = content;
+  const { settings, home, founder, services, industries, articles } = content;
   const proofPoints = settings?.proofPoints ?? [];
+  const trackRecord = home?.trackRecord ?? [];
 
   return (
     <>
       <HomeHero
         tagline={settings?.tagline || TAGLINE}
         valueProp={settings?.valueProp ?? null}
-        portrait={founder?.portrait ?? null}
+        deliverables={home?.deliverables ?? []}
       />
 
-      {proofPoints.length ? <StatStrip points={proofPoints} /> : null}
+      {home?.audiences?.length ? <AudienceCards audiences={home.audiences} /> : null}
 
       {services.length ? (
         <section aria-labelledby="services-heading" className="py-16 md:py-28">
@@ -44,6 +48,7 @@ export function HomeView({ content }: { content: HomeContent }) {
                     index={index + 1}
                     title={service.title}
                     slug={service.slug}
+                    summary={service.summary}
                     subServices={service.subServices}
                   />
                 </li>
@@ -51,6 +56,12 @@ export function HomeView({ content }: { content: HomeContent }) {
             </ul>
           </Container>
         </section>
+      ) : null}
+
+      {home?.process?.length ? <ProcessSteps steps={home.process} /> : null}
+
+      {proofPoints.length || trackRecord.length ? (
+        <TrackRecord points={proofPoints} results={trackRecord} />
       ) : null}
 
       {industries.length ? (
@@ -71,11 +82,11 @@ export function HomeView({ content }: { content: HomeContent }) {
       ) : null}
 
       {founder ? (
-        <FounderSpotlight
+        <FounderStrip
           name={founder.name}
           title={founder.title}
           shortBio={founder.shortBio}
-          credentials={founder.credentials}
+          portrait={founder.portrait}
         />
       ) : null}
 

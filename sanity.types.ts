@@ -199,40 +199,6 @@ export type Industry = {
   seo?: Seo;
 };
 
-export type IndustryReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "industry";
-};
-
-export type Service = {
-  _id: string;
-  _type: "service";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string;
-  slug: Slug;
-  order?: number;
-  summary: string;
-  subServices?: Array<string>;
-  body?: BlockContent;
-  outcomes?: Array<string>;
-  faqs?: Array<{
-    question: string;
-    answer: string;
-    _type: "faq";
-    _key: string;
-  }>;
-  relatedIndustries?: Array<
-    {
-      _key: string;
-    } & IndustryReference
-  >;
-  seo?: Seo;
-};
-
 export type Founder = {
   _id: string;
   _type: "founder";
@@ -256,6 +222,70 @@ export type Founder = {
   countries?: Array<string>;
 };
 
+export type HomePage = {
+  _id: string;
+  _type: "homePage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  deliverables?: Array<string>;
+  audiences?: Array<{
+    title: string;
+    needs: string;
+    ctaLabel: string;
+    service?: ServiceReference;
+    _type: "audience";
+    _key: string;
+  }>;
+  process?: Array<{
+    title: string;
+    description: string;
+    _type: "processStep";
+    _key: string;
+  }>;
+  trackRecord?: Array<{
+    context: string;
+    result: string;
+    _type: "trackRecordItem";
+    _key: string;
+  }>;
+};
+
+export type IndustryReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "industry";
+};
+
+export type Service = {
+  _id: string;
+  _type: "service";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  order?: number;
+  summary: string;
+  subServices?: Array<string>;
+  deliverables?: Array<string>;
+  body?: BlockContent;
+  outcomes?: Array<string>;
+  faqs?: Array<{
+    question: string;
+    answer: string;
+    _type: "faq";
+    _key: string;
+  }>;
+  relatedIndustries?: Array<
+    {
+      _key: string;
+    } & IndustryReference
+  >;
+  seo?: Seo;
+};
+
 export type SiteSettings = {
   _id: string;
   _type: "siteSettings";
@@ -265,6 +295,8 @@ export type SiteSettings = {
   name: string;
   tagline?: string;
   valueProp?: string;
+  servicesIntro?: string;
+  industriesIntro?: string;
   proofPoints?: Array<{
     value: string;
     label: string;
@@ -405,9 +437,10 @@ export type AllSanitySchemaTypes =
   | SanityImageHotspot
   | ServiceReference
   | Industry
+  | Founder
+  | HomePage
   | IndustryReference
   | Service
-  | Founder
   | SiteSettings
   | SanityImagePaletteSwatch
   | SanityImagePalette
@@ -448,7 +481,7 @@ export type SITE_SETTINGS_QUERY_RESULT = {
 
 // Source: lib/sanity/queries.ts
 // Variable: HOME_QUERY
-// Query: {  "settings": *[_type == "siteSettings"][0]{    tagline,    valueProp,    proofPoints[]{_key, value, label}  },  "founder": *[_type == "founder"][0]{    name,    title,    shortBio,    credentials,    "portrait": portrait{alt, "url": asset->url}  },  "services": *[_type == "service" && defined(slug.current)] | order(order asc, title asc){    _id,    title,    "slug": slug.current,    subServices  },  "industries": *[_type == "industry" && defined(slug.current)] | order(order asc, title asc){    _id,    title,    "slug": slug.current  },  "articles": *[_type == "article" && defined(slug.current)] | order(publishedAt desc)[0...3]{    _id,    title,    "slug": slug.current,    excerpt,    category,    publishedAt  }}
+// Query: {  "settings": *[_type == "siteSettings"][0]{    tagline,    valueProp,    proofPoints[]{_key, value, label}  },  "home": *[_type == "homePage"][0]{    deliverables,    audiences[]{_key, title, needs, ctaLabel, "serviceSlug": service->slug.current},    process[]{_key, title, description},    trackRecord[]{_key, context, result}  },  "founder": *[_type == "founder"][0]{    name,    title,    shortBio,    credentials,    "portrait": portrait{alt, "url": asset->url}  },  "services": *[_type == "service" && defined(slug.current)] | order(order asc, title asc){    _id,    title,    "slug": slug.current,    summary,    subServices  },  "industries": *[_type == "industry" && defined(slug.current)] | order(order asc, title asc){    _id,    title,    "slug": slug.current  },  "articles": *[_type == "article" && defined(slug.current)] | order(publishedAt desc)[0...3]{    _id,    title,    "slug": slug.current,    excerpt,    category,    publishedAt  }}
 export type HOME_QUERY_RESULT = {
   settings: {
     tagline: string | null;
@@ -457,6 +490,26 @@ export type HOME_QUERY_RESULT = {
       _key: string;
       value: string;
       label: string;
+    }> | null;
+  } | null;
+  home: {
+    deliverables: Array<string> | null;
+    audiences: Array<{
+      _key: string;
+      title: string;
+      needs: string;
+      ctaLabel: string;
+      serviceSlug: string | null;
+    }> | null;
+    process: Array<{
+      _key: string;
+      title: string;
+      description: string;
+    }> | null;
+    trackRecord: Array<{
+      _key: string;
+      context: string;
+      result: string;
     }> | null;
   } | null;
   founder: {
@@ -473,6 +526,7 @@ export type HOME_QUERY_RESULT = {
     _id: string;
     title: string;
     slug: string;
+    summary: string;
     subServices: Array<string> | null;
   }>;
   industries: Array<{
@@ -504,7 +558,7 @@ export type SERVICES_QUERY_RESULT = Array<{
 
 // Source: lib/sanity/queries.ts
 // Variable: SERVICE_QUERY
-// Query: *[_type == "service" && slug.current == $slug][0]{  _id,  _updatedAt,  title,  "slug": slug.current,  summary,  subServices,  body,  outcomes,  faqs[]{_key, question, answer},  "relatedIndustries": relatedIndustries[]->{_id, title, "slug": slug.current},  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}}
+// Query: *[_type == "service" && slug.current == $slug][0]{  _id,  _updatedAt,  title,  "slug": slug.current,  summary,  subServices,  deliverables,  body,  outcomes,  faqs[]{_key, question, answer},  "relatedIndustries": relatedIndustries[]->{_id, title, "slug": slug.current},  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}}
 export type SERVICE_QUERY_RESULT = {
   _id: string;
   _updatedAt: string;
@@ -512,6 +566,7 @@ export type SERVICE_QUERY_RESULT = {
   slug: string;
   summary: string;
   subServices: Array<string> | null;
+  deliverables: Array<string> | null;
   body: BlockContent | null;
   outcomes: Array<string> | null;
   faqs: Array<{
@@ -572,15 +627,24 @@ export type INDUSTRY_QUERY_RESULT = {
   } | null;
 } | null;
 
+// Source: lib/sanity/queries.ts
+// Variable: PAGE_INTROS_QUERY
+// Query: *[_type == "siteSettings"][0]{servicesIntro, industriesIntro}
+export type PAGE_INTROS_QUERY_RESULT = {
+  servicesIntro: string | null;
+  industriesIntro: string | null;
+} | null;
+
 // Query TypeMap
 declare global {
   interface SanityQueries {
     '*[_type == "siteSettings"][0]{\n  name,\n  tagline,\n  valueProp,\n  contactEmails,\n  phone,\n  whatsapp,\n  address,\n  geo,\n  socialLinks[]{platform, url},\n  defaultOgImage\n}': SITE_SETTINGS_QUERY_RESULT;
-    '{\n  "settings": *[_type == "siteSettings"][0]{\n    tagline,\n    valueProp,\n    proofPoints[]{_key, value, label}\n  },\n  "founder": *[_type == "founder"][0]{\n    name,\n    title,\n    shortBio,\n    credentials,\n    "portrait": portrait{alt, "url": asset->url}\n  },\n  "services": *[_type == "service" && defined(slug.current)] | order(order asc, title asc){\n    _id,\n    title,\n    "slug": slug.current,\n    subServices\n  },\n  "industries": *[_type == "industry" && defined(slug.current)] | order(order asc, title asc){\n    _id,\n    title,\n    "slug": slug.current\n  },\n  "articles": *[_type == "article" && defined(slug.current)] | order(publishedAt desc)[0...3]{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    category,\n    publishedAt\n  }\n}': HOME_QUERY_RESULT;
+    '{\n  "settings": *[_type == "siteSettings"][0]{\n    tagline,\n    valueProp,\n    proofPoints[]{_key, value, label}\n  },\n  "home": *[_type == "homePage"][0]{\n    deliverables,\n    audiences[]{_key, title, needs, ctaLabel, "serviceSlug": service->slug.current},\n    process[]{_key, title, description},\n    trackRecord[]{_key, context, result}\n  },\n  "founder": *[_type == "founder"][0]{\n    name,\n    title,\n    shortBio,\n    credentials,\n    "portrait": portrait{alt, "url": asset->url}\n  },\n  "services": *[_type == "service" && defined(slug.current)] | order(order asc, title asc){\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    subServices\n  },\n  "industries": *[_type == "industry" && defined(slug.current)] | order(order asc, title asc){\n    _id,\n    title,\n    "slug": slug.current\n  },\n  "articles": *[_type == "article" && defined(slug.current)] | order(publishedAt desc)[0...3]{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    category,\n    publishedAt\n  }\n}': HOME_QUERY_RESULT;
     '*[_type == "service" && defined(slug.current)] | order(order asc, title asc){\n  _id,\n  _updatedAt,\n  title,\n  "slug": slug.current,\n  summary,\n  subServices\n}': SERVICES_QUERY_RESULT;
-    '*[_type == "service" && slug.current == $slug][0]{\n  _id,\n  _updatedAt,\n  title,\n  "slug": slug.current,\n  summary,\n  subServices,\n  body,\n  outcomes,\n  faqs[]{_key, question, answer},\n  "relatedIndustries": relatedIndustries[]->{_id, title, "slug": slug.current},\n  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}\n}': SERVICE_QUERY_RESULT;
+    '*[_type == "service" && slug.current == $slug][0]{\n  _id,\n  _updatedAt,\n  title,\n  "slug": slug.current,\n  summary,\n  subServices,\n  deliverables,\n  body,\n  outcomes,\n  faqs[]{_key, question, answer},\n  "relatedIndustries": relatedIndustries[]->{_id, title, "slug": slug.current},\n  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}\n}': SERVICE_QUERY_RESULT;
     '*[_type == "industry" && defined(slug.current)] | order(order asc, title asc){\n  _id,\n  _updatedAt,\n  title,\n  "slug": slug.current,\n  summary\n}': INDUSTRIES_QUERY_RESULT;
     '*[_type == "industry" && slug.current == $slug][0]{\n  _id,\n  _updatedAt,\n  title,\n  "slug": slug.current,\n  summary,\n  body,\n  challenges,\n  "relatedServices": relatedServices[]->{_id, title, "slug": slug.current},\n  "servedBy": *[_type == "service" && defined(slug.current) && references(^._id)] | order(order asc){\n    _id,\n    title,\n    "slug": slug.current\n  },\n  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}\n}': INDUSTRY_QUERY_RESULT;
+    '*[_type == "siteSettings"][0]{servicesIntro, industriesIntro}': PAGE_INTROS_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

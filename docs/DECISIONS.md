@@ -155,3 +155,21 @@ Decision: an industry page lists its own `relatedServices` plus every service wh
 Why: the editor is non-technical; asking him to record each link twice (on the service and on the industry) guarantees they drift. One link in either document now shows on the industry page.
 Alternatives: one-way links only (half the pages stay unlinked); a Studio plugin for bidirectional references (extra dependency for a GROQ one-liner).
 Revisit if: service pages should also show industries that reference them — same `references(^._id)` pattern.
+
+## D-023 · 2026-10-27 · Agent may draft descriptive copy for client approval (amends D-008)
+
+Decision: at Victor's request, the agent drafts the copy that was `{{TODO}}` — service and industry summaries, deliverables ("What you receive"), intended outcomes, FAQs, sector challenges, page introductions, the home "how we work" steps. Drafts live in `sanity/seed/copy.ts`, separate from the client's facts in `content.ts`, and are listed in PROGRESS "Content TODOs" for sign-off. D-008 still holds for facts: no numbers, clients, testimonials, results, credentials or guarantees that aren't in the client's documents.
+Why: a site full of `{{TODO}}` markers can't be reviewed or launched, and the client's documents describe what each service is but not how to present it. Describing deliverables and common sector challenges is the consultant's own field, not a factual claim.
+Revisit if: the client rewrites the copy in the Studio — `pnpm seed` never overwrites it.
+
+## D-024 · 2026-10-27 · Home page rebuilt around the offer; track record attributed to the founder
+
+Decision: home order is hero (tagline + value proposition + "What we deliver" panel) · Who we work with (brief §2 audiences, each CTA prefilling a service) · Services · How we work (Insight → Strategy → Delivery) · Track record (proof numbers + four results from the Detailed Profile on the field-green band) · Sectors · compact founder strip · Insights · CTA. The portrait leaves the hero; the credentials list leaves the home page for About. New `homePage` singleton holds deliverables, audiences, process and track record. Each result names where it happened (MoFA, CSIR, OcranConsult, AU Commission) and the section says they are the founder's career results.
+Why: the home page read as an About page — a first-time visitor saw a person and his career before learning what the firm does for them (IA review, 2026-10-27). The firm started in 2026, so presenting earlier results as the firm's own would fail a client's check. Small text on the field band uses ivory: gold-light is 4.16:1 there, under AA.
+Revisit if: the firm has its own case studies — they lead the track record; the uncropped portrait arrives — it belongs on About, not back in the hero.
+
+## D-025 · 2026-10-27 · One-hour revalidation backstop on every Sanity fetch
+
+Decision: `sanityFetch` caches with tags **and** `revalidate: 3600`.
+Why: with tag-only caching, a fetch cached before content changed stays stale until the webhook fires — seen locally when the services/industries indexes kept serving `{{TODO}}` summaries after `pnpm seed`, and the webhook is not set up on Vercel yet. One hour bounds the damage of a missing or failed webhook; the webhook still makes edits near-instant.
+Revisit if: build or Sanity API usage becomes a cost concern (raise the interval), or edits must never wait (keep the webhook healthy).

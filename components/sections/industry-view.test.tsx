@@ -22,10 +22,13 @@ describe("IndustryView with seed content", () => {
     expect(other.getAllByRole("link")).toHaveLength(6);
   });
 
-  it("hides empty sections (no body, challenges or services in the seed)", () => {
+  it("shows drafted challenges and the services that list this sector", () => {
     render(<IndustryView industry={seeded} otherIndustries={others} />);
-    expect(screen.queryByRole("region", { name: "Challenges we help with" })).toBeNull();
-    expect(screen.queryByRole("region", { name: "Services for this sector" })).toBeNull();
+    expect(screen.getByRole("region", { name: "Challenges we help with" })).toBeInTheDocument();
+    const services = within(screen.getByRole("region", { name: "Services for this sector" }));
+    expect(
+      services.getByRole("link", { name: /SME Development and Business Growth/ }),
+    ).toHaveAttribute("href", "/services/sme-development");
   });
 });
 
@@ -51,7 +54,8 @@ describe("services for an industry", () => {
 
 describe("layout without CMS content", () => {
   it("omits the empty main column", () => {
-    const { container } = render(<IndustryView industry={seeded} otherIndustries={[]} />);
+    const empty = { ...seeded, body: null, challenges: null, relatedServices: null, servedBy: [] };
+    const { container } = render(<IndustryView industry={empty} otherIndustries={[]} />);
     expect(container.querySelector(".md\\:col-span-8")).toBeNull();
   });
 });

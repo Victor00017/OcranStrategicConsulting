@@ -34,14 +34,27 @@ describe("ServiceView with seed content", () => {
     );
   });
 
-  it("emits Service and BreadcrumbList JSON-LD, keeping TODO text out of it", () => {
+  it("lists what the client receives", () => {
+    render(<ServiceView service={seeded} otherServices={others} />);
+    const received = within(screen.getByRole("region", { name: "What you receive" }));
+    expect(received.getAllByRole("listitem").length).toBeGreaterThan(2);
+  });
+
+  it("emits Service, BreadcrumbList and FAQPage JSON-LD", () => {
     const { container } = render(<ServiceView service={seeded} otherServices={others} />);
     const data = jsonLd(container);
     const service = data.find((d) => d["@type"] === "Service");
     expect(service).toMatchObject({ name: "Agribusiness Advisory Services" });
-    expect(service).not.toHaveProperty("description");
+    expect(service.description).toBe(seeded.summary);
     expect(data.find((d) => d["@type"] === "BreadcrumbList").itemListElement).toHaveLength(3);
-    expect(data.some((d) => d["@type"] === "FAQPage")).toBe(false);
+    expect(data.some((d) => d["@type"] === "FAQPage")).toBe(true);
+  });
+
+  it("keeps {{TODO}} text out of JSON-LD", () => {
+    const todo = { ...seeded, summary: "{{TODO: copy needed — summary}}" };
+    const { container } = render(<ServiceView service={todo} otherServices={[]} />);
+    const service = jsonLd(container).find((d) => d["@type"] === "Service");
+    expect(service).not.toHaveProperty("description");
   });
 });
 

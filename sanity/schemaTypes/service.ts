@@ -29,6 +29,14 @@ export const service = defineType({
       type: "array",
       of: [defineArrayMember({ type: "string" })],
     }),
+    defineField({
+      name: "deliverables",
+      title: "What you receive",
+      description:
+        'The concrete outputs, e.g. "Feasibility study report with financial projections".',
+      type: "array",
+      of: [defineArrayMember({ type: "string" })],
+    }),
     defineField({ name: "body", title: "Page content", type: "blockContent" }),
     defineField({
       name: "outcomes",

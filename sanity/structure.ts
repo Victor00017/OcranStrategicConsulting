@@ -10,6 +10,10 @@ export const structure: StructureResolver = (S) =>
         .id("siteSettings")
         .child(S.document().schemaType("siteSettings").documentId("siteSettings")),
       S.listItem()
+        .title("Home page")
+        .id("homePage")
+        .child(S.document().schemaType("homePage").documentId("homePage")),
+      S.listItem()
         .title("Founder")
         .id("founder")
         .child(S.document().schemaType("founder").documentId("founder")),

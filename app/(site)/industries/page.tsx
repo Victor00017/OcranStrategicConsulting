@@ -3,6 +3,7 @@ import { CtaBand } from "@/components/sections/cta-band";
 import { PageHeader } from "@/components/sections/page-header";
 import { Container } from "@/components/ui/container";
 import { getIndustries } from "@/lib/content/industries";
+import { getPageIntros } from "@/lib/content/pages";
 import { buildMetadata } from "@/lib/seo";
 
 // Description built only from brief facts (the 7 sectors + location); client to approve (PROGRESS).
@@ -14,14 +15,10 @@ export const metadata = buildMetadata({
 });
 
 export default async function IndustriesPage() {
-  const industries = await getIndustries();
+  const [industries, intros] = await Promise.all([getIndustries(), getPageIntros()]);
   return (
     <>
-      <PageHeader
-        eyebrow="Industries"
-        title="Sectors we serve"
-        intro="{{TODO: copy needed — industries page introduction (1–2 sentences)}}"
-      />
+      <PageHeader eyebrow="Industries" title="Sectors we serve" intro={intros?.industriesIntro} />
       <section aria-label="All industries">
         <Container className="py-16 md:py-24">
           <ol className="border-line grid border-t md:grid-cols-2 md:gap-x-12">
@@ -29,7 +26,7 @@ export default async function IndustriesPage() {
               <li key={industry._id} className="border-line border-b">
                 <Link
                   href={`/industries/${industry.slug}`}
-                  className="group flex min-h-11 items-baseline gap-6 py-6"
+                  className="group flex min-h-11 items-baseline gap-6 py-6 md:py-8"
                 >
                   <span
                     aria-hidden="true"
@@ -37,8 +34,13 @@ export default async function IndustriesPage() {
                   >
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <span className="text-ink group-hover:text-gold-text text-[clamp(1.375rem,2vw,1.625rem)] font-medium transition-colors">
-                    {industry.title}
+                  <span className="flex flex-col gap-2">
+                    <span className="text-ink group-hover:text-gold-text text-[clamp(1.375rem,2vw,1.625rem)] font-medium transition-colors">
+                      {industry.title}
+                    </span>
+                    {industry.summary ? (
+                      <span className="text-ink-muted leading-relaxed">{industry.summary}</span>
+                    ) : null}
                   </span>
                 </Link>
               </li>

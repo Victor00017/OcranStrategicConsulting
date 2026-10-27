@@ -71,7 +71,7 @@ Scale (fluid, `clamp`): H1 40→64px · H2 30→44px · H3 22→26px · body 17�
 ## 4. Components (build these first)
 
 SiteHeader (sticky, condensed on scroll, mobile sheet menu) · SiteFooter · Button (primary/secondary/link) ·
-Eyebrow · SectionHeading · ServiceCard · IndustryChip · StatStrip · FounderSpotlight · ArticleCard ·
+Eyebrow · SectionHeading · ServiceCard · IndustryChip · TrackRecord (stat strip + results) · AudienceCards · ProcessSteps · FounderStrip / FounderSpotlight · ArticleCard ·
 CTA band · ContactForm · Breadcrumbs · Prose (portable text renderer) · FAQ accordion · WhatsApp floating button.
 
 ## 5. Imagery

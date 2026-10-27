@@ -2,6 +2,7 @@ import { CtaBand } from "@/components/sections/cta-band";
 import { PageHeader } from "@/components/sections/page-header";
 import { ServiceCard } from "@/components/sections/service-card";
 import { Container } from "@/components/ui/container";
+import { getPageIntros } from "@/lib/content/pages";
 import { getServices } from "@/lib/content/services";
 import { buildMetadata } from "@/lib/seo";
 
@@ -14,14 +15,10 @@ export const metadata = buildMetadata({
 });
 
 export default async function ServicesPage() {
-  const services = await getServices();
+  const [services, intros] = await Promise.all([getServices(), getPageIntros()]);
   return (
     <>
-      <PageHeader
-        eyebrow="Services"
-        title="Our services"
-        intro="{{TODO: copy needed — services page introduction (1–2 sentences)}}"
-      />
+      <PageHeader eyebrow="Services" title="Our services" intro={intros?.servicesIntro} />
       <section aria-label="All services">
         <Container className="py-16 md:py-24">
           <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -31,6 +28,7 @@ export default async function ServicesPage() {
                   index={index + 1}
                   title={service.title}
                   slug={service.slug}
+                  summary={service.summary}
                   subServices={service.subServices}
                 />
               </li>

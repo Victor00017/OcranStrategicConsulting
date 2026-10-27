@@ -21,6 +21,20 @@ export const siteSettings = defineType({
       rows: 3,
     }),
     defineField({
+      name: "servicesIntro",
+      title: "Services page introduction",
+      description: "1–2 sentences under the heading on /services.",
+      type: "text",
+      rows: 3,
+    }),
+    defineField({
+      name: "industriesIntro",
+      title: "Industries page introduction",
+      description: "1–2 sentences under the heading on /industries.",
+      type: "text",
+      rows: 3,
+    }),
+    defineField({
       name: "proofPoints",
       title: "Proof points",
       description:

@@ -7,9 +7,13 @@ const client: SanityClient | null = isSanityConfigured
   ? createClient({ projectId, dataset, apiVersion, useCdn: true, perspective: "published" })
   : null;
 
+// Backstop for the webhook (D-025): cached content is refetched at most this long after a Studio edit,
+// even if /api/revalidate never fires (webhook missing, misconfigured or down).
+const REVALIDATE_SECONDS = 3600;
+
 /**
- * Server-side content fetch, cached until a Sanity webhook expires one of `tags` (lib/sanity/tags.ts).
- * Query results are typed by Sanity TypeGen when the query is declared with `defineQuery`.
+ * Server-side content fetch, cached until a Sanity webhook expires one of `tags` (lib/sanity/tags.ts),
+ * or REVALIDATE_SECONDS pass. Query results are typed by Sanity TypeGen when declared with `defineQuery`.
  */
 export async function sanityFetch<const Query extends string>({
   query,
@@ -25,5 +29,8 @@ export async function sanityFetch<const Query extends string>({
       "Sanity is not configured: set NEXT_PUBLIC_SANITY_PROJECT_ID and NEXT_PUBLIC_SANITY_DATASET in .env.local.",
     );
   }
-  return client.fetch(query, params, { cache: "force-cache", next: { tags } });
+  return client.fetch(query, params, {
+    cache: "force-cache",
+    next: { tags, revalidate: REVALIDATE_SECONDS },
+  });
 }

@@ -68,7 +68,22 @@ On hold for Phase 1 (D-016): `/books`, `/books/[slug]`, `/resources`, `/refunds`
 Header nav: Services · Industries · Insights · About · **Contact** (button).
 Footer: services list, industries list, explore links, contact block, social links, legal links.
 
-### Home page sections (in order)
+### Thesis and page jobs (IA review, D-024)
+
+Thesis: _Ocran Strategic Consulting helps agribusinesses, development organisations, governments and SMEs across
+Sub-Saharan Africa turn evidence into bankable plans, fundable programmes and better-run organisations._
+
+- **Home** — turn a first-time visitor into someone who opens a service or requests a consultation.
+- **Services / a service** — show what we do and exactly what the client receives; next step: request a consultation for it.
+- **Industries / an industry** — show we understand the sector's problems; next step: the services that solve them.
+- **About** — the founder's story, credentials and reach; the firm's mission, vision and values.
+
+### Home page sections (in order — superseded by D-024; current order below)
+
+Current: 1. Hero (tagline, value proposition, "What we deliver") · 2. Who we work with (4 audiences) · 3. Services · 4. How we work · 5. Track record (proof numbers + founder's career results) · 6. Sectors · 7. Who leads the work
+(compact founder) · 8. Insights · 9. Contact CTA band.
+
+Original plan:
 
 1. Hero — tagline as H1 support, value proposition, 2 CTAs (Request a consultation / Explore services), founder portrait
 2. Proof strip — the four headline numbers

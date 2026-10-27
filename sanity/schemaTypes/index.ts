@@ -3,6 +3,7 @@ import { blockContent } from "./block-content";
 import { caseStudy } from "./case-study";
 import { enquiry } from "./enquiry";
 import { founder } from "./founder";
+import { homePage } from "./home-page";
 import { industry } from "./industry";
 import { publication } from "./publication";
 import { seo } from "./seo";
@@ -14,6 +15,7 @@ import { testimonial } from "./testimonial";
 export const schemaTypes = [
   // Singletons
   siteSettings,
+  homePage,
   founder,
   // Documents
   service,
@@ -29,4 +31,4 @@ export const schemaTypes = [
 ];
 
 /** One document each, edited in place; hidden from "Create new" (see sanity/structure.ts). */
-export const SINGLETON_TYPES = new Set(["siteSettings", "founder"]);
+export const SINGLETON_TYPES = new Set(["siteSettings", "homePage", "founder"]);
