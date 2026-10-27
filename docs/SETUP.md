@@ -101,7 +101,9 @@ Cloudflare Turnstile (free) site key + secret. Honeypot field. Rate limit by IP 
 
 - Vercel → project → **Analytics** tab → Enable, and **Speed Insights** tab → Enable. The code is already in place
   (`app/(site)/layout.tsx`, D-029); data starts flowing on the next visit. Both are cookie-free, so no cookie banner.
-- Google Search Console: verify via DNS TXT, submit `/sitemap.xml`. Bing Webmaster Tools: import from GSC.
+- Google Search Console: verified with the HTML file `public/google4a6440a5a8919aa2.html` (2026-10-27). **Never delete
+  or edit it** — Google re-checks it, and removing it un-verifies the site. Submit `/sitemap.xml` in Search Console.
+  Bing Webmaster Tools: import from GSC.
 - Google Business Profile (see SEO.md §5).
 
 ## 9. Legal (Ghana)
