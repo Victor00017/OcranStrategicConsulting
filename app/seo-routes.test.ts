@@ -21,7 +21,11 @@ describe("sitemap.xml", () => {
     expect(urls).toEqual([
       "https://www.ocranstrategicconsulting.com",
       "https://www.ocranstrategicconsulting.com/services",
+      "https://www.ocranstrategicconsulting.com/industries",
       ...SEED.services.map((s) => `https://www.ocranstrategicconsulting.com/services/${s.slug}`),
+      ...SEED.industries.map(
+        (i) => `https://www.ocranstrategicconsulting.com/industries/${i.slug}`,
+      ),
     ]);
   });
 
@@ -39,6 +43,9 @@ describe("llms.txt", () => {
     expect(text).toContain("> From insights to strategy.");
     expect(text).toContain(
       "- [Training and Capacity Building](https://www.ocranstrategicconsulting.com/services/training)",
+    );
+    expect(text).toContain(
+      "- [Light Manufacturing](https://www.ocranstrategicconsulting.com/industries/light-manufacturing)",
     );
     expect(text).toContain("(https://www.ocranstrategicconsulting.com)");
   });

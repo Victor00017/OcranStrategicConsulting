@@ -532,6 +532,46 @@ export type SERVICE_QUERY_RESULT = {
   } | null;
 } | null;
 
+// Source: lib/sanity/queries.ts
+// Variable: INDUSTRIES_QUERY
+// Query: *[_type == "industry" && defined(slug.current)] | order(order asc, title asc){  _id,  _updatedAt,  title,  "slug": slug.current,  summary}
+export type INDUSTRIES_QUERY_RESULT = Array<{
+  _id: string;
+  _updatedAt: string;
+  title: string;
+  slug: string;
+  summary: string;
+}>;
+
+// Source: lib/sanity/queries.ts
+// Variable: INDUSTRY_QUERY
+// Query: *[_type == "industry" && slug.current == $slug][0]{  _id,  _updatedAt,  title,  "slug": slug.current,  summary,  body,  challenges,  "relatedServices": relatedServices[]->{_id, title, "slug": slug.current},  "servedBy": *[_type == "service" && defined(slug.current) && references(^._id)] | order(order asc){    _id,    title,    "slug": slug.current  },  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}}
+export type INDUSTRY_QUERY_RESULT = {
+  _id: string;
+  _updatedAt: string;
+  title: string;
+  slug: string;
+  summary: string;
+  body: BlockContent | null;
+  challenges: Array<string> | null;
+  relatedServices: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+  }> | null;
+  servedBy: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+  }>;
+  seo: {
+    metaTitle: string | null;
+    metaDescription: string | null;
+    noindex: boolean | null;
+    ogImage: string | null;
+  } | null;
+} | null;
+
 // Query TypeMap
 declare global {
   interface SanityQueries {
@@ -539,6 +579,8 @@ declare global {
     '{\n  "settings": *[_type == "siteSettings"][0]{\n    tagline,\n    valueProp,\n    proofPoints[]{_key, value, label}\n  },\n  "founder": *[_type == "founder"][0]{\n    name,\n    title,\n    shortBio,\n    credentials,\n    "portrait": portrait{alt, "url": asset->url}\n  },\n  "services": *[_type == "service" && defined(slug.current)] | order(order asc, title asc){\n    _id,\n    title,\n    "slug": slug.current,\n    subServices\n  },\n  "industries": *[_type == "industry" && defined(slug.current)] | order(order asc, title asc){\n    _id,\n    title,\n    "slug": slug.current\n  },\n  "articles": *[_type == "article" && defined(slug.current)] | order(publishedAt desc)[0...3]{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    category,\n    publishedAt\n  }\n}': HOME_QUERY_RESULT;
     '*[_type == "service" && defined(slug.current)] | order(order asc, title asc){\n  _id,\n  _updatedAt,\n  title,\n  "slug": slug.current,\n  summary,\n  subServices\n}': SERVICES_QUERY_RESULT;
     '*[_type == "service" && slug.current == $slug][0]{\n  _id,\n  _updatedAt,\n  title,\n  "slug": slug.current,\n  summary,\n  subServices,\n  body,\n  outcomes,\n  faqs[]{_key, question, answer},\n  "relatedIndustries": relatedIndustries[]->{_id, title, "slug": slug.current},\n  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}\n}': SERVICE_QUERY_RESULT;
+    '*[_type == "industry" && defined(slug.current)] | order(order asc, title asc){\n  _id,\n  _updatedAt,\n  title,\n  "slug": slug.current,\n  summary\n}': INDUSTRIES_QUERY_RESULT;
+    '*[_type == "industry" && slug.current == $slug][0]{\n  _id,\n  _updatedAt,\n  title,\n  "slug": slug.current,\n  summary,\n  body,\n  challenges,\n  "relatedServices": relatedServices[]->{_id, title, "slug": slug.current},\n  "servedBy": *[_type == "service" && defined(slug.current) && references(^._id)] | order(order asc){\n    _id,\n    title,\n    "slug": slug.current\n  },\n  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}\n}': INDUSTRY_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

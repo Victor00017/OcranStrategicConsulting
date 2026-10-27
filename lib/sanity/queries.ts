@@ -75,3 +75,31 @@ export const SERVICE_QUERY = defineQuery(`*[_type == "service" && slug.current =
   "relatedIndustries": relatedIndustries[]->{_id, title, "slug": slug.current},
   seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}
 }`);
+
+// Industries index and sitemap. Order matches the home page.
+export const INDUSTRIES_QUERY =
+  defineQuery(`*[_type == "industry" && defined(slug.current)] | order(order asc, title asc){
+  _id,
+  _updatedAt,
+  title,
+  "slug": slug.current,
+  summary
+}`);
+
+// `servedBy` finds services that list this industry, so editors can link from either side.
+export const INDUSTRY_QUERY = defineQuery(`*[_type == "industry" && slug.current == $slug][0]{
+  _id,
+  _updatedAt,
+  title,
+  "slug": slug.current,
+  summary,
+  body,
+  challenges,
+  "relatedServices": relatedServices[]->{_id, title, "slug": slug.current},
+  "servedBy": *[_type == "service" && defined(slug.current) && references(^._id)] | order(order asc){
+    _id,
+    title,
+    "slug": slug.current
+  },
+  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}
+}`);

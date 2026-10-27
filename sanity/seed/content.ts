@@ -1,5 +1,7 @@
 import type {
   HOME_QUERY_RESULT,
+  INDUSTRIES_QUERY_RESULT,
+  INDUSTRY_QUERY_RESULT,
   SERVICE_QUERY_RESULT,
   SERVICES_QUERY_RESULT,
 } from "@/sanity.types";
@@ -161,6 +163,31 @@ export function seedService(slug: string): SERVICE_QUERY_RESULT {
     outcomes: null,
     faqs: null,
     relatedIndustries: null,
+    seo: null,
+  };
+}
+
+/** The seed in INDUSTRIES_QUERY shape. */
+export function seedIndustries(): INDUSTRIES_QUERY_RESULT {
+  return SEED.industries.map((industry) => ({
+    _id: `industry-${industry.slug}`,
+    _updatedAt: SEED_UPDATED_AT,
+    title: industry.title,
+    slug: industry.slug,
+    summary: summaryTodo(industry.title),
+  }));
+}
+
+/** One seed industry in INDUSTRY_QUERY shape, or null. The brief doesn't map services to industries. */
+export function seedIndustry(slug: string): INDUSTRY_QUERY_RESULT {
+  const industry = seedIndustries().find((i) => i.slug === slug);
+  if (!industry) return null;
+  return {
+    ...industry,
+    body: null,
+    challenges: null,
+    relatedServices: null,
+    servedBy: [],
     seo: null,
   };
 }
