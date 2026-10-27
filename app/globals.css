@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens — single source of truth: docs/DESIGN.md §1.
+ * No raw hex values belong in components; use these tokens.
+ */
+@theme {
+  /* Colour */
+  --color-ivory: #faf7f0;
+  --color-paper: #ffffff;
+  --color-sand: #f1eadc;
+  --color-ink: #1c1a17;
+  --color-ink-muted: #5c564c;
+  --color-gold: #996c28;
+  --color-gold-text: #7d5719;
+  --color-gold-light: #c9a45c;
+  --color-field: #2f4a35;
+  --color-line: #e4dccb;
+  --color-success: #2f6b3f;
+  --color-error: #a23b2a;
+
+  /* Typography — wired to next/font CSS variables in app/layout.tsx */
+  --font-display: var(--font-bodoni), "Times New Roman", serif;
+  --font-sans: var(--font-jost), system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold-text);
+    outline-offset: 2px;
+  }
+}

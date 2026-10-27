@@ -1,21 +1,26 @@
-# Ocran Strategic Consulting — project kit
+# Ocran Strategic Consulting — website
 
-Drop these files into the root of the new Next.js repo before the first agent run.
+Marketing site for **Ocran Strategic Consulting** (Tema, Greater Accra, Ghana) — a senior independent
+consultancy in agriculture, livestock, agribusiness, and strategy/management consulting.
 
-| File | What it's for |
-|---|---|
-| `AGENTS.md` | Rules every AI agent reads first (stack, structure, hard rules, workflow) |
-| `CLAUDE.md` | Points Claude Code at AGENTS.md |
-| `.clinerules` / `.clineignore` | Cline (DeepSeek) behaviour + keeps secrets out of context |
-| `.env.example` | All env vars the build needs |
-| `docs/PROJECT-BRIEF.md` | Positioning, audiences, sitemap, content model, **open questions for the client** |
-| `docs/DESIGN.md` | Design system: colours (contrast-checked), type, layout, components |
-| `docs/SEO.md` | Technical SEO, structured data, keyword map, content engine, off-site actions |
-| `docs/SETUP.md` | Vercel, DNS, free email, Resend, Sanity, Paystack, legal, launch checklist |
-| `docs/DEEPSEEK.md` | Model choice, tool setup, prompt template, 12-step build sequence |
-| `.agents/skills/*/SKILL.md` | Task playbooks: seo-page, ocran-frontend-design, sanity-content, contact-and-email |
-| `docs/SESSION-PROMPT.md` | The one prompt to start every DeepSeek session |
-| `docs/PROGRESS.md` / `docs/DECISIONS.md` | Living project memory the agent reads and updates each session |
-| `docs/SKILLS.md` | Which third-party design skills to install (and which to skip) |
-| `docs/later/` | Parked Phase 2 specs (book sales / Paystack) |
-| `public/brand/logo-reference.png` | Supplied logo (raster) — replace with SVG from the client |
+> Transforming Businesses. Advancing Agriculture and Livestock. Delivering Sustainable Growth.
+
+The site is SEO-first, content-managed in Sanity, and built to stay fast on mobile data in Ghana
+and across Sub-Saharan Africa.
+
+## Stack
+
+| Concern         | Choice                                                              |
+| --------------- | ------------------------------------------------------------------- |
+| Framework       | Next.js (App Router) + TypeScript (strict)                          |
+| Styling         | Tailwind CSS v4, tokens in `app/globals.css` via `@theme`           |
+| CMS             | Sanity — embedded Studio at `/studio` (added in a later build step) |
+| Hosting         | Vercel                                                              |
+| Package manager | pnpm                                                                |
+
+Full rationale and rules live in [`AGENTS.md`](./AGENTS.md). Do not introduce dependencies outside
+that stack without a `docs/DECISIONS.md` entry.
+
+## Getting started
+
+Requires Node 20+ and pnpm (via `corepack` is fine).

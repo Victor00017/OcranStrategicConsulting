@@ -1,0 +1,9 @@
+# Single-package repo, but pnpm v12 reads build-script approvals from this file.
+# Only these native post-install builds may run (Tailwind engine, esbuild for
+# Vitest/Vite, sharp for next/image, unrs-resolver for the ESLint import resolver).
+# Add deliberately, never blanket-allow.
+allowBuilds:
+  "@tailwindcss/oxide": true
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
