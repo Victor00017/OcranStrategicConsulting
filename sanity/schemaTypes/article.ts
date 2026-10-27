@@ -42,6 +42,13 @@ export const article = defineType({
       options: { layout: "tags" },
     }),
     defineField({
+      name: "relatedServices",
+      title: "Related services",
+      description: "At least one — the article links readers to these services (seo-page skill).",
+      type: "array",
+      of: [defineArrayMember({ type: "reference", to: [{ type: "service" }] })],
+    }),
+    defineField({
       name: "publishedAt",
       title: "Published",
       type: "datetime",

@@ -1,5 +1,7 @@
 import type {
   ABOUT_QUERY_RESULT,
+  ARTICLE_QUERY_RESULT,
+  ARTICLES_QUERY_RESULT,
   HOME_QUERY_RESULT,
   INDUSTRIES_QUERY_RESULT,
   INDUSTRY_QUERY_RESULT,
@@ -242,4 +244,14 @@ export function seedAbout(): ABOUT_QUERY_RESULT {
 /** The client's 43 publications haven't been supplied yet (PROGRESS), so the seed has none. */
 export function seedPublications(): PUBLICATIONS_QUERY_RESULT {
   return [];
+}
+
+/** The client's 5 articles haven't been supplied yet (PROGRESS), so the seed has none. */
+export function seedArticles(): ARTICLES_QUERY_RESULT {
+  return [];
+}
+
+export function seedArticle(slug: string): ARTICLE_QUERY_RESULT {
+  void slug; // no seeded articles, so every slug is unknown (→ 404)
+  return null;
 }

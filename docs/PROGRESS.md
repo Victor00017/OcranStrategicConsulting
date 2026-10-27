@@ -2,15 +2,15 @@
 
 ## Current state
 
-Steps 0–7 done and live at www.ocranstrategicconsulting.com (Sanity `po34na24`). Home is built around the offer
-(D-024); services, industries and About are complete, with drafted copy awaiting sign-off (D-023). /about is built
-from the client's documents with `Person` JSON-LD; /publications waits for the 43 entries (noindex until then, D-026).
-Fetches refresh hourly (D-025). All checks green, 54 tests.
+Steps 0–8 done and live at www.ocranstrategicconsulting.com (Sanity `po34na24`). Home, services, industries, About
+complete; drafted copy awaiting sign-off (D-023). /publications and /insights are built and wait for content — both
+`noindex` and out of the sitemap until their first entry (D-026, D-027). All checks green, 61 tests.
 
 ## Next up
 
-Build plan item 8 — Insights list + article page (portable text, TOC, related, author box). Blocked on content: the
-client's 5 articles haven't been supplied. The page can be built against an empty list (like Publications) or wait.
+Build plan item 9 — Contact form + `/api/contact` + emails (contact-and-email skill). Must read `?service=<slug>`
+to preselect the service (D-021). Needs from the human: Resend account + verified domain, Turnstile keys, and the
+Sanity write token (SETUP.md §4–5) — the form can be built and tested before they exist.
 
 ## Build plan
 
@@ -22,7 +22,7 @@ client's 5 articles haven't been supplied. The page can be built against an empt
 - [x] 5. Services index + /services/[slug]
 - [x] 6. Industries index + /industries/[slug]
 - [x] 7. About (founder, credentials, countries) + Publications
-- [ ] 8. Insights list + article page (portable text, TOC, related, author box)
+- [x] 8. Insights list + article page (portable text, TOC, related, author box)
 - [ ] 9. Contact form + /api/contact + emails (contact-and-email skill)
 - [ ] ~~10. Resources + Brevo gated downloads~~ — on hold (D-016)
 - [ ] ~~11. Books showcase + "Enquire to order" → prefilled contact form~~ — on hold (D-016)
@@ -66,6 +66,8 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
 
 **Drafted copy for client sign-off (D-023)** — all editable in the Studio; source file `sanity/seed/copy.ts`:
 
+- Insights page introduction and meta description (`app/(site)/insights/page.tsx`).
+
 - Home: "What we deliver" list, "Who we work with" headline and four audience cards, "How we work" steps,
   "Experience behind the advice" intro line.
 - Services: six summaries, "What you receive" lists, outcomes, FAQs, related industries. Services and industries
@@ -80,14 +82,16 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
 - Per service, when available: longer page content (the drafts cover summary, deliverables, outcomes, FAQs).
 - Industries index meta description (148 chars) — approve.
 - Per industry, when available: longer page content (drafts cover summary and challenges; services link from either side, D-022).
-- Vector monogram/logo (brief §7 q1) — then add it to the OG image template and favicon. The Canva PNG supplied is
-  identical to `public/brand/logo-reference.png`; ask for Canva's **SVG** download.
+- **Logo as vector (D-027):** ask the client to download the logo from Canva as **SVG** (Pro) or **PDF Print**
+  (free plan, transparent background). PDF converts exactly here. Then: header, favicon, OG image.
 - **Confirm "30 countries"**: the Detailed Profile's list reaches 30 only by counting Zanzibar (part of Tanzania).
   Either confirm, or use "30 countries and territories" before launch.
 - Detailed Profile typo "referred journal papers" was corrected to "refereed" on /about — tell the client.
 - Countries list shows "the UAE" exactly as in the profile; client may prefer "United Arab Emirates" (edit in Studio → Founder).
 - **The 43 publications** (title, type, year, publisher/journal, link or DOI) — /publications stays hidden from search until they're added.
-- Missing attachments referenced by the Website Structure doc: the 5 articles (step 8), "Consulting Profile —
+- **The 5 articles** for Insights (title, excerpt, category, body, related services). After the first is published,
+  check an article page in the browser — its layout is only covered by tests so far.
+- Missing attachments referenced by the Website Structure doc: "Consulting Profile —
   Jonathan Nyarko Ocran", proposal template / toolkits / diagnostic tools (on hold, D-016), work samples (step 12).
 - Books section lists "Feasibility Study Reports and Business Plans" and "Thought Leadership" — should these appear
   on /publications while books are on hold?
@@ -110,3 +114,4 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
 - 2026-10-27 · Go-live fixes · done — live site was rendering an empty Sanity dataset (Vercel had the project ID, nothing seeded); seeded `po34na24` (15 docs), verified local build against Sanity, redeployed (`26585b7`). Live home, services, industries, studio all 200. Found www cert missing (backlog). Replaced a stale 25-Oct local server on :3123.
 - 2026-10-27 · IA review + copy · done — home restructured around the offer (D-024: deliverables panel, audiences, how we work, attributed track record, compact founder; new `homePage` singleton); all TODO copy drafted for approval (D-023, `sanity/seed/copy.ts`) incl. service deliverables; `pnpm seed` now fills empty/TODO fields only (filled 14 docs, created homePage, founder untouched); 1h revalidate backstop after stale fetch cache seen (D-025). Contrast check moved small text on field band to ivory. 47 tests.
 - 2026-10-27 · Build step 7 — About + Publications · done — /about from client documents (aboutPage singleton; founder longBio, alumniOf, 20 expertise areas, 30 countries; Person JSON-LD); /publications with ItemList JSON-LD, noindex + out of sitemap while empty (D-026); FounderSpotlight removed; `pnpm seed` created aboutPage and filled 4 empty founder fields. Screenshots 375/1280 checked. 54 tests.
+- 2026-10-27 · Build step 8 — Insights + logo evaluation · done — /insights index and /insights/[slug] (TOC from H2s, author box, related services via new article field, related articles, Article JSON-LD), noindex/out of sitemap until first article (D-027); shared `formatDate`. Logo: Recraft unavailable; PNG too small to trace well; recommend Canva SVG/PDF export (pdftocairo available) over a hand rebuild (D-027). 61 tests.

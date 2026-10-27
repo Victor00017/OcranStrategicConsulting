@@ -131,6 +131,13 @@ export type Publication = {
   doi?: string;
 };
 
+export type ServiceReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "service";
+};
+
 export type Article = {
   _id: string;
   _type: "article";
@@ -151,6 +158,11 @@ export type Article = {
   body: BlockContent;
   category?: string;
   tags?: Array<string>;
+  relatedServices?: Array<
+    {
+      _key: string;
+    } & ServiceReference
+  >;
   publishedAt: string;
   updatedAt?: string;
   seo?: Seo;
@@ -170,13 +182,6 @@ export type SanityImageHotspot = {
   y: number;
   height: number;
   width: number;
-};
-
-export type ServiceReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "service";
 };
 
 export type Industry = {
@@ -445,10 +450,10 @@ export type AllSanitySchemaTypes =
   | CaseStudy
   | Slug
   | Publication
+  | ServiceReference
   | Article
   | SanityImageCrop
   | SanityImageHotspot
-  | ServiceReference
   | Industry
   | Founder
   | AboutPage
@@ -688,6 +693,70 @@ export type PUBLICATIONS_QUERY_RESULT = Array<{
   doi: string | null;
 }>;
 
+// Source: lib/sanity/queries.ts
+// Variable: ARTICLES_QUERY
+// Query: *[_type == "article" && defined(slug.current)] | order(publishedAt desc){  _id,  _updatedAt,  title,  "slug": slug.current,  excerpt,  category,  publishedAt,  "coverImage": coverImage{alt, "url": asset->url}}
+export type ARTICLES_QUERY_RESULT = Array<{
+  _id: string;
+  _updatedAt: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  category: string | null;
+  publishedAt: string;
+  coverImage: {
+    alt: string;
+    url: string | null;
+  } | null;
+}>;
+
+// Source: lib/sanity/queries.ts
+// Variable: ARTICLE_QUERY
+// Query: *[_type == "article" && slug.current == $slug][0]{  _id,  title,  "slug": slug.current,  excerpt,  category,  tags,  publishedAt,  updatedAt,  body,  "coverImage": coverImage{alt, "url": asset->url},  "relatedServices": relatedServices[]->{_id, title, "slug": slug.current},  "related": *[_type == "article" && defined(slug.current) && slug.current != $slug] | order(select(category == ^.category => 0, 1) asc, publishedAt desc)[0...2]{    _id,    title,    "slug": slug.current,    excerpt,    category,    publishedAt  },  "author": *[_type == "founder"][0]{name, title, shortBio, "portrait": portrait{alt, "url": asset->url}},  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}}
+export type ARTICLE_QUERY_RESULT = {
+  _id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  category: string | null;
+  tags: Array<string> | null;
+  publishedAt: string;
+  updatedAt: string | null;
+  body: BlockContent;
+  coverImage: {
+    alt: string;
+    url: string | null;
+  } | null;
+  relatedServices: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+  }> | null;
+  related: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+    excerpt: string;
+    category: string | null;
+    publishedAt: string;
+  }>;
+  author: {
+    name: string;
+    title: string | null;
+    shortBio: string | null;
+    portrait: {
+      alt: string;
+      url: string | null;
+    } | null;
+  } | null;
+  seo: {
+    metaTitle: string | null;
+    metaDescription: string | null;
+    noindex: boolean | null;
+    ogImage: string | null;
+  } | null;
+} | null;
+
 // Query TypeMap
 declare global {
   interface SanityQueries {
@@ -700,6 +769,8 @@ declare global {
     '*[_type == "siteSettings"][0]{servicesIntro, industriesIntro}': PAGE_INTROS_QUERY_RESULT;
     '{\n  "about": *[_type == "aboutPage"][0]{companyStory, mission, vision, values},\n  "founder": *[_type == "founder"][0]{\n    name,\n    title,\n    shortBio,\n    longBio,\n    credentials,\n    alumniOf,\n    expertise,\n    countries,\n    "portrait": portrait{alt, "url": asset->url}\n  }\n}': ABOUT_QUERY_RESULT;
     '*[_type == "publication"] | order(year desc, title asc){\n  _id,\n  title,\n  type,\n  year,\n  publisher,\n  url,\n  doi\n}': PUBLICATIONS_QUERY_RESULT;
+    '*[_type == "article" && defined(slug.current)] | order(publishedAt desc){\n  _id,\n  _updatedAt,\n  title,\n  "slug": slug.current,\n  excerpt,\n  category,\n  publishedAt,\n  "coverImage": coverImage{alt, "url": asset->url}\n}': ARTICLES_QUERY_RESULT;
+    '*[_type == "article" && slug.current == $slug][0]{\n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  category,\n  tags,\n  publishedAt,\n  updatedAt,\n  body,\n  "coverImage": coverImage{alt, "url": asset->url},\n  "relatedServices": relatedServices[]->{_id, title, "slug": slug.current},\n  "related": *[_type == "article" && defined(slug.current) && slug.current != $slug] | order(select(category == ^.category => 0, 1) asc, publishedAt desc)[0...2]{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    category,\n    publishedAt\n  },\n  "author": *[_type == "founder"][0]{name, title, shortBio, "portrait": portrait{alt, "url": asset->url}},\n  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}\n}': ARTICLE_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

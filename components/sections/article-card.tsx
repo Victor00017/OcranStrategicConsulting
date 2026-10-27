@@ -1,10 +1,5 @@
 import Link from "next/link";
-
-const dateFormat = new Intl.DateTimeFormat("en-GH", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-});
+import { formatDate } from "@/lib/format";
 
 /** Article card for insight lists: category, title (stretched link), excerpt, date. */
 export function ArticleCard({
@@ -35,7 +30,7 @@ export function ArticleCard({
       </h3>
       <p className="text-ink-muted mt-3 line-clamp-3">{excerpt}</p>
       <time dateTime={publishedAt} className="text-ink-muted mt-auto pt-5 text-sm">
-        {dateFormat.format(new Date(publishedAt))}
+        {formatDate(publishedAt)}
       </time>
     </article>
   );

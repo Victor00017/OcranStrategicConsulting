@@ -213,3 +213,29 @@ export function personJsonLd(founder: {
     ...(founder.expertise?.length ? { knowsAbout: founder.expertise } : {}),
   };
 }
+
+/** Article JSON-LD (docs/SEO.md §2): authored by the founder, published by the Organization. */
+export function articleJsonLd(article: {
+  title: string;
+  slug: string;
+  excerpt: string;
+  publishedAt: string;
+  updatedAt: string | null;
+  coverImage: { url: string | null } | null;
+}) {
+  const url = absoluteUrl(`/insights/${article.slug}`);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${url}#article`,
+    headline: article.title,
+    description: article.excerpt,
+    url,
+    mainEntityOfPage: url,
+    datePublished: article.publishedAt,
+    dateModified: article.updatedAt ?? article.publishedAt,
+    author: { "@id": FOUNDER_ID },
+    publisher: { "@id": ORGANIZATION_ID },
+    ...(article.coverImage?.url ? { image: article.coverImage.url } : {}),
+  };
+}

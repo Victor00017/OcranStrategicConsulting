@@ -144,3 +144,41 @@ export const PUBLICATIONS_QUERY =
   url,
   doi
 }`);
+
+// /insights index, newest first.
+export const ARTICLES_QUERY =
+  defineQuery(`*[_type == "article" && defined(slug.current)] | order(publishedAt desc){
+  _id,
+  _updatedAt,
+  title,
+  "slug": slug.current,
+  excerpt,
+  category,
+  publishedAt,
+  "coverImage": coverImage{alt, "url": asset->url}
+}`);
+
+// One article, its author box (the founder) and up to two related articles (same category first).
+export const ARTICLE_QUERY = defineQuery(`*[_type == "article" && slug.current == $slug][0]{
+  _id,
+  title,
+  "slug": slug.current,
+  excerpt,
+  category,
+  tags,
+  publishedAt,
+  updatedAt,
+  body,
+  "coverImage": coverImage{alt, "url": asset->url},
+  "relatedServices": relatedServices[]->{_id, title, "slug": slug.current},
+  "related": *[_type == "article" && defined(slug.current) && slug.current != $slug] | order(select(category == ^.category => 0, 1) asc, publishedAt desc)[0...2]{
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt,
+    category,
+    publishedAt
+  },
+  "author": *[_type == "founder"][0]{name, title, shortBio, "portrait": portrait{alt, "url": asset->url}},
+  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}
+}`);

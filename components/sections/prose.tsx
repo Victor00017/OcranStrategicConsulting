@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PortableText, type PortableTextComponents } from "next-sanity";
+import { blockText, headingId } from "@/lib/portable-text";
 import { urlForImage } from "@/lib/sanity/image";
 import type { BlockContent } from "@/sanity.types";
 
@@ -11,8 +12,12 @@ import type { BlockContent } from "@/sanity.types";
 const components: PortableTextComponents = {
   block: {
     normal: ({ children }) => <p className="mt-5 first:mt-0">{children}</p>,
-    h2: ({ children }) => (
-      <h2 className="font-display text-ink mt-12 text-[clamp(1.75rem,3vw,2.25rem)] leading-tight font-medium">
+    // id matches tableOfContents() so the article TOC can link to each section.
+    h2: ({ children, value }) => (
+      <h2
+        id={headingId(blockText(value))}
+        className="font-display text-ink mt-12 scroll-mt-28 text-[clamp(1.75rem,3vw,2.25rem)] leading-tight font-medium"
+      >
         {children}
       </h2>
     ),
