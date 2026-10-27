@@ -2,15 +2,15 @@
 
 ## Current state
 
-Steps 0–9 done and live at www.ocranstrategicconsulting.com (Sanity `po34na24`). /contact is a simple Resend-backed
-form (D-028) — it shows a friendly "not available" message until `RESEND_API_KEY` and `CONTACT_TO_EMAIL` are set in
-Vercel (SETUP.md §4). /publications and /insights wait for content (noindex until then). Drafted copy awaits client
-sign-off (D-023). All checks green, 79 tests.
+Build steps 0–9 and 12 done and live at www.ocranstrategicconsulting.com (10–11 on hold, D-016). Every nav and footer
+link now resolves. Privacy notice and terms are drafts awaiting review (D-029); Vercel analytics code is in, waiting to
+be enabled in the dashboard. Publications, Insights and Case studies wait for content (noindex until then). The contact
+form waits for its two Resend env vars (SETUP.md §4). All checks green, 84 tests.
 
 ## Next up
 
-Human: create the Resend account and add the two env vars (SETUP.md §4), then send a test enquiry. Agent: build plan
-item 12 — legal pages (privacy, terms) and analytics; item 10–11 are on hold (D-016).
+Build plan item 13 — audit: accessibility and design review (web-design-guidelines skill is not installed — use the
+accessibility checklist in DESIGN.md §7), Lighthouse on mobile, Rich Results Test, security headers. Then 14 (editor guide).
 
 ## Build plan
 
@@ -26,7 +26,7 @@ item 12 — legal pages (privacy, terms) and analytics; item 10–11 are on hold
 - [x] 9. Contact form + /api/contact + emails (contact-and-email skill)
 - [ ] ~~10. Resources + Brevo gated downloads~~ — on hold (D-016)
 - [ ] ~~11. Books showcase + "Enquire to order" → prefilled contact form~~ — on hold (D-016)
-- [ ] 12. Case studies, legal pages (privacy/terms), analytics
+- [x] 12. Case studies, legal pages (privacy/terms), analytics
 - [ ] 13. Audit: web-design-guidelines, webapp-testing screenshots, Lighthouse, Rich Results, security headers → fix
 - [ ] 14. Handover docs: docs/EDITOR-GUIDE.md (how Jonathan edits content in Studio, plain language) + README deploy notes
 
@@ -66,6 +66,9 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
 
 **Drafted copy for client sign-off (D-023)** — all editable in the Studio; source file `sanity/seed/copy.ts`:
 
+- **Privacy notice and terms of use (D-029)** — plain-language drafts; have them reviewed, ideally by a Ghanaian
+  lawyer, before promoting the site. Edit in Studio → Legal pages and update "Last updated".
+
 - Contact page: heading "Request a consultation", intro line, form labels and success message.
 
 - Insights page introduction and meta description (`app/(site)/insights/page.tsx`).
@@ -93,6 +96,7 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
 - **The 43 publications** (title, type, year, publisher/journal, link or DOI) — /publications stays hidden from search until they're added.
 - **The 5 articles** for Insights (title, excerpt, category, body, related services). After the first is published,
   check an article page in the browser — its layout is only covered by tests so far.
+- Case studies: work samples the client has **written permission** to publish (tick "Written permission received").
 - Missing attachments referenced by the Website Structure doc: "Consulting Profile —
   Jonathan Nyarko Ocran", proposal template / toolkits / diagnostic tools (on hold, D-016), work samples (step 12).
 - Books section lists "Feasibility Study Reports and Business Plans" and "Thought Leadership" — should these appear
@@ -118,3 +122,4 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
 - 2026-10-27 · Build step 7 — About + Publications · done — /about from client documents (aboutPage singleton; founder longBio, alumniOf, 20 expertise areas, 30 countries; Person JSON-LD); /publications with ItemList JSON-LD, noindex + out of sitemap while empty (D-026); FounderSpotlight removed; `pnpm seed` created aboutPage and filled 4 empty founder fields. Screenshots 375/1280 checked. 54 tests.
 - 2026-10-27 · Build step 8 — Insights + logo evaluation · done — /insights index and /insights/[slug] (TOC from H2s, author box, related services via new article field, related articles, Article JSON-LD), noindex/out of sitemap until first article (D-027); shared `formatDate`. Logo: Recraft unavailable; PNG too small to trace well; recommend Canva SVG/PDF export (pdftocairo available) over a hand rebuild (D-027). 61 tests.
 - 2026-10-27 · Build step 9 — Contact (simplified) · done — at Victor's request: one free Resend account, no domain/Turnstile/Sanity token (D-028). Server action + dependency-free validation, honeypot, 5/h rate limit, reply-to enquirer, PII-free logs; `?service=` preselect. Verified on a production build with JS off (field errors, Resend reached and rejected a fake key gracefully, honeypot dropped). 79 tests.
+- 2026-10-27 · Build step 12 — legal, analytics, case studies · done — /privacy and /terms from new `legalPage` type (drafts seeded into Sanity), Vercel Analytics + Speed Insights in the site layout (+2 KB gz), /case-studies + detail filtered on written permission, noindex until first study; shared `toBlocks` seed helper. Sitemap 20 URLs. 84 tests.

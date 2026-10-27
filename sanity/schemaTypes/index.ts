@@ -6,6 +6,7 @@ import { enquiry } from "./enquiry";
 import { founder } from "./founder";
 import { homePage } from "./home-page";
 import { industry } from "./industry";
+import { legalPage } from "./legal-page";
 import { publication } from "./publication";
 import { seo } from "./seo";
 import { service } from "./service";
@@ -26,6 +27,7 @@ export const schemaTypes = [
   publication,
   caseStudy,
   testimonial,
+  legalPage,
   enquiry,
   // Objects
   seo,

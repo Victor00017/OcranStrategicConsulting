@@ -11,6 +11,8 @@ const PAGE_NAMES: Record<(typeof STATIC_ROUTES)[number], string> = {
   "/industries": "Industries",
   "/about": "About",
   "/contact": "Contact",
+  "/privacy": "Privacy notice",
+  "/terms": "Terms of use",
 };
 
 /**

@@ -8,6 +8,7 @@ import { createReadStream } from "node:fs";
 import { getCliClient } from "sanity/cli";
 import { PORTRAIT_FILE, SEED } from "./content";
 import { HOME_COPY, INDUSTRY_COPY, PAGE_INTROS, SERVICE_COPY } from "./copy";
+import { LEGAL_PAGES } from "./legal";
 import { ABOUT, FOUNDER_PROFILE } from "./profile";
 
 const client = getCliClient({ apiVersion: "2026-10-01" });
@@ -120,6 +121,17 @@ async function run() {
       slug: { _type: "slug", current: industry.slug },
       order: index + 1,
       ...(copy ? { summary: copy.summary, challenges: copy.challenges } : {}),
+    });
+  }
+
+  for (const page of LEGAL_PAGES) {
+    await upsert({
+      _id: `legal-${page.slug}`,
+      _type: "legalPage",
+      title: page.title,
+      slug: { _type: "slug", current: page.slug },
+      lastUpdated: page.lastUpdated,
+      body: page.body,
     });
   }
 

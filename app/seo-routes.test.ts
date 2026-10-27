@@ -24,6 +24,8 @@ describe("sitemap.xml", () => {
       "https://www.ocranstrategicconsulting.com/industries",
       "https://www.ocranstrategicconsulting.com/about",
       "https://www.ocranstrategicconsulting.com/contact",
+      "https://www.ocranstrategicconsulting.com/privacy",
+      "https://www.ocranstrategicconsulting.com/terms",
       ...SEED.services.map((s) => `https://www.ocranstrategicconsulting.com/services/${s.slug}`),
       ...SEED.industries.map(
         (i) => `https://www.ocranstrategicconsulting.com/industries/${i.slug}`,

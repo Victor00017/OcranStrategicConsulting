@@ -80,6 +80,24 @@ export type Enquiry = {
   status?: "new" | "replied" | "closed";
 };
 
+export type LegalPage = {
+  _id: string;
+  _type: "legalPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  lastUpdated: string;
+  body: BlockContent;
+};
+
+export type Slug = {
+  _type: "slug";
+  current: string;
+  source?: string;
+};
+
 export type Testimonial = {
   _id: string;
   _type: "testimonial";
@@ -109,12 +127,6 @@ export type CaseStudy = {
   year?: number;
   permissionConfirmed?: boolean;
   seo?: Seo;
-};
-
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
 };
 
 export type Publication = {
@@ -446,9 +458,10 @@ export type AllSanitySchemaTypes =
   | BlockContent
   | Seo
   | Enquiry
+  | LegalPage
+  | Slug
   | Testimonial
   | CaseStudy
-  | Slug
   | Publication
   | ServiceReference
   | Article
@@ -757,6 +770,51 @@ export type ARTICLE_QUERY_RESULT = {
   } | null;
 } | null;
 
+// Source: lib/sanity/queries.ts
+// Variable: LEGAL_PAGE_QUERY
+// Query: *[_type == "legalPage" && slug.current == $slug][0]{  title,  lastUpdated,  body}
+export type LEGAL_PAGE_QUERY_RESULT = {
+  title: string;
+  lastUpdated: string;
+  body: BlockContent;
+} | null;
+
+// Source: lib/sanity/queries.ts
+// Variable: CASE_STUDIES_QUERY
+// Query: *[_type == "caseStudy" && permissionConfirmed == true && defined(slug.current)] | order(year desc, title asc){  _id,  _updatedAt,  title,  "slug": slug.current,  client,  sector,  year,  challenge}
+export type CASE_STUDIES_QUERY_RESULT = Array<{
+  _id: string;
+  _updatedAt: string;
+  title: string;
+  slug: string;
+  client: string;
+  sector: string | null;
+  year: number | null;
+  challenge: string | null;
+}>;
+
+// Source: lib/sanity/queries.ts
+// Variable: CASE_STUDY_QUERY
+// Query: *[_type == "caseStudy" && permissionConfirmed == true && slug.current == $slug][0]{  _id,  _updatedAt,  title,  "slug": slug.current,  client,  sector,  year,  challenge,  approach,  results,  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}}
+export type CASE_STUDY_QUERY_RESULT = {
+  _id: string;
+  _updatedAt: string;
+  title: string;
+  slug: string;
+  client: string;
+  sector: string | null;
+  year: number | null;
+  challenge: string | null;
+  approach: string | null;
+  results: Array<string> | null;
+  seo: {
+    metaTitle: string | null;
+    metaDescription: string | null;
+    noindex: boolean | null;
+    ogImage: string | null;
+  } | null;
+} | null;
+
 // Query TypeMap
 declare global {
   interface SanityQueries {
@@ -771,6 +829,9 @@ declare global {
     '*[_type == "publication"] | order(year desc, title asc){\n  _id,\n  title,\n  type,\n  year,\n  publisher,\n  url,\n  doi\n}': PUBLICATIONS_QUERY_RESULT;
     '*[_type == "article" && defined(slug.current)] | order(publishedAt desc){\n  _id,\n  _updatedAt,\n  title,\n  "slug": slug.current,\n  excerpt,\n  category,\n  publishedAt,\n  "coverImage": coverImage{alt, "url": asset->url}\n}': ARTICLES_QUERY_RESULT;
     '*[_type == "article" && slug.current == $slug][0]{\n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  category,\n  tags,\n  publishedAt,\n  updatedAt,\n  body,\n  "coverImage": coverImage{alt, "url": asset->url},\n  "relatedServices": relatedServices[]->{_id, title, "slug": slug.current},\n  "related": *[_type == "article" && defined(slug.current) && slug.current != $slug] | order(select(category == ^.category => 0, 1) asc, publishedAt desc)[0...2]{\n    _id,\n    title,\n    "slug": slug.current,\n    excerpt,\n    category,\n    publishedAt\n  },\n  "author": *[_type == "founder"][0]{name, title, shortBio, "portrait": portrait{alt, "url": asset->url}},\n  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}\n}': ARTICLE_QUERY_RESULT;
+    '*[_type == "legalPage" && slug.current == $slug][0]{\n  title,\n  lastUpdated,\n  body\n}': LEGAL_PAGE_QUERY_RESULT;
+    '*[_type == "caseStudy" && permissionConfirmed == true && defined(slug.current)] | order(year desc, title asc){\n  _id,\n  _updatedAt,\n  title,\n  "slug": slug.current,\n  client,\n  sector,\n  year,\n  challenge\n}': CASE_STUDIES_QUERY_RESULT;
+    '*[_type == "caseStudy" && permissionConfirmed == true && slug.current == $slug][0]{\n  _id,\n  _updatedAt,\n  title,\n  "slug": slug.current,\n  client,\n  sector,\n  year,\n  challenge,\n  approach,\n  results,\n  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}\n}': CASE_STUDY_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

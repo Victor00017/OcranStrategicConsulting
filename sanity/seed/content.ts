@@ -2,15 +2,19 @@ import type {
   ABOUT_QUERY_RESULT,
   ARTICLE_QUERY_RESULT,
   ARTICLES_QUERY_RESULT,
+  CASE_STUDIES_QUERY_RESULT,
+  CASE_STUDY_QUERY_RESULT,
   HOME_QUERY_RESULT,
   INDUSTRIES_QUERY_RESULT,
   INDUSTRY_QUERY_RESULT,
+  LEGAL_PAGE_QUERY_RESULT,
   PAGE_INTROS_QUERY_RESULT,
   PUBLICATIONS_QUERY_RESULT,
   SERVICE_QUERY_RESULT,
   SERVICES_QUERY_RESULT,
 } from "@/sanity.types";
 import { HOME_COPY, INDUSTRY_COPY, PAGE_INTROS, SERVICE_COPY } from "./copy";
+import { LEGAL_PAGES } from "./legal";
 import { ABOUT, FOUNDER_PROFILE } from "./profile";
 
 /**
@@ -253,5 +257,21 @@ export function seedArticles(): ARTICLES_QUERY_RESULT {
 
 export function seedArticle(slug: string): ARTICLE_QUERY_RESULT {
   void slug; // no seeded articles, so every slug is unknown (→ 404)
+  return null;
+}
+
+/** One legal page (./legal.ts drafts) in LEGAL_PAGE_QUERY shape, or null. */
+export function seedLegalPage(slug: string): LEGAL_PAGE_QUERY_RESULT {
+  const page = LEGAL_PAGES.find((p) => p.slug === slug);
+  return page ? { title: page.title, lastUpdated: page.lastUpdated, body: page.body } : null;
+}
+
+/** No case studies have been supplied or cleared for publication yet (PROGRESS). */
+export function seedCaseStudies(): CASE_STUDIES_QUERY_RESULT {
+  return [];
+}
+
+export function seedCaseStudy(slug: string): CASE_STUDY_QUERY_RESULT {
+  void slug; // nothing seeded, so every slug is unknown (→ 404)
   return null;
 }

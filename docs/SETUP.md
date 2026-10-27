@@ -99,7 +99,8 @@ Cloudflare Turnstile (free) site key + secret. Honeypot field. Rate limit by IP 
 
 ## 8. Analytics & search
 
-- Enable Vercel Web Analytics + Speed Insights (cookie-free).
+- Vercel → project → **Analytics** tab → Enable, and **Speed Insights** tab → Enable. The code is already in place
+  (`app/(site)/layout.tsx`, D-029); data starts flowing on the next visit. Both are cookie-free, so no cookie banner.
 - Google Search Console: verify via DNS TXT, submit `/sitemap.xml`. Bing Webmaster Tools: import from GSC.
 - Google Business Profile (see SEO.md §5).
 

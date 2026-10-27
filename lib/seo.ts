@@ -16,7 +16,15 @@ export const WEBSITE_ID = `${SITE_URL}/#website`;
  * Public routes that exist today. sitemap.ts and llms.txt read this list, so add a route here
  * when its page ships (Sanity-driven routes are added to sitemap.ts from build step 5 on).
  */
-export const STATIC_ROUTES = ["/", "/services", "/industries", "/about", "/contact"] as const;
+export const STATIC_ROUTES = [
+  "/",
+  "/services",
+  "/industries",
+  "/about",
+  "/contact",
+  "/privacy",
+  "/terms",
+] as const;
 
 // Matches how Next renders canonicals: the home page is the bare host, no trailing slash.
 export const absoluteUrl = (path: string) => (path === "/" ? SITE_URL : `${SITE_URL}${path}`);
@@ -237,5 +245,27 @@ export function articleJsonLd(article: {
     author: { "@id": FOUNDER_ID },
     publisher: { "@id": ORGANIZATION_ID },
     ...(article.coverImage?.url ? { image: article.coverImage.url } : {}),
+  };
+}
+
+/** Case study JSON-LD (docs/SEO.md §2): an Article about the project, published by the Organization. */
+export function caseStudyJsonLd(study: {
+  title: string;
+  slug: string;
+  challenge: string | null;
+  sector: string | null;
+}) {
+  const url = absoluteUrl(`/case-studies/${study.slug}`);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${url}#case-study`,
+    headline: study.title,
+    url,
+    mainEntityOfPage: url,
+    ...(study.challenge ? { description: study.challenge } : {}),
+    ...(study.sector ? { about: study.sector } : {}),
+    author: { "@id": ORGANIZATION_ID },
+    publisher: { "@id": ORGANIZATION_ID },
   };
 }

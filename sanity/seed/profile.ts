@@ -1,4 +1,4 @@
-import type { BlockContent } from "@/sanity.types";
+import { toBlocks } from "./blocks";
 
 /**
  * Client facts for /about, from the client's documents — kept verbatim apart from British spelling
@@ -16,19 +16,6 @@ export const ABOUT = {
     "To become a leading strategic advisory firm supporting African enterprises to grow into globally competitive organisations.",
   values: ["Excellence", "Integrity", "Professional Service"],
 };
-
-type Para = { style?: "normal" | "h2"; text: string };
-
-/** Plain paragraphs → Sanity portable text (`blockContent`) with stable keys. */
-function toBlocks(paras: Para[]): BlockContent {
-  return paras.map(({ style = "normal", text }, index) => ({
-    _type: "block",
-    _key: `p${index}`,
-    style,
-    markDefs: [],
-    children: [{ _type: "span", _key: `s${index}`, text, marks: [] }],
-  }));
-}
 
 export const FOUNDER_PROFILE = {
   longBio: toBlocks([

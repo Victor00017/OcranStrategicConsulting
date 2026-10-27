@@ -182,3 +182,38 @@ export const ARTICLE_QUERY = defineQuery(`*[_type == "article" && slug.current =
   "author": *[_type == "founder"][0]{name, title, shortBio, "portrait": portrait{alt, "url": asset->url}},
   seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}
 }`);
+
+// /privacy and /terms.
+export const LEGAL_PAGE_QUERY = defineQuery(`*[_type == "legalPage" && slug.current == $slug][0]{
+  title,
+  lastUpdated,
+  body
+}`);
+
+// Case studies are public only with the client's written permission (D-008, schema rule).
+export const CASE_STUDIES_QUERY =
+  defineQuery(`*[_type == "caseStudy" && permissionConfirmed == true && defined(slug.current)] | order(year desc, title asc){
+  _id,
+  _updatedAt,
+  title,
+  "slug": slug.current,
+  client,
+  sector,
+  year,
+  challenge
+}`);
+
+export const CASE_STUDY_QUERY =
+  defineQuery(`*[_type == "caseStudy" && permissionConfirmed == true && slug.current == $slug][0]{
+  _id,
+  _updatedAt,
+  title,
+  "slug": slug.current,
+  client,
+  sector,
+  year,
+  challenge,
+  approach,
+  results,
+  seo{metaTitle, metaDescription, noindex, "ogImage": ogImage.asset->url}
+}`);
