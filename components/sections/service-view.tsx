@@ -82,7 +82,7 @@ export function ServiceView({
                   <li key={item} className="border-line text-ink flex gap-5 border-b py-4">
                     <span
                       aria-hidden="true"
-                      className="font-display text-gold w-8 shrink-0 text-xl"
+                      className="font-display text-gold-text w-8 shrink-0 text-xl"
                     >
                       {String(index + 1).padStart(2, "0")}
                     </span>

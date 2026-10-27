@@ -2,15 +2,15 @@
 
 ## Current state
 
-Build steps 0–9 and 12 done and live at www.ocranstrategicconsulting.com (10–11 on hold, D-016). Every nav and footer
-link now resolves. Privacy notice and terms are drafts awaiting review (D-029); Vercel analytics code is in, waiting to
-be enabled in the dashboard. Publications, Insights and Case studies wait for content (noindex until then). The contact
-form waits for its two Resend env vars (SETUP.md §4). All checks green, 84 tests.
+Build steps 0–9, 12 and 13 done and live (10–11 on hold, D-016). Audit (D-030): accessibility 100 on most pages, SEO
+100, keyboard and form checks pass, security headers added, structured data valid. Mobile performance 79–83 — framework
+JavaScript, accepted for now and watched via Speed Insights. Temporary favicon until the logo is chosen; a rebuilt
+logo candidate is in `docs/brand/` awaiting approval. All checks green, 84 tests.
 
 ## Next up
 
-Build plan item 13 — audit: accessibility and design review (web-design-guidelines skill is not installed — use the
-accessibility checklist in DESIGN.md §7), Lighthouse on mobile, Rich Results Test, security headers. Then 14 (editor guide).
+Build plan item 14 — `docs/EDITOR-GUIDE.md` (plain-language Studio guide for the consultant) + README deploy notes.
+Human: choose the logo route (Canva export vs. the candidate), run Google's Rich Results Test on 2–3 live pages.
 
 ## Build plan
 
@@ -27,7 +27,7 @@ accessibility checklist in DESIGN.md §7), Lighthouse on mobile, Rich Results Te
 - [ ] ~~10. Resources + Brevo gated downloads~~ — on hold (D-016)
 - [ ] ~~11. Books showcase + "Enquire to order" → prefilled contact form~~ — on hold (D-016)
 - [x] 12. Case studies, legal pages (privacy/terms), analytics
-- [ ] 13. Audit: web-design-guidelines, webapp-testing screenshots, Lighthouse, Rich Results, security headers → fix
+- [x] 13. Audit: web-design-guidelines, webapp-testing screenshots, Lighthouse, Rich Results, security headers → fix
 - [ ] 14. Handover docs: docs/EDITOR-GUIDE.md (how Jonathan edits content in Studio, plain language) + README deploy notes
 
 ## Backlog (noticed, not scheduled)
@@ -46,11 +46,8 @@ Findings from doc review — operational, will recur if forgotten:
 - **Sanity revalidate webhook not set up yet** (SETUP.md §5 step 5). Until it is, Studio edits reach the live site only on
   the next Vercel deploy.
 
-- **JS budget (AGENTS.md §5: < 120 KB gz per route) is not met and needs a defined measurement.** Summing every script the
-  home page loads (gzip -9): Next 15 baseline 137 KB, now 176 KB after Next 16 / React 19.3 + header client code. Next 15's
-  own "First Load JS" said 101 KB for the same baseline because it counts fewer files; Next 16 no longer prints sizes.
-  Sanity is not in public chunks (Studio is ~1.9 MB gz, `/studio` only). Step 13: agree the metric (Lighthouse "total
-  JS transferred" is a good one), then trim — e.g. move the mobile menu into a smaller client island.
+- **JS budget**: measured in the audit (D-030) — 183 KB gz on home, mostly framework; Lighthouse performance 79–83
+  with LCP and CLS in budget. Watch real-user Speed Insights before optimising further.
 - **Local Node default is 20** (nvm) but the project needs ≥ 22.12. Run `nvm install 22 && nvm alias default 22`, or
   `nvm use` in this folder (reads `.nvmrc`). Under Node 20, `pnpm typegen` refuses to run.
 
@@ -87,7 +84,8 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
 - Per service, when available: longer page content (the drafts cover summary, deliverables, outcomes, FAQs).
 - Industries index meta description (148 chars) — approve.
 - Per industry, when available: longer page content (drafts cover summary and challenges; services link from either side, D-022).
-- **Logo as vector (D-027):** ask the client to download the logo from Canva as **SVG** (Pro) or **PDF Print**
+- **Logo:** a rebuilt candidate is in `docs/brand/logo-candidate.svg` (+ comparison PNG) — approve it, or keep waiting for
+  the Canva export. Then: header, real favicon (replaces the temporary "O"), OG image. Original note (D-027): ask the client to download the logo from Canva as **SVG** (Pro) or **PDF Print**
   (free plan, transparent background). PDF converts exactly here. Then: header, favicon, OG image.
 - **Confirm "30 countries"**: the Detailed Profile's list reaches 30 only by counting Zanzibar (part of Tanzania).
   Either confirm, or use "30 countries and territories" before launch.
@@ -123,3 +121,4 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
 - 2026-10-27 · Build step 8 — Insights + logo evaluation · done — /insights index and /insights/[slug] (TOC from H2s, author box, related services via new article field, related articles, Article JSON-LD), noindex/out of sitemap until first article (D-027); shared `formatDate`. Logo: Recraft unavailable; PNG too small to trace well; recommend Canva SVG/PDF export (pdftocairo available) over a hand rebuild (D-027). 61 tests.
 - 2026-10-27 · Build step 9 — Contact (simplified) · done — at Victor's request: one free Resend account, no domain/Turnstile/Sanity token (D-028). Server action + dependency-free validation, honeypot, 5/h rate limit, reply-to enquirer, PII-free logs; `?service=` preselect. Verified on a production build with JS off (field errors, Resend reached and rejected a fake key gracefully, honeypot dropped). 79 tests.
 - 2026-10-27 · Build step 12 — legal, analytics, case studies · done — /privacy and /terms from new `legalPage` type (drafts seeded into Sanity), Vercel Analytics + Speed Insights in the site layout (+2 KB gz), /case-studies + detail filtered on written permission, noindex until first study; shared `toBlocks` seed helper. Sitemap 20 URLs. 84 tests.
+- 2026-10-27 · Build step 13 — audit + logo candidate · done — Lighthouse (live, 4 pages), Puppeteer interaction checks 12/12, JSON-LD check 0 problems; added security headers, removed x-powered-by, fixed gold contrast, temporary favicon (D-030). Logo rebuilt from Jost 370 + Bodoni Moda display (fallback, Recraft unavailable) — candidate + brief in docs/brand/, not on the site.
