@@ -5,6 +5,11 @@ description: Use for the contact form, enquiry handling, and any transactional e
 
 # Contact form + email playbook
 
+> **Current build (D-028):** name, email, message required; phone and service optional. Server action
+> `app/(site)/contact/actions.ts` → honeypot → rate limit → `lib/validation/contact.ts` → Resend REST
+> (`lib/email.ts`) to `CONTACT_TO_EMAIL`, reply-to the enquirer. Not yet: Turnstile, auto-reply, saving to Sanity —
+> add them only when asked (spam appears / mail domain exists / client wants enquiries in the Studio).
+
 ## Contact form (`/contact` and the reusable `<ContactForm/>`)
 
 Fields (from client brief): **Name, Email, Message** (all required). Optional: Organisation, Service of interest

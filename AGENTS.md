@@ -29,9 +29,9 @@ Full content brief: `docs/PROJECT-BRIEF.md`. Design system: `docs/DESIGN.md`. SE
 | UI primitives             | Hand-built components in `components/ui/`; shadcn/ui only for complex primitives (dialog, sheet, accordion) |
 | CMS                       | Sanity (free plan), Studio embedded at `/studio`                                                            |
 | Payments / orders         | **Deferred to Phase 2** — do not build checkout, orders or paid downloads                                   |
-| Transactional email       | Resend (contact form notifications, auto-replies)                                                           |
+| Transactional email       | Resend REST API, no SDK — enquiry notifications now; auto-replies once a mail domain exists (D-028)         |
 | Newsletter / lead magnets | Brevo (free) — **on hold for Phase 1** (D-016)                                                              |
-| Spam protection           | Cloudflare Turnstile + honeypot field + basic rate limit                                                    |
+| Spam protection           | Honeypot field + in-memory rate limit; Cloudflare Turnstile only if spam appears (D-028)                    |
 | Analytics                 | Vercel Web Analytics + Speed Insights; Google Search Console; Bing Webmaster Tools                          |
 | Hosting                   | Vercel (Pro plan or studio team — Hobby is non-commercial only)                                             |
 | Package manager           | pnpm                                                                                                        |
@@ -112,7 +112,8 @@ docs/
 - File names: kebab-case. Components: PascalCase exports. Hooks: `useX`.
 - Data fetching: GROQ queries live in `lib/sanity/queries.ts`, typed with `defineQuery` + Sanity TypeGen.
 - Revalidation: tag-based (`revalidateTag`) triggered by a Sanity webhook to `/api/revalidate`.
-- Forms: React Hook Form + zod on the client, the **same zod schema** re-validated on the server.
+- Forms: plain `<form action>` on a server action with `useActionState` (works without JS); browser `required`/`type`
+  checks client-side, one dependency-free validator in `lib/validation/` on the server (D-028). No RHF/zod.
 - Styling: Tailwind utilities with design tokens only — no raw hex values in components.
 - Commits: Conventional Commits (`feat:`, `fix:`, `content:`, `chore:`).
 

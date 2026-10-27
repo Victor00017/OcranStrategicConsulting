@@ -2,15 +2,15 @@
 
 ## Current state
 
-Steps 0–8 done and live at www.ocranstrategicconsulting.com (Sanity `po34na24`). Home, services, industries, About
-complete; drafted copy awaiting sign-off (D-023). /publications and /insights are built and wait for content — both
-`noindex` and out of the sitemap until their first entry (D-026, D-027). All checks green, 61 tests.
+Steps 0–9 done and live at www.ocranstrategicconsulting.com (Sanity `po34na24`). /contact is a simple Resend-backed
+form (D-028) — it shows a friendly "not available" message until `RESEND_API_KEY` and `CONTACT_TO_EMAIL` are set in
+Vercel (SETUP.md §4). /publications and /insights wait for content (noindex until then). Drafted copy awaits client
+sign-off (D-023). All checks green, 79 tests.
 
 ## Next up
 
-Build plan item 9 — Contact form + `/api/contact` + emails (contact-and-email skill). Must read `?service=<slug>`
-to preselect the service (D-021). Needs from the human: Resend account + verified domain, Turnstile keys, and the
-Sanity write token (SETUP.md §4–5) — the form can be built and tested before they exist.
+Human: create the Resend account and add the two env vars (SETUP.md §4), then send a test enquiry. Agent: build plan
+item 12 — legal pages (privacy, terms) and analytics; item 10–11 are on hold (D-016).
 
 ## Build plan
 
@@ -23,7 +23,7 @@ Sanity write token (SETUP.md §4–5) — the form can be built and tested befor
 - [x] 6. Industries index + /industries/[slug]
 - [x] 7. About (founder, credentials, countries) + Publications
 - [x] 8. Insights list + article page (portable text, TOC, related, author box)
-- [ ] 9. Contact form + /api/contact + emails (contact-and-email skill)
+- [x] 9. Contact form + /api/contact + emails (contact-and-email skill)
 - [ ] ~~10. Resources + Brevo gated downloads~~ — on hold (D-016)
 - [ ] ~~11. Books showcase + "Enquire to order" → prefilled contact form~~ — on hold (D-016)
 - [ ] 12. Case studies, legal pages (privacy/terms), analytics
@@ -65,6 +65,8 @@ Findings from doc review — operational, will recur if forgotten:
 See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here as you create them.
 
 **Drafted copy for client sign-off (D-023)** — all editable in the Studio; source file `sanity/seed/copy.ts`:
+
+- Contact page: heading "Request a consultation", intro line, form labels and success message.
 
 - Insights page introduction and meta description (`app/(site)/insights/page.tsx`).
 
@@ -115,3 +117,4 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
 - 2026-10-27 · IA review + copy · done — home restructured around the offer (D-024: deliverables panel, audiences, how we work, attributed track record, compact founder; new `homePage` singleton); all TODO copy drafted for approval (D-023, `sanity/seed/copy.ts`) incl. service deliverables; `pnpm seed` now fills empty/TODO fields only (filled 14 docs, created homePage, founder untouched); 1h revalidate backstop after stale fetch cache seen (D-025). Contrast check moved small text on field band to ivory. 47 tests.
 - 2026-10-27 · Build step 7 — About + Publications · done — /about from client documents (aboutPage singleton; founder longBio, alumniOf, 20 expertise areas, 30 countries; Person JSON-LD); /publications with ItemList JSON-LD, noindex + out of sitemap while empty (D-026); FounderSpotlight removed; `pnpm seed` created aboutPage and filled 4 empty founder fields. Screenshots 375/1280 checked. 54 tests.
 - 2026-10-27 · Build step 8 — Insights + logo evaluation · done — /insights index and /insights/[slug] (TOC from H2s, author box, related services via new article field, related articles, Article JSON-LD), noindex/out of sitemap until first article (D-027); shared `formatDate`. Logo: Recraft unavailable; PNG too small to trace well; recommend Canva SVG/PDF export (pdftocairo available) over a hand rebuild (D-027). 61 tests.
+- 2026-10-27 · Build step 9 — Contact (simplified) · done — at Victor's request: one free Resend account, no domain/Turnstile/Sanity token (D-028). Server action + dependency-free validation, honeypot, 5/h rate limit, reply-to enquirer, PII-free logs; `?service=` preselect. Verified on a production build with JS off (field errors, Resend reached and rejected a fake key gracefully, honeypot dropped). 79 tests.

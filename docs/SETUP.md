@@ -43,11 +43,19 @@ DNS: Zoho's MX records (mx/mx2/mx3.zoho.com — use what Zoho shows), TXT verifi
 Either way, add DMARC: `TXT _dmarc  v=DMARC1; p=none; rua=mailto:<a monitored address>` → tighten to `quarantine`
 after 4 weeks of clean reports. Only ONE SPF record at the root — merge includes into it.
 
-## 4. Transactional email — Resend
+## 4. Contact form email — Resend (D-028)
 
-Verify the domain in Resend (it uses a `send.` subdomain for SPF/MX + DKIM TXT, so no conflict with Zoho/forwarding).
-Free tier covers contact-form notifications, and auto-replies at this scale.
-From address: `website@ocranstrategicconsulting.com`; reply-to: the enquirer.
+Works **without a mail domain**:
+
+1. Sign up at resend.com (free) **using the consultant's email address** — the inbox that should receive enquiries.
+   Without a verified domain, Resend only delivers to the account owner's address, which is exactly what we need.
+2. Resend → API Keys → create a key with "Sending access".
+3. Vercel → Settings → Environment Variables (Production + Preview): `RESEND_API_KEY` = the key,
+   `CONTACT_TO_EMAIL` = the consultant's address (the same one). Redeploy.
+4. Test: send a message from /contact; it arrives from `onboarding@resend.dev` with **Reply** going to the enquirer.
+
+Later, when the mail domain exists: verify it in Resend (it uses a `send.` subdomain, so no clash with Zoho/forwarding),
+set `EMAIL_FROM=Ocran Strategic Consulting <website@ocranstrategicconsulting.com>`, and add the auto-reply.
 
 ## 5. Sanity
 

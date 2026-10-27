@@ -33,16 +33,17 @@ All server components. Each returns nothing for missing data; the parent hides a
 
 ## Inner-page building blocks
 
-| Component      | File                         | Notes                                                                                                                                                                              |
-| -------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `PageHeader`   | `sections/page-header.tsx`   | Breadcrumbs slot, eyebrow, the page's single H1, gold rule, intro. Use at the top of every inner page.                                                                             |
-| `Breadcrumbs`  | `seo/breadcrumbs.tsx`        | Visible trail (last crumb `aria-current`) + matching `BreadcrumbList` JSON-LD. Required on nested pages.                                                                           |
-| `Prose`        | `sections/prose.tsx`         | Renders Sanity `blockContent`: Bodoni H2, Jost H3, 68ch, internal links via next/link, images via Sanity CDN. H2s get ids from `headingId()` for the article TOC.                  |
-| `FaqList`      | `sections/faq-list.tsx`      | Native `<details>` accordion (no JS) + `FAQPage` JSON-LD for the same questions (D-021).                                                                                           |
-| `ServiceView`  | `sections/service-view.tsx`  | `/services/[slug]`: 8/4 split, sticky consultation aside, related industries, other services, CTA band.                                                                            |
-| `IndustryView` | `sections/industry-view.tsx` | `/industries/[slug]`: same frame as ServiceView; lists services linked from either side (`servicesForIndustry`, D-022); drops the empty main column until there's content.         |
-| `AboutView`    | `sections/about-view.tsx`    | `/about`: firm intro, mission/vision/values, founder (portrait, long bio via `Prose`), credentials + expertise, countries, `Person` JSON-LD (D-026).                               |
-| `ArticleView`  | `sections/article-view.tsx`  | `/insights/[slug]`: breadcrumbs, dates + author line, cover, body, "How we can help" services, author box; sticky TOC (≥2 H2s) + CTA; related articles; `Article` JSON-LD (D-027). |
+| Component      | File                         | Notes                                                                                                                                                                                |
+| -------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `PageHeader`   | `sections/page-header.tsx`   | Breadcrumbs slot, eyebrow, the page's single H1, gold rule, intro. Use at the top of every inner page.                                                                               |
+| `Breadcrumbs`  | `seo/breadcrumbs.tsx`        | Visible trail (last crumb `aria-current`) + matching `BreadcrumbList` JSON-LD. Required on nested pages.                                                                             |
+| `Prose`        | `sections/prose.tsx`         | Renders Sanity `blockContent`: Bodoni H2, Jost H3, 68ch, internal links via next/link, images via Sanity CDN. H2s get ids from `headingId()` for the article TOC.                    |
+| `FaqList`      | `sections/faq-list.tsx`      | Native `<details>` accordion (no JS) + `FAQPage` JSON-LD for the same questions (D-021).                                                                                             |
+| `ServiceView`  | `sections/service-view.tsx`  | `/services/[slug]`: 8/4 split, sticky consultation aside, related industries, other services, CTA band.                                                                              |
+| `IndustryView` | `sections/industry-view.tsx` | `/industries/[slug]`: same frame as ServiceView; lists services linked from either side (`servicesForIndustry`, D-022); drops the empty main column until there's content.           |
+| `AboutView`    | `sections/about-view.tsx`    | `/about`: firm intro, mission/vision/values, founder (portrait, long bio via `Prose`), credentials + expertise, countries, `Person` JSON-LD (D-026).                                 |
+| `ArticleView`  | `sections/article-view.tsx`  | `/insights/[slug]`: breadcrumbs, dates + author line, cover, body, "How we can help" services, author box; sticky TOC (≥2 H2s) + CTA; related articles; `Article` JSON-LD (D-027).   |
+| `ContactForm`  | `sections/contact-form.tsx`  | Client component on the `submitContact` server action (`useActionState`); visible labels, `aria-describedby` errors, honeypot, focus moves to the outcome; works without JS (D-028). |
 
 ## UI primitives (`components/ui/`)
 
@@ -77,4 +78,5 @@ from Sanity and keep the shape (`NavLink = { href, label }`).
 | `/industries`, `/industries/[slug]` | `app/(site)/industries/…`                         | `getIndustries` / `getIndustry` (`lib/content/industries.ts`); numbered index; all 7 pre-rendered, unknown → 404.           |
 | `/about`, `/publications`           | `app/(site)/about/…`, `app/(site)/publications/…` | `getAbout` / `getPublications` (`lib/content/about.ts`). Publications: `noindex` + out of sitemap while empty (D-026).      |
 | `/insights`, `/insights/[slug]`     | `app/(site)/insights/…`                           | `getArticles` / `getArticle` (`lib/content/insights.ts`). Index `noindex` + out of sitemap until the first article (D-027). |
+| `/contact`                          | `app/(site)/contact/page.tsx`, `actions.ts`       | Dynamic (reads `?service=`). Direct contact details appear only once entered in Site settings (D-004).                      |
 | 404                                 | `app/not-found.tsx`                               | Wrapped in `SiteShell`; links to every service (docs/SEO.md §1). Next adds `noindex`.                                       |

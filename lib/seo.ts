@@ -16,7 +16,7 @@ export const WEBSITE_ID = `${SITE_URL}/#website`;
  * Public routes that exist today. sitemap.ts and llms.txt read this list, so add a route here
  * when its page ships (Sanity-driven routes are added to sitemap.ts from build step 5 on).
  */
-export const STATIC_ROUTES = ["/", "/services", "/industries", "/about"] as const;
+export const STATIC_ROUTES = ["/", "/services", "/industries", "/about", "/contact"] as const;
 
 // Matches how Next renders canonicals: the home page is the bare host, no trailing slash.
 export const absoluteUrl = (path: string) => (path === "/" ? SITE_URL : `${SITE_URL}${path}`);
