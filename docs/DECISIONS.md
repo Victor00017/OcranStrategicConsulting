@@ -148,3 +148,10 @@ Revisit if: Sanity is connected in production — the fallback then only matters
 Decision: (1) FAQs use native `<details>/<summary>` instead of the shadcn accordion D-006 allows. (2) Every "Request a consultation" link on a service page goes to `/contact?service=<slug>`; build step 9 must read that parameter to preselect "Service of interest". (3) Text still holding a `{{TODO}}` marker is left out of JSON-LD (`hasTodo` in `lib/seo.ts`), though it stays visible on the page and in the meta description so it can't be missed. (4) Service pages link to all other services, since related industries and articles don't exist yet.
 Why: (1) zero JS, built-in keyboard and screen-reader behaviour, and no Radix in the bundle. (2) The brief's books flow used the same prefill pattern; one convention for all enquiries. (3) Structured data is read by machines that won't flag a placeholder — a TODO there could get indexed silently. (4) The seo-page skill asks for internal links on every service page.
 Revisit if: FAQs need "only one open at a time" (then use the `name` attribute on `<details>`, still no JS).
+
+## D-022 · 2026-10-27 · Service ↔ industry links work from either side
+
+Decision: an industry page lists its own `relatedServices` plus every service whose `relatedIndustries` names it (`servedBy` in `INDUSTRY_QUERY`, merged without duplicates by `servicesForIndustry`). Industry pages are also tagged `service` so editing a service refreshes them.
+Why: the editor is non-technical; asking him to record each link twice (on the service and on the industry) guarantees they drift. One link in either document now shows on the industry page.
+Alternatives: one-way links only (half the pages stay unlinked); a Studio plugin for bidirectional references (extra dependency for a GROQ one-liner).
+Revisit if: service pages should also show industries that reference them — same `references(^._id)` pattern.

@@ -30,13 +30,14 @@ All server components. Each returns nothing for missing data; the parent hides a
 
 ## Inner-page building blocks
 
-| Component     | File                        | Notes                                                                                                         |
-| ------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `PageHeader`  | `sections/page-header.tsx`  | Breadcrumbs slot, eyebrow, the page's single H1, gold rule, intro. Use at the top of every inner page.        |
-| `Breadcrumbs` | `seo/breadcrumbs.tsx`       | Visible trail (last crumb `aria-current`) + matching `BreadcrumbList` JSON-LD. Required on nested pages.      |
-| `Prose`       | `sections/prose.tsx`        | Renders Sanity `blockContent`: Bodoni H2, Jost H3, 68ch, internal links via next/link, images via Sanity CDN. |
-| `FaqList`     | `sections/faq-list.tsx`     | Native `<details>` accordion (no JS) + `FAQPage` JSON-LD for the same questions (D-021).                      |
-| `ServiceView` | `sections/service-view.tsx` | `/services/[slug]`: 8/4 split, sticky consultation aside, related industries, other services, CTA band.       |
+| Component      | File                         | Notes                                                                                                                                                                      |
+| -------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PageHeader`   | `sections/page-header.tsx`   | Breadcrumbs slot, eyebrow, the page's single H1, gold rule, intro. Use at the top of every inner page.                                                                     |
+| `Breadcrumbs`  | `seo/breadcrumbs.tsx`        | Visible trail (last crumb `aria-current`) + matching `BreadcrumbList` JSON-LD. Required on nested pages.                                                                   |
+| `Prose`        | `sections/prose.tsx`         | Renders Sanity `blockContent`: Bodoni H2, Jost H3, 68ch, internal links via next/link, images via Sanity CDN.                                                              |
+| `FaqList`      | `sections/faq-list.tsx`      | Native `<details>` accordion (no JS) + `FAQPage` JSON-LD for the same questions (D-021).                                                                                   |
+| `ServiceView`  | `sections/service-view.tsx`  | `/services/[slug]`: 8/4 split, sticky consultation aside, related industries, other services, CTA band.                                                                    |
+| `IndustryView` | `sections/industry-view.tsx` | `/industries/[slug]`: same frame as ServiceView; lists services linked from either side (`servicesForIndustry`, D-022); drops the empty main column until there's content. |
 
 ## UI primitives (`components/ui/`)
 
@@ -65,7 +66,8 @@ from Sanity and keep the shape (`NavLink = { href, label }`).
 
 ## Pages
 
-| Route | File                  | Notes                                                                                 |
-| ----- | --------------------- | ------------------------------------------------------------------------------------- |
-| `/`   | `app/(site)/page.tsx` | `getHomeContent()` (Sanity, or seed until connected — D-020) → `HomeView`.            |
-| 404   | `app/not-found.tsx`   | Wrapped in `SiteShell`; links to every service (docs/SEO.md §1). Next adds `noindex`. |
+| Route                               | File                      | Notes                                                                                                             |
+| ----------------------------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `/`                                 | `app/(site)/page.tsx`     | `getHomeContent()` (Sanity, or seed until connected — D-020) → `HomeView`.                                        |
+| `/industries`, `/industries/[slug]` | `app/(site)/industries/…` | `getIndustries` / `getIndustry` (`lib/content/industries.ts`); numbered index; all 7 pre-rendered, unknown → 404. |
+| 404                                 | `app/not-found.tsx`       | Wrapped in `SiteShell`; links to every service (docs/SEO.md §1). Next adds `noindex`.                             |

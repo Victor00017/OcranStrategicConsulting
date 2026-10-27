@@ -2,15 +2,15 @@
 
 ## Current state
 
-Steps 0–5 done. Home plus `/services` and six pre-rendered `/services/[slug]` pages (breadcrumbs, Service +
-BreadcrumbList JSON-LD, FAQ accordion and related industries when the CMS has them, other-services links,
-`?service=` contact prefill — D-021). Content from Sanity or the seed until the project exists (D-020). Sitemap and
-llms.txt list the service pages. All checks green, 37 tests.
+Steps 0–6 done. Home, `/services` (+6 pages) and `/industries` (+7 pages), all pre-rendered with breadcrumbs and
+JSON-LD; service↔industry links resolve from either side (D-022). Content from Sanity or the seed until the project
+exists (D-020). Sitemap 16 URLs; llms.txt lists services and industries. All checks green, 42 tests. On GitHub.
 
 ## Next up
 
-Build plan item 6 — Industries index + `/industries/[slug]`, reusing `PageHeader`, `Breadcrumbs`, `Prose`. Industry
-summaries are `{{TODO}}` like services. Add the routes to `STATIC_ROUTES`/sitemap.
+Build plan item 7 — About (founder, credentials, countries) + Publications. Needs Sanity fields for company story,
+mission, vision, values (not in the schema yet); full career bio, expertise and 30 countries come from the client's
+Detailed Profile (seed). `Person` JSON-LD (docs/SEO.md §2). Publications list needs the client's 43 entries.
 
 ## Build plan
 
@@ -20,7 +20,7 @@ summaries are `{{TODO}}` like services. Add the routes to `STATIC_ROUTES`/sitema
 - [x] 3. SEO foundation: lib/seo.ts, <JsonLd/>, sitemap, robots, llms.txt, OG image template
 - [x] 4. Home page sections (design reviewed by Claude before replicating patterns)
 - [x] 5. Services index + /services/[slug]
-- [ ] 6. Industries index + /industries/[slug]
+- [x] 6. Industries index + /industries/[slug]
 - [ ] 7. About (founder, credentials, countries) + Publications
 - [ ] 8. Insights list + article page (portable text, TOC, related, author box)
 - [ ] 9. Contact form + /api/contact + emails (contact-and-email skill)
@@ -66,6 +66,8 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
   (158 chars) — approve. Three service titles push the page title past 60 characters ("… | Ocran Strategic
   Consulting"); set a shorter **Search title** in Studio for those, or accept the truncation.
 - Per service, when available: page content, client outcomes, FAQs, related industries.
+- `/industries` introduction (1–2 sentences) — `{{TODO}}` on the page; index meta description (148 chars) — approve.
+- Per industry, when available: page content, challenges, and links to services (either side works, D-022).
 - Vector monogram/logo (brief §7 q1) — then add it to the OG image template and favicon. The Canva PNG supplied is
   identical to `public/brand/logo-reference.png`; ask for Canva's **SVG** download.
 - **Confirm "30 countries"**: the Detailed Profile's list reaches 30 only by counting Zanzibar (part of Tanzania).
@@ -92,3 +94,4 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
 - 2026-10-27 · Build step 4 — Home page · done — client answers recorded (D-019: tagline, we-voice, 7 industries, circular portrait); 8 server-only section components; seed-or-Sanity content (D-020) + `pnpm seed`; `proofPoints` and `order` fields; Button `inverse` variant, focus colour per variant, primary label centred; footer hairline. Screenshots at 375/768/1280 reviewed and fixed (stat alignment, eyebrow wrap). 31 tests; home JS 181 KB gz (+5 KB next/image).
 - 2026-10-27 · Client source documents reviewed + plan A · done — seed now uses Detailed Profile (title "Senior Consultant", opening sentence as short bio, five credentials with institutions/years) and the client's verbatim value proposition (we-voice); brief gains a Sources section and corrected credentials (MSc is not Animal Science); client flags (30 countries/Zanzibar, "refereed", missing attachments) added to Content TODOs. Strategy-session image confirmed AI-generated — not for publication.
 - 2026-10-27 · Build step 5 — Services · done — `/services` index + `/services/[slug]` (all 6 pre-rendered, unknown → 404); new `PageHeader`, `Breadcrumbs` (+ BreadcrumbList), `Prose` (portable text via next-sanity, no new dep), `FaqList` (native details + FAQPage), `ServiceView`; Service JSON-LD skips TODO text (D-021); sitemap async with service URLs; llms.txt links each service. Screenshots 375/1280 checked. 37 tests.
+- 2026-10-27 · Build step 6 — Industries · done — `/industries` numbered index + 7 pre-rendered `/industries/[slug]` pages (unknown → 404) via `IndustryView`; services listed from both link directions (D-022); empty main column dropped until content exists; sitemap 16 URLs, llms.txt industries section. Screenshots 375/1280 checked. 42 tests. (Docs landed in a follow-up commit.)
