@@ -3,8 +3,7 @@
 ## Current state
 
 Steps 0–6 done. Home, `/services` (+6 pages) and `/industries` (+7 pages), all pre-rendered with breadcrumbs and
-JSON-LD; service↔industry links resolve from either side (D-022). Content from Sanity or the seed until the project
-exists (D-020). Sitemap 16 URLs; llms.txt lists services and industries. All checks green, 42 tests. On GitHub.
+JSON-LD; service↔industry links resolve from either side (D-022). Live on Vercel at ocranstrategicconsulting.com, reading Sanity project `po34na24` (seeded 2026-10-27). Sitemap 16 URLs; llms.txt lists services and industries. All checks green, 42 tests. On GitHub.
 
 ## Next up
 
@@ -39,6 +38,12 @@ Strategy-level:
 - French version for francophone West Africa (pending client decision)
 
 Findings from doc review — operational, will recur if forgotten:
+
+- **`www` has no TLS certificate yet.** DNS (CNAME → cname.vercel-dns.com) is in place, but `www.ocranstrategicconsulting.com`
+  isn't added to the Vercel project, so HTTPS on www shows a certificate error. Canonicals point to www (D-018). Human:
+  Vercel → Domains → add www, make it primary, redirect apex → www (308).
+- **Sanity revalidate webhook not set up yet** (SETUP.md §5 step 5). Until it is, Studio edits reach the live site only on
+  the next Vercel deploy.
 
 - **JS budget (AGENTS.md §5: < 120 KB gz per route) is not met and needs a defined measurement.** Summing every script the
   home page loads (gzip -9): Next 15 baseline 137 KB, now 176 KB after Next 16 / React 19.3 + header client code. Next 15's
@@ -95,3 +100,4 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
 - 2026-10-27 · Client source documents reviewed + plan A · done — seed now uses Detailed Profile (title "Senior Consultant", opening sentence as short bio, five credentials with institutions/years) and the client's verbatim value proposition (we-voice); brief gains a Sources section and corrected credentials (MSc is not Animal Science); client flags (30 countries/Zanzibar, "refereed", missing attachments) added to Content TODOs. Strategy-session image confirmed AI-generated — not for publication.
 - 2026-10-27 · Build step 5 — Services · done — `/services` index + `/services/[slug]` (all 6 pre-rendered, unknown → 404); new `PageHeader`, `Breadcrumbs` (+ BreadcrumbList), `Prose` (portable text via next-sanity, no new dep), `FaqList` (native details + FAQPage), `ServiceView`; Service JSON-LD skips TODO text (D-021); sitemap async with service URLs; llms.txt links each service. Screenshots 375/1280 checked. 37 tests.
 - 2026-10-27 · Build step 6 — Industries · done — `/industries` numbered index + 7 pre-rendered `/industries/[slug]` pages (unknown → 404) via `IndustryView`; services listed from both link directions (D-022); empty main column dropped until content exists; sitemap 16 URLs, llms.txt industries section. Screenshots 375/1280 checked. 42 tests. (Docs landed in a follow-up commit.)
+- 2026-10-27 · Go-live fixes · done — live site was rendering an empty Sanity dataset (Vercel had the project ID, nothing seeded); seeded `po34na24` (15 docs), verified local build against Sanity, redeployed (`26585b7`). Live home, services, industries, studio all 200. Found www cert missing (backlog). Replaced a stale 25-Oct local server on :3123.

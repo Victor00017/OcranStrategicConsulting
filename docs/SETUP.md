@@ -66,7 +66,9 @@ Do **not** run `pnpm create sanity`; it would scaffold a second Studio.
    trigger on create/update/delete, filter empty, **projection** `{_type, "slug": slug.current}`, HTTP POST, and a
    random secret (32+ chars) → `SANITY_REVALIDATE_SECRET` in Vercel.
 6. Members → invite Jonathan as **Editor**.
-7. Run `pnpm exec sanity login`, then `pnpm seed`. It loads the brief's starter content (site settings, founder +
+7. Run `pnpm exec sanity login`, then `pnpm seed` (both need Node ≥ 22.12 — if nvm defaults to 20, prefix with
+   `PATH=/usr/bin:$PATH` or `nvm use`). After seeding, **redeploy on Vercel**: pages built against an empty dataset stay
+   empty until the next build (or until the revalidate webhook in step 5 fires). It loads the brief's starter content (site settings, founder +
    portrait, 6 services, 7 industries) and skips anything that already exists. Then open `/studio` and replace every
    `{{TODO}}` (service and industry summaries) with the client's copy.
 8. In Site settings, type the contact emails, phone and WhatsApp number from the client's _Website of Ocran Strategic
