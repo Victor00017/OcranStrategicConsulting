@@ -17,7 +17,7 @@ export async function generateMetadata({
   const service = await getService(slug);
   if (!service) return {};
   return buildMetadata({
-    title: service.seo?.metaTitle || service.title,
+    ...(service.seo?.metaTitle ? { fullTitle: service.seo.metaTitle } : { title: service.title }),
     description: service.seo?.metaDescription || service.summary || service.title,
     path: `/services/${slug}`,
     image: service.seo?.ogImage ? { url: service.seo.ogImage, alt: service.title } : undefined,

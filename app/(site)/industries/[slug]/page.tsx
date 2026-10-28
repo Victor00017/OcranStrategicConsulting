@@ -17,7 +17,9 @@ export async function generateMetadata({
   const industry = await getIndustry(slug);
   if (!industry) return {};
   return buildMetadata({
-    title: industry.seo?.metaTitle || industry.title,
+    ...(industry.seo?.metaTitle
+      ? { fullTitle: industry.seo.metaTitle }
+      : { title: industry.title }),
     description: industry.seo?.metaDescription || industry.summary || industry.title,
     path: `/industries/${slug}`,
     image: industry.seo?.ogImage ? { url: industry.seo.ogImage, alt: industry.title } : undefined,

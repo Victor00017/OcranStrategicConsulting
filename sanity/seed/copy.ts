@@ -367,3 +367,75 @@ export const HOME_COPY = {
     },
   ],
 };
+
+/**
+ * Search titles and descriptions (DRAFT, D-023, D-031) keyed by service or industry slug, aimed at the searches in
+ * docs/SEO.md §3. Titles are complete (no automatic suffix), ≤ 60 characters; descriptions 140–160.
+ */
+export const SEO_COPY: Record<string, { metaTitle: string; metaDescription: string }> = {
+  "strategy-management": {
+    metaTitle: "Strategic Planning Consultant in Ghana | Ocran Strategic",
+    metaDescription:
+      "Strategic planning, business transformation, organisational development and governance reviews for organisations in Ghana and across Sub-Saharan Africa.",
+  },
+  "agribusiness-advisory": {
+    metaTitle: "Agribusiness Consultant in Ghana | Ocran Strategic",
+    metaDescription:
+      "Investment-grade feasibility studies, market assessments, value chain analysis and livestock development advice for agribusinesses and investors in Ghana.",
+  },
+  "sme-development": {
+    metaTitle: "Business Plan Writer for SMEs in Ghana | Ocran Strategic",
+    metaDescription:
+      "Business plans, market entry strategies, financial analysis and growth planning for small and medium enterprises in Ghana, including agribusinesses.",
+  },
+  "project-development": {
+    metaTitle: "Grant & Donor Proposal Writing, Ghana | Ocran Strategic",
+    metaDescription:
+      "Grant and donor proposals, concept notes, investor-readiness reviews and resource mobilisation strategies for NGOs, projects and businesses in Ghana.",
+  },
+  "research-policy": {
+    metaTitle: "Agricultural Policy Consultant, Ghana | Ocran Strategic",
+    metaDescription:
+      "Agricultural policy analysis, sector and value chain studies, market research and economic assessments for governments and development partners in Africa.",
+  },
+  training: {
+    metaTitle: "Agribusiness & AI in Agriculture Training | Ocran Strategic",
+    metaDescription:
+      "Executive, management and agribusiness training, including AI and digital transformation for agriculture officers, delivered in Ghana and across Africa.",
+  },
+  agriculture: {
+    metaTitle: "Agriculture Consultant in Ghana | Ocran Strategic Consulting",
+    metaDescription:
+      "Strategy, feasibility studies and policy support for farming enterprises, agricultural programmes and institutions in Ghana and across Sub-Saharan Africa.",
+  },
+  livestock: {
+    metaTitle: "Livestock Development Consultant, Ghana | Ocran Strategic",
+    metaDescription:
+      "Livestock development advice on breeding, nutrition and pasture, with feasibility studies for poultry, pig and cattle projects in Ghana and across Africa.",
+  },
+  agribusiness: {
+    metaTitle: "Agribusiness Investment Advice, Ghana | Ocran Strategic",
+    metaDescription:
+      "Feasibility, investment and growth advice for agribusinesses that process, trade and add value along agricultural value chains in Ghana and across Africa.",
+  },
+  "development-organisations": {
+    metaTitle: "Consultant for NGOs & Development Partners | Ocran Strategic",
+    metaDescription:
+      "Programme design, grant proposals, policy and sector studies for development partners, NGOs and donor-funded projects in Ghana and Sub-Saharan Africa.",
+  },
+  smes: {
+    metaTitle: "SME Consultant & Business Plans, Ghana | Ocran Strategic",
+    metaDescription:
+      "Business plans, growth strategy, financial analysis and investor readiness for small and medium enterprises in agriculture, manufacturing and retail.",
+  },
+  "light-manufacturing": {
+    metaTitle: "Agro-Processing & Manufacturing Consultant | Ocran Strategic",
+    metaDescription:
+      "Strategy, business planning and market entry support for small and medium manufacturers and agro-processors in Ghana and across Sub-Saharan Africa.",
+  },
+  "public-sector": {
+    metaTitle: "Public Sector Strategy & Policy Consultant | Ocran Strategic",
+    metaDescription:
+      "Policy analysis, strategic planning and training for ministries, agencies and public institutions in Ghana, drawing on African Union policy experience.",
+  },
+};

@@ -8,7 +8,7 @@ import { buildMetadata } from "@/lib/seo";
 
 // Description built only from brief facts (service lines + location); client to approve (PROGRESS).
 export const metadata = buildMetadata({
-  title: "Services",
+  title: "Consulting Services",
   description:
     "Six service lines from Ocran Strategic Consulting in Tema, Ghana: strategy, agribusiness advisory, SME growth, fundraising, research and policy, and training.",
   path: "/services",

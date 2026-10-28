@@ -7,7 +7,7 @@
 import { createReadStream } from "node:fs";
 import { getCliClient } from "sanity/cli";
 import { PORTRAIT_FILE, SEED } from "./content";
-import { HOME_COPY, INDUSTRY_COPY, PAGE_INTROS, SERVICE_COPY } from "./copy";
+import { HOME_COPY, INDUSTRY_COPY, PAGE_INTROS, SEO_COPY, SERVICE_COPY } from "./copy";
 import { LEGAL_PAGES } from "./legal";
 import { ABOUT, FOUNDER_PROFILE } from "./profile";
 
@@ -23,6 +23,10 @@ const isFillable = (value: unknown) =>
   (Array.isArray(value) && value.length === 0);
 
 const ref = (id: string, key: string) => ({ _type: "reference", _ref: id, _key: key });
+
+// Fills only when the document has no `seo` object yet — a Search title typed in the Studio wins.
+const seoField = (slug: string) =>
+  SEO_COPY[slug] ? { seo: { _type: "seo", ...SEO_COPY[slug] } } : {};
 
 async function upsert(doc: Doc) {
   const existing = await client.getDocument(doc._id);
@@ -107,6 +111,7 @@ async function run() {
             outcomes: copy.outcomes,
             faqs: copy.faqs.map((faq) => ({ _type: "faq", ...faq })),
             relatedIndustries: copy.industries.map((slug) => ref(`industry-${slug}`, slug)),
+            ...seoField(service.slug),
           }
         : {}),
     });
@@ -121,6 +126,7 @@ async function run() {
       slug: { _type: "slug", current: industry.slug },
       order: index + 1,
       ...(copy ? { summary: copy.summary, challenges: copy.challenges } : {}),
+      ...seoField(industry.slug),
     });
   }
 

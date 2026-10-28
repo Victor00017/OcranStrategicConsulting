@@ -9,7 +9,8 @@ export const seo = defineType({
     defineField({
       name: "metaTitle",
       title: "Search title",
-      description: "Shown as the link in Google. Up to 60 characters.",
+      description:
+        'The complete title shown as the link in Google, up to 60 characters — end with the firm name if it fits. Leave blank to use the page name + " | Ocran Strategic Consulting".',
       type: "string",
       validation: (rule) => rule.max(60),
     }),

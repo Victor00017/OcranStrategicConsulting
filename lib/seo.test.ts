@@ -25,6 +25,16 @@ describe("buildMetadata", () => {
     expect(meta.twitter?.images).toEqual([expect.objectContaining({ url: "/opengraph-image" })]);
   });
 
+  it("uses a full title exactly, without the site-name suffix", () => {
+    const meta = buildMetadata({
+      fullTitle: "Agribusiness Consultant in Ghana | Ocran Strategic",
+      description: "x",
+      path: "/x",
+    });
+    expect(meta.title).toEqual({ absolute: "Agribusiness Consultant in Ghana | Ocran Strategic" });
+    expect(meta.openGraph?.title).toBe("Agribusiness Consultant in Ghana | Ocran Strategic");
+  });
+
   it("leaves the title to the layout default when omitted", () => {
     const meta = buildMetadata({ description: "Home", path: "/" });
     expect(meta.title).toBeUndefined();

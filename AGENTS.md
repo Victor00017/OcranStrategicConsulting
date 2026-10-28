@@ -60,10 +60,9 @@ app/
     about/  services/[slug]/  industries/[slug]/
     insights/  insights/[slug]/
     publications/  case-studies/[slug]/
-    contact/
+    contact/              # page.tsx + actions.ts: server action → validate → Resend (D-028)
     privacy/  terms/
   api/
-    contact/route.ts      # POST: validate (zod) → Turnstile → Resend → save enquiry to Sanity
     revalidate/route.ts   # Sanity webhook → revalidateTag
   studio/[[...tool]]/page.tsx
   sitemap.ts  robots.ts  opengraph-image.tsx  llms.txt/route.ts

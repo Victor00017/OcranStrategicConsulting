@@ -7,7 +7,7 @@ import { getSiteSettings } from "@/lib/sanity/site-settings";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Contact",
+  title: "Request a Consultation",
   description:
     "Request a consultation with Ocran Strategic Consulting in Tema, Ghana — strategy, agribusiness advisory, SME growth, fundraising, policy research and training.",
   path: "/contact",

@@ -31,6 +31,9 @@ Validate with Google Rich Results Test before launch.
 
 ## 3. Keyword map (starting set — refine with Search Console data after 6–8 weeks)
 
+The matching search titles and descriptions live in Sanity (each service/industry → Search & sharing), drafted in
+`sanity/seed/copy.ts` `SEO_COPY` (D-031). The home title and the keyword line above the H1 are in code.
+
 | Page                                                                       | Primary intent                                                          |
 | -------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
 | /services/agribusiness-advisory                                            | agribusiness consultant Ghana · agribusiness advisory Africa            |

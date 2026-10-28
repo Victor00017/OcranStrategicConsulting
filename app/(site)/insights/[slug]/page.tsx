@@ -18,7 +18,7 @@ export async function generateMetadata({
   if (!article) return {};
   const ogImage = article.seo?.ogImage ?? article.coverImage?.url;
   return buildMetadata({
-    title: article.seo?.metaTitle || article.title,
+    ...(article.seo?.metaTitle ? { fullTitle: article.seo.metaTitle } : { title: article.title }),
     description: article.seo?.metaDescription || article.excerpt,
     path: `/insights/${slug}`,
     image: ogImage ? { url: ogImage, alt: article.coverImage?.alt ?? article.title } : undefined,

@@ -40,6 +40,9 @@ Strategy-level:
 
 Findings from doc review — operational, will recur if forgotten:
 
+- **pnpm isn't installed for Node 22** (nvm default is now 22.23.4; pnpm lives under 20). Human: `corepack enable pnpm`
+  (uses the `packageManager` version) or `npm i -g pnpm@12.15.0`.
+
 - **`www` has no TLS certificate yet.** DNS (CNAME → cname.vercel-dns.com) is in place, but `www.ocranstrategicconsulting.com`
   isn't added to the Vercel project, so HTTPS on www shows a certificate error. Canonicals point to www (D-018). Human:
   Vercel → Domains → add www, make it primary, redirect apex → www (308).
@@ -62,6 +65,9 @@ Findings from doc review — operational, will recur if forgotten:
 See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here as you create them.
 
 **Drafted copy for client sign-off (D-023)** — all editable in the Studio; source file `sanity/seed/copy.ts`:
+
+- **Search titles and descriptions (D-031)** for all 6 services and 7 industries (Studio → each document → Search &
+  sharing), the home title and the line above the home heading.
 
 - **Privacy notice and terms of use (D-029)** — plain-language drafts; have them reviewed, ideally by a Ghanaian
   lawyer, before promoting the site. Edit in Studio → Legal pages and update "Last updated".
@@ -123,3 +129,4 @@ See docs/PROJECT-BRIEF.md §7 open questions. Agent: add `{{TODO}}` items here a
 - 2026-10-27 · Build step 12 — legal, analytics, case studies · done — /privacy and /terms from new `legalPage` type (drafts seeded into Sanity), Vercel Analytics + Speed Insights in the site layout (+2 KB gz), /case-studies + detail filtered on written permission, noindex until first study; shared `toBlocks` seed helper. Sitemap 20 URLs. 84 tests.
 - 2026-10-27 · Build step 13 — audit + logo candidate · done — Lighthouse (live, 4 pages), Puppeteer interaction checks 12/12, JSON-LD check 0 problems; added security headers, removed x-powered-by, fixed gold contrast, temporary favicon (D-030). Logo rebuilt from Jost 370 + Bodoni Moda display (fallback, Recraft unavailable) — candidate + brief in docs/brand/, not on the site.
 - 2026-10-27 · Google Search Console verification file added to `public/` (served at the site root, byte-identical; must stay — SETUP.md §8).
+- 2026-10-28 · SEO titles + home keyword line · done — 13 drafted keyword Search titles/descriptions filled into Sanity (only empty fields), `buildMetadata({ fullTitle })` so they're used whole, home keyword title + eyebrow, clearer static titles (D-031). Length guard test. 99 tests.

@@ -8,7 +8,7 @@ import { buildMetadata } from "@/lib/seo";
 
 // Description built only from brief facts (the 7 sectors + location); client to approve (PROGRESS).
 export const metadata = buildMetadata({
-  title: "Industries",
+  title: "Industries We Serve",
   description:
     "Sectors we serve from Tema, Ghana: agriculture, livestock, agribusiness, development organisations, SMEs, light manufacturing and the public sector.",
   path: "/industries",

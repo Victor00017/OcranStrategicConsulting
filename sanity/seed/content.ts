@@ -13,7 +13,7 @@ import type {
   SERVICE_QUERY_RESULT,
   SERVICES_QUERY_RESULT,
 } from "@/sanity.types";
-import { HOME_COPY, INDUSTRY_COPY, PAGE_INTROS, SERVICE_COPY } from "./copy";
+import { HOME_COPY, INDUSTRY_COPY, PAGE_INTROS, SEO_COPY, SERVICE_COPY } from "./copy";
 import { LEGAL_PAGES } from "./legal";
 import { ABOUT, FOUNDER_PROFILE } from "./profile";
 
@@ -130,6 +130,12 @@ export const SEED = {
   ],
 };
 
+/** Drafted search title/description for a service or industry slug, in the query's `seo` shape. */
+function seedSeo(slug: string) {
+  const seo = SEO_COPY[slug];
+  return seo ? { ...seo, noindex: null, ogImage: null } : null;
+}
+
 // Seed documents have no edit history; the sitemap omits lastModified for an empty _updatedAt.
 const SEED_UPDATED_AT = "";
 
@@ -192,7 +198,7 @@ export function seedService(slug: string): SERVICE_QUERY_RESULT {
     outcomes: copy?.outcomes ?? null,
     faqs: copy?.faqs ?? null,
     relatedIndustries: copy?.industries.map(industryRef) ?? null,
-    seo: null,
+    seo: seedSeo(slug),
   };
 }
 
@@ -227,7 +233,7 @@ export function seedIndustry(slug: string): INDUSTRY_QUERY_RESULT {
     challenges: INDUSTRY_COPY[slug]?.challenges ?? null,
     relatedServices: null,
     servedBy,
-    seo: null,
+    seo: seedSeo(slug),
   };
 }
 

@@ -40,25 +40,28 @@ const DEFAULT_OG_IMAGE = {
 /**
  * Page metadata — use this from every route's `generateMetadata` (seo-page skill, docs/SEO.md §1).
  * `title` is the page name only; the root layout's template appends " | Ocran Strategic Consulting".
+ * `fullTitle` is used exactly as written (≤ 60 chars) — for keyword titles and Studio "Search title" (D-031).
  */
 export function buildMetadata({
   title,
+  fullTitle,
   description,
   path,
   image,
   noindex = false,
 }: {
   title?: string;
+  fullTitle?: string;
   description: string;
   path: string;
   image?: { url: string; alt: string };
   noindex?: boolean;
 }): Metadata {
-  const ogTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
+  const ogTitle = fullTitle ?? (title ? `${title} | ${SITE_NAME}` : SITE_NAME);
   // A page's `openGraph` replaces its parent's wholesale, so the default image must be repeated here.
   const ogImage = image ? { ...image, width: 1200, height: 630 } : DEFAULT_OG_IMAGE;
   return {
-    ...(title ? { title } : {}),
+    ...(fullTitle ? { title: { absolute: fullTitle } } : title ? { title } : {}),
     description,
     alternates: { canonical: path },
     openGraph: {

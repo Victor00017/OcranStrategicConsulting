@@ -20,7 +20,10 @@ export function HomeHero({
     <section aria-labelledby="home-title">
       <Container className="grid items-center gap-14 py-16 md:grid-cols-12 md:gap-8 md:py-28">
         <div className="md:col-span-7">
-          <Eyebrow>Strategic consulting · Tema</Eyebrow>
+          {/* Keyword line above the tagline H1 — what we do and where, for visitors and search (D-031). */}
+          <Eyebrow className="text-balance">
+            Agribusiness, livestock &amp; strategy consulting · Ghana
+          </Eyebrow>
           <h1
             id="home-title"
             className="font-display text-ink mt-5 max-w-[14ch] text-[clamp(2.75rem,7vw,4.5rem)] leading-[1.05] font-medium text-balance"

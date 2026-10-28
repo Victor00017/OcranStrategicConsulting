@@ -16,7 +16,7 @@ export async function generateMetadata({
   const study = await getCaseStudy(slug);
   if (!study) return {};
   return buildMetadata({
-    title: study.seo?.metaTitle || study.title,
+    ...(study.seo?.metaTitle ? { fullTitle: study.seo.metaTitle } : { title: study.title }),
     description: study.seo?.metaDescription || study.challenge || study.title,
     path: `/case-studies/${slug}`,
     image: study.seo?.ogImage ? { url: study.seo.ogImage, alt: study.title } : undefined,
